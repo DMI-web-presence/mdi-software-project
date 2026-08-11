@@ -97,6 +97,128 @@ textarea {
   opacity: 0.32;
 }
 
+.footer-cosmos {
+  background:
+    radial-gradient(circle at 50% 15%, rgba(16, 123, 230, 0.2), transparent 30rem),
+    radial-gradient(circle at 50% 42%, rgba(5, 12, 28, 0.26) 0 17rem, rgba(12, 84, 158, 0.18) 17.2rem, transparent 26rem),
+    radial-gradient(circle at 50% 45%, rgba(24, 156, 255, 0.22), transparent 31rem),
+    linear-gradient(180deg, #030b18 0%, #020714 100%);
+}
+
+.footer-cosmos::before {
+  content: "";
+  position: absolute;
+  inset: -18rem -8rem 5.5rem;
+  background:
+    radial-gradient(circle at 50% 42%, transparent 0 19rem, rgba(33, 171, 255, 0.24) 19.05rem, transparent 19.22rem),
+    radial-gradient(circle at 50% 42%, transparent 0 15.6rem, rgba(42, 182, 255, 0.12) 15.68rem, transparent 15.82rem),
+    repeating-radial-gradient(circle at 50% 42%, rgba(53, 183, 255, 0.16) 0 1px, transparent 1px 3.8rem),
+    linear-gradient(27deg, transparent 0 48.8%, rgba(40, 173, 255, 0.15) 49%, transparent 49.3%),
+    linear-gradient(153deg, transparent 0 49%, rgba(40, 173, 255, 0.13) 49.2%, transparent 49.5%),
+    linear-gradient(88deg, transparent 0 49.6%, rgba(40, 173, 255, 0.12) 49.8%, transparent 50.1%);
+  opacity: 0.78;
+  transform: scaleX(1.34);
+}
+
+.footer-cosmos::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 34% 12%, rgba(36, 190, 255, 0.95) 0 2px, transparent 3px),
+    radial-gradient(circle at 70% 17%, rgba(69, 213, 255, 0.28) 0 0.75rem, rgba(69, 213, 255, 0.72) 0.82rem, transparent 0.92rem),
+    radial-gradient(circle at 30% 51%, rgba(26, 177, 255, 0.9) 0 3px, transparent 4px),
+    radial-gradient(circle at 67% 54%, rgba(26, 177, 255, 0.9) 0 3px, transparent 4px),
+    radial-gradient(circle, rgba(116, 211, 255, 0.72) 0 1px, transparent 1.4px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.38) 0 1px, transparent 1.2px),
+    radial-gradient(ellipse at 50% 34%, transparent 0 22rem, rgba(44, 192, 255, 0.34) 22.08rem, transparent 22.18rem),
+    radial-gradient(ellipse at 50% 38%, transparent 0 29rem, rgba(44, 192, 255, 0.22) 29.08rem, transparent 29.18rem),
+    radial-gradient(ellipse at 50% 41%, transparent 0 38rem, rgba(44, 192, 255, 0.16) 38.08rem, transparent 38.18rem);
+  background-position:
+    0 0,
+    0 0,
+    0 0,
+    0 0,
+    18px 34px,
+    92px 71px,
+    0 0,
+    0 0,
+    0 0;
+  background-size:
+    auto,
+    auto,
+    auto,
+    auto,
+    126px 142px,
+    198px 164px,
+    auto,
+    auto,
+    auto;
+  opacity: 0.72;
+}
+
+.footer-column {
+  border-color: rgba(40, 151, 238, 0.5);
+}
+
+.availability-dot {
+  box-shadow:
+    0 0 0 4px rgba(53, 231, 149, 0.14),
+    0 0 18px rgba(53, 231, 149, 0.95),
+    0 0 34px rgba(53, 231, 149, 0.62);
+  animation: availability-glow 1.8s ease-in-out infinite;
+}
+
+.pricing-card {
+  transition:
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    transform 260ms ease;
+}
+
+.pricing-card-image {
+  filter: drop-shadow(0 0 26px rgba(69, 199, 255, 0.42));
+  transition:
+    filter 320ms ease,
+    transform 320ms ease;
+}
+
+.pricing-card:hover {
+  border-color: rgba(69, 199, 255, 0.9);
+  box-shadow:
+    0 0 46px rgba(0, 118, 255, 0.28),
+    0 22px 54px rgba(0, 0, 0, 0.26);
+  transform: translateY(-3px);
+}
+
+.pricing-card:hover .pricing-card-image {
+  filter: drop-shadow(0 0 34px rgba(69, 199, 255, 0.68));
+  transform: translateY(-10px) scale(1.04) rotate(1deg);
+}
+
+@keyframes availability-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 4px rgba(53, 231, 149, 0.14),
+      0 0 18px rgba(53, 231, 149, 0.95),
+      0 0 34px rgba(53, 231, 149, 0.62);
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 7px rgba(53, 231, 149, 0.1),
+      0 0 24px rgba(53, 231, 149, 1),
+      0 0 46px rgba(53, 231, 149, 0.8);
+  }
+}
+
+@media (min-width: 768px) {
+  .footer-column {
+    border-right-width: 1px;
+  }
+}
+
 .tech-marquee {
   --marquee-gap-offset: 0.25rem;
   animation: tech-marquee 24s linear infinite;
@@ -128,8 +250,20 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .availability-dot,
+  .pricing-card,
+  .pricing-card-image,
   .tech-marquee {
     animation: none;
+    transition: none;
+  }
+
+  .pricing-card:hover,
+  .pricing-card:hover .pricing-card-image {
+    transform: none;
+  }
+
+  .tech-marquee {
     flex-wrap: wrap;
     width: auto;
   }

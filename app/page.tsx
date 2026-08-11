@@ -1,12 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
   ArrowDown,
   ArrowRight,
   BadgeCheck,
   BriefcaseBusiness,
+  CircleX,
   Code2,
   Layers3,
-  MailCheck,
   Rocket,
   Workflow,
 } from "lucide-react";
@@ -26,7 +27,7 @@ import {
   siVercel,
 } from "simple-icons";
 import { HeroCosmosScene } from "@/components/hero-cosmos-scene";
-import { ProjectBriefWizard } from "@/components/project-brief-wizard";
+import { SiteFooter } from "@/components/site-footer";
 
 const services = [
   {
@@ -53,23 +54,86 @@ const services = [
 
 const prices = [
   {
-    name: "Pachet Starter",
-    price: "de la 450 EUR",
-    fit: "Un website de prezentare concentrat pentru o ofertă clară.",
-    includes: ["Landing page", "Până la 5 secțiuni", "Design responsive", "SEO de bază"],
+    name: "Pachet Startup",
+    price: "999 €",
+    fit: "Pentru lansare rapidă, cu catalog, plăți online, design custom și administrare de bază.",
+    image: "/images/startup_price.png",
+    maintenance: {
+      name: "Mentenanță Start",
+      price: "+40 €/lună",
+      copy: "Verificări lunare, formular, SSL și mici modificări incluse.",
+    },
+    tier: "startup",
+  },
+  {
+    name: "Pachet Professional",
+    price: "2.490 €",
+    fit: "Pentru magazine în creștere, cu mai multe produse, automatizări și configurări avansate.",
+    image: "/images/proffesional_price.png",
+    maintenance: {
+      name: "Mentenanță Plus",
+      price: "+100 €/lună",
+      copy: "Actualizări lunare, Brevo, Analytics, performanță și mici optimizări.",
+    },
+    tier: "professional",
   },
   {
     name: "Pachet Business",
-    price: "de la 1.200 EUR",
-    fit: "Un site mai amplu, cu secțiuni de conversie și integrări.",
-    includes: ["Structură custom", "Formular ghidat", "Integrare Brevo", "Secțiuni de proiecte și prețuri"],
+    price: "3.990 €",
+    fit: "Pentru operațiuni complexe, cu facturare, curier, fluxuri complete și suport extins.",
+    image: "/images/business_price.png",
+    maintenance: {
+      name: "Mentenanță Pro",
+      price: "+150 €/lună",
+      copy: "Suport prioritar, optimizări continue, tracking lead-uri și secțiuni mici.",
+    },
+    tier: "business",
   },
-  {
-    name: "Software Custom",
-    price: "ofertă pe scope",
-    fit: "O aplicație, un dashboard sau un sistem de automatizare construit la comandă.",
-    includes: ["Discovery tehnic", "Aplicație web", "Integrări API", "Suport la lansare"],
-  },
+] satisfies {
+  fit: string;
+  image: string;
+  maintenance: {
+    copy: string;
+    name: string;
+    price: string;
+  };
+  name: string;
+  price: string;
+  tier: "startup" | "professional" | "business";
+}[];
+
+const priceComparison = [
+  { benefit: "Preț unic", startup: "999 €", professional: "2.490 €", business: "3.990 €", highlight: true },
+  { benefit: "Consultanță inițială", startup: "✓", professional: "✓", business: "✓" },
+  { benefit: "Catalog și administrare produse", startup: "✓", professional: "✓", business: "✓" },
+  { benefit: "Formular de contact", startup: "✓", professional: "✓", business: "✓" },
+  { benefit: "Optimizare pentru mobil și tabletă", startup: "✓", professional: "✓", business: "✓" },
+  { benefit: "Certificat SSL și configurare GDPR", startup: "✓", professional: "✓", business: "✓" },
+  { benefit: "Configurare domeniu și găzduire", startup: "✓", professional: "✓", business: "✓" },
+  { benefit: "Conectare rețele sociale", startup: "✓", professional: "✓", business: "✓" },
+  { benefit: "Configurare plăți și livrare", startup: "Standard", professional: "Avansată", business: "Avansată" },
+  { benefit: "Design complet personalizat", startup: "✓", professional: "✓", business: "✓" },
+  { benefit: "Logo", startup: "5 variante", professional: "20 variante", business: "20 variante" },
+  { benefit: "Identitate vizuală", startup: "Culori și fonturi", professional: "Mini-ghid de identitate", business: "Mini-ghid de identitate" },
+  { benefit: "Sistem Live Chat", startup: "—", professional: "✓", business: "✓" },
+  { benefit: "Google Analytics", startup: "Configurare de bază", professional: "✓", business: "Monitorizare avansată" },
+  { benefit: "Google Search Console", startup: "—", professional: "✓", business: "✓" },
+  { benefit: "Profil Google Business", startup: "—", professional: "Configurare", business: "Configurare și optimizare" },
+  { benefit: "Optimizare SEO avansată", startup: "✓", professional: "✓", business: "✓" },
+  { benefit: "Integrare sistem de facturare", startup: "—", professional: "Opțional", business: "✓" },
+  { benefit: "Integrare SelfAWB/curier", startup: "—", professional: "Opțional", business: "✓" },
+  { benefit: "Integrare plată cu cardul", startup: "✓", professional: "✓", business: "✓" },
+  { benefit: "E-mailuri automate", startup: "Standard", professional: "Personalizate", business: "Fluxuri complete" },
+  { benefit: "Reduceri și cupoane", startup: "✓", professional: "✓", business: "✓" },
+  { benefit: "Filtrare produse", startup: "✓", professional: "✓", business: "✓" },
+  { benefit: "Administrare stoc", startup: "De bază", professional: "✓", business: "✓" },
+  { benefit: "Instruire pentru administrare", startup: "1 sesiune", professional: "2 sesiuni", business: "3 sesiuni" },
+  { benefit: "Număr de pagini", startup: "Până la 6", professional: "Până la 15", business: "Până la 30" },
+  { benefit: "Produse încărcate", startup: "Până la 20", professional: "Până la 100", business: "Până la 300" },
+  { benefit: "Imagini premium de stoc", startup: "5", professional: "10", business: "15" },
+  { benefit: "Revizii de design", startup: "5", professional: "10", business: "15" },
+  { benefit: "Durată de execuție", startup: "7-14 zile", professional: "14-30 zile", business: "30-45 zile" },
+  { benefit: "Suport după lansare", startup: "14 zile", professional: "30 zile", business: "60 zile" },
 ];
 
 const projects = [
@@ -136,10 +200,10 @@ export default function Home() {
           <a className="transition hover:text-ink" href="#projects">Proiecte</a>
           <a className="transition hover:text-ink" href="#experience">Experiență</a>
         </nav>
-        <a className="focus-ring inline-flex items-center gap-2 rounded-md bg-ink px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-denim" href="#brief">
+        <Link className="focus-ring inline-flex items-center gap-2 rounded-md bg-ink px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-denim" href="/brief">
           Începe
           <Rocket size={16} aria-hidden="true" />
-        </a>
+        </Link>
       </header>
 
       <section className="relative isolate min-h-[calc(100svh-88px)] overflow-hidden">
@@ -154,13 +218,13 @@ export default function Home() {
             </h1>
             <p className="mt-5 max-w-2xl text-xl leading-8 text-white/82">
               Vrei un site de prezentare, magazin online sau aplicație web construită custom, pornind de la
-              cerințele pe care le alegi în formular?
+              cerințele pe care le alegi în formular? Fara WordPress/ Shopify sau alte platforme de e-commerce, fără șabloane, fără limitări. Noi construim, tu decizi.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <a className="focus-ring inline-flex items-center gap-2 rounded-md bg-signal px-5 py-3 font-semibold text-white transition hover:bg-[#c94f2e]" href="#brief">
+              <Link className="focus-ring inline-flex items-center gap-2 rounded-md bg-signal px-5 py-3 font-semibold text-white transition hover:bg-[#c94f2e]" href="/brief">
                 Construiește brief-ul
                 <ArrowDown size={18} aria-hidden="true" />
-              </a>
+              </Link>
               <a className="focus-ring inline-flex items-center gap-2 rounded-md border border-white/22 bg-white px-5 py-3 font-semibold text-ink transition hover:bg-mist" href="#pricing">
                 Vezi prețurile
               </a>
@@ -179,7 +243,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="services-pricing isolate overflow-hidden" id="services">
+      <section className="services-pricing isolate overflow-hidden bg-[#fbfaf7]" id="services">
         <div className="relative bg-[#fbfaf7] pb-28 pt-20">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_42%,rgba(0,119,255,0.08),transparent_25rem),radial-gradient(circle_at_14%_20%,rgba(228,93,54,0.07),transparent_26rem)]" />
           <div className="section-shell relative">
@@ -211,34 +275,83 @@ export default function Home() {
         </div>
 
         <div className="pricing-cosmos relative -mt-16 pb-20 pt-28 text-white" id="pricing">
-          <div className="section-shell relative z-10">
+          <div className="section-shell relative z-10 mt-14">
             <p className="text-sm font-bold uppercase tracking-[0.32em] text-signal">Prețuri</p>
             <h2 className="mt-3 max-w-3xl text-4xl font-black leading-[1.02] text-white sm:text-5xl">
-              Puncte de pornire clare,
-              <br />
-              apoi ofertă în funcție de scope.
+              Prețuri creare magazin online
             </h2>
-            <div className="mt-7 grid gap-6 lg:grid-cols-3">
+            <p className="mt-4 max-w-2xl text-lg font-medium leading-8 text-white/72">
+              Alege pachetul potrivit pentru lansare, administrare produse, plăți online și creștere.
+            </p>
+            <div className="mt-28 grid gap-6 lg:grid-cols-3">
               {prices.map((plan) => (
                 <article
-                  className="rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur"
+                  className="pricing-card flex h-full flex-col rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur transition duration-300"
                   key={plan.name}
                 >
+                  <div className="pricing-card-image relative mx-auto -mt-20 mb-4 h-52 w-full max-w-[15rem] sm:-mt-24 sm:h-56">
+                    <Image
+                      alt=""
+                      className="object-contain drop-shadow-[0_0_26px_rgba(69,199,255,0.42)]"
+                      fill
+                      sizes="(min-width: 1024px) 240px, 70vw"
+                      src={plan.image}
+                    />
+                  </div>
                   <p className="text-sm font-bold uppercase tracking-[0.26em] text-signal">{plan.name}</p>
                   <p className="mt-4 text-4xl font-black leading-none text-white">{plan.price}</p>
                   <p className="mt-4 min-h-[3.25rem] text-base font-medium leading-6 text-white/[0.86]">{plan.fit}</p>
-                  <ul className="mt-6 space-y-3">
-                    {plan.includes.map((item) => (
-                      <li className="flex items-center gap-3" key={item}>
-                        <BadgeCheck className="shrink-0 text-signal" size={18} aria-hidden="true" />
-                        <span className="font-semibold text-white/[0.94]">{item}</span>
-                      </li>
-                    ))}
+                  <ul className="mb-7 mt-6 space-y-2.5">
+                    {[...priceComparison.slice(1)]
+                      .sort((a, b) => {
+                        const rank = (value: string) => (value === "✓" ? 0 : value === "—" ? 1 : 2);
+
+                        return rank(a[plan.tier]) - rank(b[plan.tier]);
+                      })
+                      .map((item) => {
+                      const value = item[plan.tier];
+                      const isCheck = value === "✓";
+                      const isEmpty = value === "—";
+
+                      return (
+                        <li
+                          className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 border-b border-white/8 pb-2.5 last:border-b-0 last:pb-0"
+                          key={item.benefit}
+                        >
+                          <span className="text-sm font-medium leading-5 text-white/68">{item.benefit}</span>
+                          <span
+                            className={`max-w-[9.5rem] text-right text-sm font-bold leading-5 ${
+                              isCheck ? "text-emerald-400" : isEmpty ? "text-white/32" : "text-white/92"
+                            }`}
+                          >
+                            {isCheck ? (
+                              <BadgeCheck className="ml-auto text-emerald-400" size={18} aria-label="Inclus" />
+                            ) : isEmpty ? (
+                              <CircleX className="ml-auto text-red-400" size={18} aria-label="Neinclus" />
+                            ) : (
+                              value
+                            )}
+                          </span>
+                        </li>
+                      );
+                    })}
                   </ul>
-                  <a className="focus-ring mt-7 inline-flex w-full items-center justify-center gap-3 rounded-md bg-signal px-4 py-3 font-bold text-white shadow-[0_16px_34px_rgba(228,93,54,0.28)] transition hover:bg-[#ff7048]" href="#brief">
+                  <div className="mb-6 mt-auto rounded-lg border border-[#2a85d7]/60 bg-[#06111f]/80 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_40px_rgba(0,118,255,0.12)]">
+                    <p className="text-[0.68rem] font-black uppercase tracking-[0.28em] text-[#69c8ff]">
+                      Opțional după lansare
+                    </p>
+                    <div className="mt-3 flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-base font-black text-white">{plan.maintenance.name}</p>
+                        <p className="mt-2 text-sm font-medium leading-5 text-white/68">{plan.maintenance.copy}</p>
+                      </div>
+                      <p className="shrink-0 text-right text-base font-black text-signal">{plan.maintenance.price}</p>
+                    </div>
+                  </div>
+                  <Link className="focus-ring inline-flex w-full items-center justify-center gap-3 rounded-md bg-signal px-4 py-3 font-bold text-white shadow-[0_16px_34px_rgba(228,93,54,0.28)] transition hover:bg-[#ff7048]" href="/brief">
                     Alege direcția
                     <ArrowRight size={20} aria-hidden="true" />
-                  </a>
+                  </Link>
                 </article>
               ))}
             </div>
@@ -261,37 +374,64 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-shell grid gap-10 py-20 lg:grid-cols-[0.78fr_1fr]" id="experience">
-        <SectionIntro eyebrow="Experiență" title="Software practic, construit cu o gândire de produs." />
-        <div className="grid gap-4">
-          {experience.map((item, index) => (
-            <div className="flex gap-4 rounded-lg bg-white p-5 shadow-sm" key={item}>
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-denim font-bold text-white">{index + 1}</span>
-              <p className="leading-7 text-ink/75">{item}</p>
-            </div>
-          ))}
+      <section className="relative overflow-hidden bg-[#fbfaf7] py-24 sm:py-28" id="experience">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_42%,rgba(0,119,255,0.08),transparent_25rem),radial-gradient(circle_at_14%_20%,rgba(228,93,54,0.07),transparent_26rem)]" />
+        <div className="section-shell relative grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.32em] text-[#006dff]">Experiență</p>
+            <div className="mt-5 h-0.5 w-16 bg-[#28baff]" />
+            <h2 className="mt-8 max-w-xl text-4xl font-black leading-[1.04] text-[#071022] sm:text-5xl lg:text-6xl">
+              Software practic,
+              <br />
+              construit cu o
+              <br />
+              gândire de produs.
+            </h2>
+          </div>
+
+          <div className="relative min-h-[620px] lg:min-h-[680px]">
+            {experience.map((item, index) => {
+              const positions = [
+                "lg:left-[0%] lg:top-[465px]",
+                "lg:left-[14%] lg:top-[310px]",
+                "lg:left-[28%] lg:top-[155px]",
+                "lg:left-[42%] lg:top-0",
+              ];
+              const sizes = [
+                "lg:w-[68%]",
+                "lg:w-[68%]",
+                "lg:w-[66%]",
+                "lg:w-[66%]",
+              ];
+              const styles = [
+                "border-[#258cff]/55 bg-white/[0.7] shadow-[0_24px_60px_rgba(22,80,150,0.12)]",
+                "border-[#258cff]/50 bg-[#f7fbff]/[0.76] shadow-[0_24px_60px_rgba(22,80,150,0.13)]",
+                "border-[#51c7cf]/60 bg-[#effcff]/[0.78] shadow-[0_24px_60px_rgba(28,147,154,0.14)]",
+                "border-signal/70 bg-[#fff7f3]/[0.8] shadow-[0_24px_60px_rgba(228,93,54,0.12)]",
+              ];
+              const numberColor = index === 3 ? "text-signal/80" : index === 2 ? "text-[#48c5cf]/80" : "text-[#0075ff]/80";
+
+              return (
+                <article
+                  className={`relative mb-5 flex min-h-36 items-center gap-6 rounded-lg border p-6 backdrop-blur lg:absolute lg:mb-0 lg:min-h-40 lg:p-8 ${positions[index]} ${sizes[index]} ${styles[index]}`}
+                  key={item}
+                >
+                  <span
+                    className={`shrink-0 text-6xl font-black leading-none sm:text-7xl ${numberColor}`}
+                    style={{ WebkitTextFillColor: "transparent", WebkitTextStroke: "2px currentColor" }}
+                    aria-hidden="true"
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <p className="max-w-md text-lg font-medium leading-8 text-[#071022]/[0.82] sm:text-xl">{item}</p>
+                </article>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      <section className="bg-white py-20">
-        <div className="section-shell">
-          <ProjectBriefWizard />
-        </div>
-      </section>
-
-      <footer className="section-shell flex flex-col gap-3 border-t border-ink/10 py-8 text-sm text-ink/62 sm:flex-row sm:items-center sm:justify-between">
-        <Image
-          alt="MDI Software"
-          className="h-10 w-auto object-contain"
-          height={558}
-          src="/images/mdi-logo-cropped.png"
-          width={939}
-        />
-        <p className="inline-flex items-center gap-2">
-          <MailCheck size={16} aria-hidden="true" />
-          Captare de lead-uri prin Brevo
-        </p>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
