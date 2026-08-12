@@ -19,6 +19,10 @@ type BrevoContactInput = {
 };
 
 type BrevoEmailInput = {
+  attachment?: Array<{
+    content: string;
+    name: string;
+  }>;
   htmlContent: string;
   replyTo?: BrevoEmailRecipient;
   subject: string;
@@ -93,7 +97,7 @@ export async function upsertBrevoContact({ attributes = {}, email, listIds, stan
   });
 }
 
-export async function sendBrevoNotification({ htmlContent, replyTo, subject }: BrevoEmailInput) {
+export async function sendBrevoNotification({ attachment, htmlContent, replyTo, subject }: BrevoEmailInput) {
   const senderEmail = process.env.BREVO_SENDER_EMAIL;
   const recipientEmail = process.env.MDI_CONTACT_EMAIL;
 
@@ -111,6 +115,7 @@ export async function sendBrevoNotification({ htmlContent, replyTo, subject }: B
       ...(replyTo ? { replyTo } : {}),
       subject,
       htmlContent,
+      ...(attachment?.length ? { attachment } : {}),
     }),
     method: "POST",
   });

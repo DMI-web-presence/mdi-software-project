@@ -3,6 +3,14 @@ import { getBrevoListIds, hasBrevoConfig, sendBrevoNotification, upsertBrevoCont
 import { getLeadRecommendation, type LeadFormData, type LeadRecommendation, leadSchema } from "@/lib/lead-schema";
 import { guardResponse, guardSubmission } from "@/lib/submission-guard";
 
+const MAX_ATTACHMENT_TOTAL_BYTES = 18 * 1024 * 1024;
+const ALLOWED_ATTACHMENT_TYPES = new Set(["image/jpeg", "image/png", "image/svg+xml", "image/webp"]);
+
+type ParsedBriefRequest = {
+  assets: File[];
+  body: unknown;
+};
+
 function escapeHtml(value: string) {
   return value
     .replaceAll("&", "&amp;")
@@ -272,8 +280,46 @@ function briefHtml(data: LeadFormData, recommendation: LeadRecommendation) {
     </html>`;
 }
 
+async function parseBriefRequest(request: Request): Promise<ParsedBriefRequest> {
+  const contentType = request.headers.get("content-type") || "";
+
+  if (contentType.includes("multipart/form-data")) {
+    const formData = await request.formData();
+    const payload = formData.get("payload");
+    const assets = formData
+      .getAll("assets")
+      .filter((value): value is File => value instanceof File);
+
+    return {
+      assets,
+      body: typeof payload === "string" ? JSON.parse(payload) : null,
+    };
+  }
+
+  return {
+    assets: [],
+    body: await request.json().catch(() => null),
+  };
+}
+
+async function brevoAttachments(files: File[]) {
+  const accepted = files.filter((file) => ALLOWED_ATTACHMENT_TYPES.has(file.type));
+  const totalSize = accepted.reduce((sum, file) => sum + file.size, 0);
+
+  if (totalSize > MAX_ATTACHMENT_TOTAL_BYTES) {
+    throw new Error("Fișierele atașate depășesc limita de 18 MB pentru email.");
+  }
+
+  return Promise.all(
+    accepted.map(async (file) => ({
+      content: Buffer.from(await file.arrayBuffer()).toString("base64"),
+      name: file.name,
+    })),
+  );
+}
+
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => null);
+  const { assets, body } = await parseBriefRequest(request);
   const guardFailure = await guardSubmission({ body, endpoint: "brief" });
 
   if (guardFailure) {
@@ -331,7 +377,10 @@ export async function POST(request: Request) {
   }
 
   try {
+    const attachments = await brevoAttachments(assets);
+
     await sendBrevoNotification({
+      attachment: attachments,
       replyTo: { email: data.email, name: data.name },
       subject: `Brief nou de proiect: ${recommendation.packageName}`,
       htmlContent: briefHtml(data, recommendation),

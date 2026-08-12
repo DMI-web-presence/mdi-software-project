@@ -176,7 +176,17 @@ const defaultValues: LeadFormData = {
 };
 
 type SubmitState = "idle" | "loading" | "success" | "error";
-type UploadPreview = { name: string; size: string; url?: string; type: string };
+type UploadPreview = { file: File; name: string; size: string; url?: string; type: string };
+
+function buildBriefPayload(data: LeadFormData, uploads: UploadPreview[], meta: { companyWebsite: string; startedAt: number }) {
+  const formData = new FormData();
+  formData.append("payload", JSON.stringify({ ...data, _meta: meta }));
+  uploads.forEach((upload) => {
+    formData.append("assets", upload.file, upload.name);
+  });
+
+  return formData;
+}
 
 const cardBase =
   "relative min-w-0 rounded-[7px] border border-[#dedbd6] bg-white/70 outline outline-2 outline-transparent outline-offset-2 transition hover:border-[#e95a35]/65 hover:bg-white focus-visible:border-[#f05c39] focus-visible:outline-[#f05c39]/55 focus-visible:shadow-[0_0_0_4px_rgba(240,92,57,0.1)]";
@@ -245,6 +255,7 @@ export function ProjectBriefWizard() {
   function addFiles(fileList: FileList | File[]) {
     const accepted = Array.from(fileList).filter((file) => file.size <= 20 * 1024 * 1024);
     const next = accepted.map((file) => ({
+      file,
       name: file.name,
       size: formatFileSize(file.size),
       type: file.type,
@@ -269,8 +280,7 @@ export function ProjectBriefWizard() {
     try {
       const response = await fetch("/api/lead", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ ...data, _meta: { companyWebsite, startedAt } }),
+        body: buildBriefPayload(data, uploads, { companyWebsite, startedAt }),
       });
       const payload = await response.json();
       if (!response.ok || !payload.ok) throw new Error(payload.message || "Brief-ul nu a putut fi trimis.");
