@@ -595,14 +595,14 @@ function Question({ children, description, number, optional, title }: { children
 }
 
 function ChoiceCard({ active, children, className, onClick }: { active: boolean; children: React.ReactNode; className?: string; onClick: () => void }) {
-  return <button aria-pressed={active} className={cn(cardBase, "flex min-h-[112px] flex-col items-center justify-center gap-2 p-4 text-center text-[0.82rem] font-medium max-[1240px]:text-[0.74rem] max-[520px]:min-h-[82px]", active && cardSelected, className)} onClick={onClick} type="button"><RadioMark active={active} />{children}{active && <Check className="absolute right-2 top-2 size-5 rounded-full bg-[#f05b37] p-1 text-white" size={14} />}</button>;
+  return <button aria-pressed={active} className={cn(cardBase, "flex min-h-[112px] flex-col items-center justify-center gap-2 p-4 text-center text-[0.82rem] font-medium max-[1240px]:text-[0.74rem] max-[520px]:min-h-[64px] max-[520px]:flex-row max-[520px]:justify-start max-[520px]:gap-3 max-[520px]:py-3 max-[520px]:pl-11 max-[520px]:pr-10 max-[520px]:text-left", active && cardSelected, className)} onClick={onClick} type="button"><RadioMark active={active} />{children}{active && <Check className="absolute right-2 top-2 size-5 rounded-full bg-[#f05b37] p-1 text-white max-[520px]:top-1/2 max-[520px]:-translate-y-1/2" size={14} />}</button>;
 }
 
 function MultiChoice({ active, children, className, onClick }: { active?: boolean; children: React.ReactNode; className?: string; onClick: () => void }) {
   return <button aria-pressed={active} className={cn(cardBase, "flex min-h-[42px] items-center justify-center gap-2 px-3 py-2 text-[0.72rem]", active && cardSelected, className)} onClick={onClick} type="button">{active && <Check className="rounded-full bg-[#f05b37] p-0.5 text-white" size={13} />}{children}</button>;
 }
 
-function RadioMark({ active }: { active: boolean }) { return <i className={cn("inline-block size-4 flex-none rounded-full border border-[#c9c7c3] bg-white", active && "border-[5px] border-[#f05b37]")} aria-hidden="true" />; }
+function RadioMark({ active }: { active: boolean }) { return <i className={cn("inline-block size-4 flex-none rounded-full border border-[#c9c7c3] bg-white max-[520px]:absolute max-[520px]:left-3.5 max-[520px]:top-1/2 max-[520px]:-translate-y-1/2", active && "border-[5px] border-[#f05b37]")} aria-hidden="true" />; }
 
 function ColorSwatches({ colors, flush, review, summary }: { colors: string[]; flush?: boolean; review?: boolean; summary?: boolean }) {
   return <div className={cn("flex gap-1.5", review && "mb-2", summary && "gap-1")}>{colors.map((color, index) => <i className={cn("block border border-black/10", flush ? "h-[30px] flex-1 first:rounded-l last:rounded-r" : "h-[30px] w-11 rounded-[5px]", review && "h-[18px] w-6", summary && "h-7 flex-1 w-auto")} key={`${color}-${index}`} style={{ backgroundColor: color }} />)}</div>;
