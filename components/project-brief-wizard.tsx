@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   ChevronUp,
   CircleHelp,
+  Clock3,
   CloudUpload,
   Code2,
   FileText,
@@ -491,9 +492,15 @@ export function ProjectBriefWizard() {
             )}
 
             {submitMessage && <div className={cn("mt-5 rounded-md p-3.5 text-xs font-semibold", submitState === "success" && "bg-[#e9f9ef] text-[#197344]", submitState === "error" && "bg-[#fff0ec] text-[#c53f24]")}>{submitMessage}</div>}
-            <div className="mt-8 flex justify-between gap-4">
+            <div className="mt-8 flex items-center justify-between gap-4 max-[640px]:flex-wrap">
               <button className="inline-flex min-h-12 items-center justify-center gap-3 rounded-[5px] border border-[#ddd9d3] bg-white px-5 text-[0.82rem] font-bold disabled:opacity-35 max-[520px]:flex-1 max-[520px]:px-3" disabled={step === 0 || submitState === "loading"} onClick={() => goTo(step - 1)} type="button"><ArrowLeft size={18} />Înapoi</button>
-              {step < 6 ? <button className="ml-auto inline-flex min-h-12 items-center justify-center gap-3 rounded-[5px] bg-[#111419] px-5 text-[0.82rem] font-bold text-white hover:bg-[#253143] max-[520px]:flex-1 max-[520px]:px-3" onClick={() => goTo(step + 1)} type="button">Continuă<ArrowRight size={18} /></button> : <button className="ml-auto inline-flex min-h-12 items-center justify-center gap-3 rounded-[5px] bg-[#f05b37] px-5 text-[0.82rem] font-bold text-white shadow-[0_10px_24px_rgba(240,91,55,0.18)] hover:bg-[#d94d2c] disabled:opacity-60 max-[520px]:flex-1 max-[520px]:px-3" disabled={submitState === "loading"} type="submit">{submitState === "loading" ? <Loader2 className="animate-spin" size={18} /> : <Send size={18} />}Trimite brief-ul<ArrowRight size={18} /></button>}
+              {step === 6 && (
+                <p className="ml-auto inline-flex items-center gap-2 rounded-full border border-[#dfe7dc] bg-[#f4fbf3] px-3.5 py-2 text-[0.72rem] font-bold text-[#2d7148] max-[640px]:order-3 max-[640px]:ml-0 max-[640px]:w-full max-[640px]:justify-center">
+                  <Clock3 size={15} aria-hidden="true" />
+                  De obicei răspundem în câteva minute în timpul programului.
+                </p>
+              )}
+              {step < 6 ? <button className="ml-auto inline-flex min-h-12 items-center justify-center gap-3 rounded-[5px] bg-[#111419] px-5 text-[0.82rem] font-bold text-white hover:bg-[#253143] max-[520px]:flex-1 max-[520px]:px-3" onClick={() => goTo(step + 1)} type="button">Continuă<ArrowRight size={18} /></button> : <button className="inline-flex min-h-12 items-center justify-center gap-3 rounded-[5px] bg-[#f05b37] px-5 text-[0.82rem] font-bold text-white shadow-[0_10px_24px_rgba(240,91,55,0.18)] hover:bg-[#d94d2c] disabled:opacity-60 max-[520px]:flex-1 max-[520px]:px-3" disabled={submitState === "loading"} type="submit">{submitState === "loading" ? <Loader2 className="animate-spin" size={18} /> : <Send size={18} />}Trimite brief-ul<ArrowRight size={18} /></button>}
             </div>
           </main>
 
