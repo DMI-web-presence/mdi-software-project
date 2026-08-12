@@ -84,9 +84,9 @@ export function SiteFooter() {
         <div className="section-shell flex flex-col gap-4 py-7 text-sm font-medium text-white/46 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 MDI Software. Toate drepturile rezervate.</p>
           <div className="flex gap-6">
-            <Link className="transition hover:text-white" href="/#top">Confidențialitate</Link>
+            <Link className="transition hover:text-white" href="/confidentialitate">Confidențialitate</Link>
             <span className="text-white/22" aria-hidden="true">|</span>
-            <Link className="transition hover:text-white" href="/#top">Termeni</Link>
+            <Link className="transition hover:text-white" href="/termeni">Termeni</Link>
           </div>
         </div>
       </div>
