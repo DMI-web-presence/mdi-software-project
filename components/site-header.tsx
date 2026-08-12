@@ -71,7 +71,7 @@ export function SiteHeader() {
               <ChevronDown className={`transition-transform ${pricingOpen ? "rotate-180" : ""}`} size={15} aria-hidden="true" />
             </button>
             <div
-              className={`absolute left-1/2 top-full w-64 -translate-x-1/2 pt-2 transition duration-150 ${
+              className={`absolute left-1/2 top-full w-72 -translate-x-1/2 pt-2 transition duration-150 ${
                 pricingOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0"
               }`}
             >
@@ -79,7 +79,7 @@ export function SiteHeader() {
                 <Link className="rounded px-3 py-2.5 text-ink/80 transition hover:bg-black/5 hover:text-ink" href="/#pricing-presentation" onClick={() => setPricingOpen(false)}>
                   Website de prezentare
                 </Link>
-                <Link className="rounded px-3 py-2.5 text-ink/80 transition hover:bg-black/5 hover:text-ink" href="/#pricing-ecommerce" onClick={() => setPricingOpen(false)}>
+                <Link className="whitespace-nowrap rounded px-3 py-2.5 text-ink/80 transition hover:bg-black/5 hover:text-ink" href="/#pricing-ecommerce" onClick={() => setPricingOpen(false)}>
                   Magazin online (e-commerce)
                 </Link>
               </div>
