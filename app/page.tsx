@@ -27,6 +27,7 @@ import {
   siVercel,
 } from "simple-icons";
 import { HeroCosmosScene } from "@/components/hero-cosmos-scene";
+import { ProjectCarousel } from "@/components/project-carousel";
 import { SiteFooter } from "@/components/site-footer";
 
 const services = [
@@ -139,7 +140,7 @@ const priceComparison = [
 const projects = [
   {
     title: "Flux de prezentare imobiliară",
-    copy: "Structură de website pentru proprietăți, cu progres de proiect, detalii pentru apartamente și captare de lead-uri.",
+    copy: "Structură de website pentru proprietăți, cu progres de proiect, detalii pentru apartamente.",
     stack: "Next.js, UI responsive, arhitectură de conținut",
   },
   {
@@ -195,7 +196,6 @@ export default function Home() {
           />
         </a>
         <nav className="hidden items-center gap-6 text-sm font-semibold text-ink/70 md:flex">
-          <a className="transition hover:text-ink" href="#services">Servicii</a>
           <a className="transition hover:text-ink" href="#pricing">Prețuri</a>
           <a className="transition hover:text-ink" href="#projects">Proiecte</a>
           <a className="transition hover:text-ink" href="#experience">Experiență</a>
@@ -359,20 +359,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-ink py-20 text-white" id="projects">
-        <div className="section-shell">
-          <SectionIntro eyebrow="Proiecte" title="Lucrări reprezentative, orientate spre rezultate de business." dark />
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
-            {projects.map((project) => (
-              <article className="rounded-lg border border-white/12 bg-white/7 p-6" key={project.title}>
-                <h3 className="text-xl font-bold">{project.title}</h3>
-                <p className="mt-4 leading-7 text-white/70">{project.copy}</p>
-                <p className="mt-6 rounded-md bg-white px-3 py-2 text-sm font-semibold text-ink">{project.stack}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="section-divider-light" aria-hidden="true" />
+
+      <ProjectCarousel projects={projects} />
 
       <section className="relative overflow-hidden bg-[#fbfaf7] py-24 sm:py-28" id="experience">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_42%,rgba(0,119,255,0.08),transparent_25rem),radial-gradient(circle_at_14%_20%,rgba(228,93,54,0.07),transparent_26rem)]" />
@@ -549,23 +538,3 @@ function BlueprintIllustration({ index }: { index: number }) {
   );
 }
 
-function SectionIntro({
-  dark = false,
-  eyebrow,
-  title,
-}: {
-  dark?: boolean;
-  eyebrow: string;
-  title: string;
-}) {
-  return (
-    <div>
-      <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${dark ? "text-signal" : "text-moss"}`}>
-        {eyebrow}
-      </p>
-      <h2 className={`mt-3 max-w-3xl text-3xl font-black leading-tight sm:text-4xl ${dark ? "text-white" : "text-ink"}`}>
-        {title}
-      </h2>
-    </div>
-  );
-}
