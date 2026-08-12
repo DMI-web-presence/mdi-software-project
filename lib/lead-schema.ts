@@ -3,17 +3,29 @@ import { z } from "zod";
 export const leadSchema = z.object({
   projectType: z.string().min(1, "Alege tipul proiectului."),
   goal: z.string().min(1, "Alege obiectivul principal."),
+  projectDescription: z.string().max(1200).optional(),
   visualAssets: z.string().min(1, "Alege direcția pentru imagini."),
   dominantColor: z.string().min(1, "Alege culoarea dominantă."),
   style: z.string().min(1, "Alege un stil."),
+  inspirationLinks: z.array(z.string()),
+  colorFamily: z.string().min(1, "Alege o familie de culori."),
+  fontPair: z.string().min(1, "Alege o combinație de fonturi."),
+  pages: z.array(z.string()).min(1, "Alege cel puțin o pagină."),
   sections: z.array(z.string()).min(1, "Alege cel puțin o secțiune."),
   features: z.array(z.string()),
+  assetNames: z.array(z.string()),
+  contentStatus: z.string().min(1, "Alege stadiul conținutului."),
+  contentNotes: z.string().max(1200).optional(),
+  contentLinks: z.array(z.string()),
   budget: z.string().min(1, "Alege un buget estimativ."),
   timeline: z.string().min(1, "Alege un termen dorit."),
+  support: z.string().min(1, "Alege nivelul de suport."),
   name: z.string().min(2, "Introdu numele."),
   email: z.string().email("Introdu o adresă de email validă."),
+  phone: z.string().optional(),
   company: z.string().optional(),
-  message: z.string().optional(),
+  contactPreference: z.string().min(1, "Alege o metodă de contact."),
+  message: z.string().max(1200).optional(),
   consent: z.boolean().refine((value) => value, "Acordul este obligatoriu."),
 });
 
@@ -23,26 +35,34 @@ export type LeadRecommendation = {
   packageName: string;
   complexity: "Scăzută" | "Medie" | "Ridicată";
   summary: string;
+  estimate: string;
+  delivery: string;
+  benefits: string[];
 };
 
 export function getLeadRecommendation(data: Partial<LeadFormData>): LeadRecommendation {
   const featureCount = data.features?.length ?? 0;
+  const pageCount = data.pages?.length ?? 0;
   const sectionCount = data.sections?.length ?? 0;
   const isCustom =
     data.projectType === "Aplicație web custom" ||
     data.projectType === "Automatizare / integrare" ||
-    featureCount >= 4;
+    featureCount >= 6;
   const isBusiness =
     data.projectType === "Website business" ||
-    sectionCount >= 5 ||
-    featureCount >= 2;
+    data.projectType === "Magazin online" ||
+    pageCount >= 5 ||
+    sectionCount >= 6 ||
+    featureCount >= 3;
 
   if (isCustom) {
     return {
       packageName: "Software Custom",
       complexity: "Ridicată",
-      summary:
-        "Proiectul pare potrivit pentru o construcție personalizată, cu planificare, integrări și un proces de livrare bine definit.",
+      summary: "Potrivit pentru aplicații, automatizări și fluxuri construite în jurul procesului tău.",
+      estimate: data.budget || "Ofertă pe scope",
+      delivery: data.timeline || "Stabilit după discovery",
+      benefits: ["Discovery tehnic", "Interfață custom", "Integrări API", "Suport la lansare"],
     };
   }
 
@@ -50,15 +70,19 @@ export function getLeadRecommendation(data: Partial<LeadFormData>): LeadRecommen
     return {
       packageName: "Pachet Business",
       complexity: "Medie",
-      summary:
-        "Direcția se potrivește unui website orientat spre conversii, cu secțiuni custom, SEO de bază și prezentare profesionistă.",
+      summary: "Ideal pentru un website de prezentare care generează încredere și conversii.",
+      estimate: data.budget || "1.000–2.000 EUR",
+      delivery: data.timeline || "4–8 săptămâni",
+      benefits: ["Design personalizat", "Optimizare SEO avansată", "Formular de contact", "Până la 10 pagini", "Integrare rețele sociale", "Suport și consultanță"],
     };
   }
 
   return {
     packageName: "Pachet Starter",
     complexity: "Scăzută",
-    summary:
-      "Poate începe ca un website de prezentare concentrat, cu o pagină de start clară și secțiuni esențiale.",
+    summary: "O direcție clară pentru un website de prezentare concentrat și ușor de administrat.",
+    estimate: data.budget || "Sub 1.000 EUR",
+    delivery: data.timeline || "2–4 săptămâni",
+    benefits: ["Design personalizat", "Optimizare pentru mobil", "Formular de contact", "Secțiuni esențiale"],
   };
 }
