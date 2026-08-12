@@ -31,6 +31,18 @@ export const leadSchema = z.object({
 
 export type LeadFormData = z.infer<typeof leadSchema>;
 
+export const contactSchema = z.object({
+  name: z.string().min(2, "Introdu numele."),
+  email: z.string().email("Introdu o adresă de email validă."),
+  phone: z.string().optional(),
+  projectType: z.string().min(1, "Alege tipul proiectului."),
+  budget: z.string().optional(),
+  message: z.string().min(10, "Scrie câteva detalii despre proiect.").max(1200, "Mesajul este prea lung."),
+  consent: z.boolean().refine((value) => value, "Acordul este obligatoriu."),
+});
+
+export type ContactFormData = z.infer<typeof contactSchema>;
+
 export type LeadRecommendation = {
   packageName: string;
   complexity: "Scăzută" | "Medie" | "Ridicată";

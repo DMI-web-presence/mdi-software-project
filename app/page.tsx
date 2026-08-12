@@ -26,6 +26,7 @@ import {
   siTypescript,
   siVercel,
 } from "simple-icons";
+import { ContactForm } from "@/components/contact-form";
 import { HeroCosmosScene } from "@/components/hero-cosmos-scene";
 import { ProjectCarousel } from "@/components/project-carousel";
 import { SiteFooter } from "@/components/site-footer";
@@ -196,9 +197,11 @@ export default function Home() {
           />
         </a>
         <nav className="hidden items-center gap-6 text-sm font-semibold text-ink/70 md:flex">
+          <a className="transition hover:text-ink" href="#services">Servicii</a>
           <a className="transition hover:text-ink" href="#pricing">Prețuri</a>
           <a className="transition hover:text-ink" href="#projects">Proiecte</a>
           <a className="transition hover:text-ink" href="#experience">Experiență</a>
+          <a className="transition hover:text-ink" href="#contact">Contact</a>
         </nav>
         <Link className="focus-ring inline-flex items-center gap-2 rounded-md bg-ink px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-denim" href="/brief">
           Începe
@@ -419,6 +422,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <ContactForm />
 
       <SiteFooter />
     </main>
