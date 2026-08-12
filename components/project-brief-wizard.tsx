@@ -190,8 +190,11 @@ export function ProjectBriefWizard() {
   const [savedText, setSavedText] = useState("Salvat automat");
   const [uploads, setUploads] = useState<UploadPreview[]>([]);
   const [dragging, setDragging] = useState(false);
+  const [formWasSent, setFormWasSent] = useState(false);
+  const [companyWebsite, setCompanyWebsite] = useState("");
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
+  const [startedAt] = useState(() => Date.now());
 
   const {
     register,
@@ -215,17 +218,7 @@ export function ProjectBriefWizard() {
   const progress = step === 6 ? 6 : step + 1;
 
   useEffect(() => {
-    const draft = window.localStorage.getItem("mdi-brief-draft");
-    if (!draft) return;
-    try {
-      const parsed = JSON.parse(draft) as Partial<LeadFormData>;
-      reset({ ...defaultValues, ...parsed, assetNames: [] });
-    } catch {
-      window.localStorage.removeItem("mdi-brief-draft");
-    }
-  }, [reset]);
-
-  useEffect(() => {
+    if (formWasSent) return;
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
       window.localStorage.setItem("mdi-brief-draft", JSON.stringify({ ...values, assetNames: [] }));
@@ -234,7 +227,7 @@ export function ProjectBriefWizard() {
     return () => {
       if (saveTimer.current) clearTimeout(saveTimer.current);
     };
-  }, [values]);
+  }, [formWasSent, values]);
 
   async function goTo(nextStep: number) {
     setStep(Math.max(0, Math.min(nextStep, steps.length - 1)));
@@ -277,13 +270,21 @@ export function ProjectBriefWizard() {
       const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, _meta: { companyWebsite, startedAt } }),
       });
       const payload = await response.json();
       if (!response.ok || !payload.ok) throw new Error(payload.message || "Brief-ul nu a putut fi trimis.");
+      setFormWasSent(true);
       setSubmitState("success");
       setSubmitMessage(payload.mode === "preview" ? "Brief validat. Conectează Brevo pentru livrarea mesajului real." : "Brief trimis cu succes. Revenim către tine după analiză.");
       window.localStorage.removeItem("mdi-brief-draft");
+      uploads.forEach((file) => {
+        if (file.url) URL.revokeObjectURL(file.url);
+      });
+      setUploads([]);
+      reset(defaultValues);
+      setStep(0);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       setSubmitState("error");
       setSubmitMessage(error instanceof Error ? error.message : "Brief-ul nu a putut fi trimis.");
@@ -313,6 +314,16 @@ export function ProjectBriefWizard() {
         <BriefSidebar currentStep={step} progress={progress} onStepClick={goTo} />
 
         <form className="grid min-w-0 grid-cols-[minmax(0,1fr)_var(--brief-summary)] overflow-hidden bg-[#fdfbf8] max-[1023px]:grid-cols-[minmax(0,1fr)_280px] max-[820px]:grid-cols-1" onSubmit={handleSubmit(onSubmit)}>
+          <input
+            aria-hidden="true"
+            autoComplete="off"
+            className="hidden"
+            name="companyWebsite"
+            onChange={(event) => setCompanyWebsite(event.target.value)}
+            tabIndex={-1}
+            type="text"
+            value={companyWebsite}
+          />
           <div className="hidden gap-1.5 px-4 pt-4 max-[820px]:col-span-1 max-[820px]:flex" aria-label={`Pasul ${step + 1} din 7`}>
             {steps.map((item, index) => <span className={cn("h-1 flex-1 rounded-full bg-[#dad8d4]", index <= step && "bg-[#f05b37]")} key={item.title} />)}
           </div>

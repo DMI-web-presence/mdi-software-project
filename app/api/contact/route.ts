@@ -1,16 +1,7 @@
 import { NextResponse } from "next/server";
+import { getBrevoListIds, hasBrevoConfig, sendBrevoNotification, upsertBrevoContact } from "@/lib/brevo";
 import { contactSchema } from "@/lib/lead-schema";
-
-const BREVO_API_URL = "https://api.brevo.com/v3";
-
-function envNumber(value: string | undefined) {
-  if (!value) {
-    return undefined;
-  }
-
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : undefined;
-}
+import { guardResponse, guardSubmission } from "@/lib/submission-guard";
 
 function escapeHtml(value: string) {
   return value
@@ -48,6 +39,12 @@ function contactHtml(data: {
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
+  const guardFailure = await guardSubmission({ body, endpoint: "contact" });
+
+  if (guardFailure) {
+    return guardResponse(guardFailure);
+  }
+
   const parsed = contactSchema.safeParse(body);
 
   if (!parsed.success) {
@@ -58,9 +55,8 @@ export async function POST(request: Request) {
   }
 
   const data = parsed.data;
-  const apiKey = process.env.BREVO_API_KEY;
 
-  if (!apiKey) {
+  if (!hasBrevoConfig()) {
     return NextResponse.json({
       ok: true,
       mode: "preview",
@@ -68,55 +64,51 @@ export async function POST(request: Request) {
     });
   }
 
-  const headers = {
-    accept: "application/json",
-    "api-key": apiKey,
-    "content-type": "application/json",
-  };
-  const listId = envNumber(process.env.BREVO_LIST_ID);
-
-  const contactResponse = await fetch(`${BREVO_API_URL}/contacts`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({
+  try {
+    await upsertBrevoContact({
       email: data.email,
-      updateEnabled: true,
-      ...(listId ? { listIds: [listId] } : {}),
-      attributes: {
+      listIds: getBrevoListIds("BREVO_CONTACT_LIST_ID", "BREVO_LIST_ID"),
+      standardAttributes: {
         FIRSTNAME: data.name,
-        PHONE: data.phone || "",
+      },
+      attributes: {
         PROJECT_TYPE: data.projectType,
         BUDGET: data.budget || "",
         LEAD_SOURCE: "contact-form",
       },
-    }),
-  });
-
-  if (!contactResponse.ok) {
+    });
+  } catch (error) {
+    console.error("Brevo contact sync failed", error);
     return NextResponse.json(
-      { ok: false, message: "Crearea contactului în Brevo a eșuat." },
+      {
+        ok: false,
+        message:
+          process.env.NODE_ENV === "development"
+            ? `Brevo contact sync failed: ${error instanceof Error ? error.message : "Unknown error"}`
+            : "Trimiterea către Brevo a eșuat. Verifică API key și lista configurată.",
+      },
       { status: 502 },
     );
   }
 
-  const senderEmail = process.env.BREVO_SENDER_EMAIL;
-  const recipientEmail = process.env.MDI_CONTACT_EMAIL;
-
-  if (senderEmail && recipientEmail) {
-    await fetch(`${BREVO_API_URL}/smtp/email`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        sender: {
-          name: process.env.BREVO_SENDER_NAME || "MDI Software",
-          email: senderEmail,
-        },
-        to: [{ email: recipientEmail, name: "MDI Software" }],
-        replyTo: { email: data.email, name: data.name },
-        subject: `Mesaj contact MDI: ${data.projectType}`,
-        htmlContent: contactHtml(data),
-      }),
+  try {
+    await sendBrevoNotification({
+      replyTo: { email: data.email, name: data.name },
+      subject: `Mesaj contact MDI: ${data.projectType}`,
+      htmlContent: contactHtml(data),
     });
+  } catch (error) {
+    console.error("Brevo notification failed", error);
+    return NextResponse.json(
+      {
+        ok: false,
+        message:
+          process.env.NODE_ENV === "development"
+            ? `Brevo notification failed: ${error instanceof Error ? error.message : "Unknown error"}`
+            : "Trimiterea către Brevo a eșuat. Verifică sender-ul configurat.",
+      },
+      { status: 502 },
+    );
   }
 
   return NextResponse.json({ ok: true, mode: "brevo" });

@@ -23,6 +23,8 @@ type SubmitState = "idle" | "loading" | "success" | "error";
 export function ContactForm() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [submitMessage, setSubmitMessage] = useState("");
+  const [startedAt] = useState(() => Date.now());
+  const [companyWebsite, setCompanyWebsite] = useState("");
   const {
     formState: { errors },
     handleSubmit,
@@ -45,7 +47,7 @@ export function ContactForm() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, _meta: { companyWebsite, startedAt } }),
       });
       const payload = await response.json();
 
@@ -55,7 +57,15 @@ export function ContactForm() {
 
       setSubmitState("success");
       setSubmitMessage(payload.mode === "preview" ? "Mesaj validat local. Conectează Brevo pentru livrarea reală." : "Mesaj trimis. Revenim către tine după analiză.");
-      reset({ budget: "De stabilit", consent: false, projectType: "Website de prezentare" });
+      reset({
+        budget: "De stabilit",
+        consent: false,
+        email: "",
+        message: "",
+        name: "",
+        phone: "",
+        projectType: "Website de prezentare",
+      });
     } catch (error) {
       setSubmitState("error");
       setSubmitMessage(error instanceof Error ? error.message : "Mesajul nu a putut fi trimis.");
@@ -97,6 +107,16 @@ export function ContactForm() {
         </div>
 
         <form className="rounded-lg border border-[#ddd8cf] bg-white/78 p-5 shadow-[0_26px_70px_rgba(7,16,34,0.08)] backdrop-blur sm:p-7" onSubmit={handleSubmit(onSubmit)}>
+          <input
+            aria-hidden="true"
+            autoComplete="off"
+            className="hidden"
+            name="companyWebsite"
+            onChange={(event) => setCompanyWebsite(event.target.value)}
+            tabIndex={-1}
+            type="text"
+            value={companyWebsite}
+          />
           <div className="grid gap-4 sm:grid-cols-2">
             <Field error={errors.name?.message} label="Nume complet">
               <input autoComplete="name" className={inputClass} placeholder="Ex: Andrei Popescu" {...register("name")} />
