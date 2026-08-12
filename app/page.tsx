@@ -197,9 +197,7 @@ export default function Home() {
           />
         </a>
         <nav className="hidden items-center gap-6 text-sm font-semibold text-ink/70 md:flex">
-          <a className="transition hover:text-ink" href="#services">Servicii</a>
           <a className="transition hover:text-ink" href="#pricing">Prețuri</a>
-          <a className="transition hover:text-ink" href="#projects">Proiecte</a>
           <a className="transition hover:text-ink" href="#experience">Experiență</a>
           <a className="transition hover:text-ink" href="#contact">Contact</a>
         </nav>
