@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, Rocket, X } from "lucide-react";
+import { ChevronDown, Menu, Rocket, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [pricingOpen, setPricingOpen] = useState(false);
 
   useEffect(() => {
     const updateHeader = () => setScrolled(window.scrollY > 16);
@@ -21,6 +22,7 @@ export function SiteHeader() {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setMenuOpen(false);
+        setPricingOpen(false);
       }
     };
     const closeOnDesktop = () => {
@@ -57,7 +59,32 @@ export function SiteHeader() {
           />
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-semibold text-ink/70 md:flex">
-          <a className="transition hover:text-ink" href="#pricing">Prețuri</a>
+          <div className="group relative">
+            <button
+              aria-expanded={pricingOpen}
+              aria-haspopup="true"
+              className="focus-ring inline-flex items-center gap-1 py-2 transition hover:text-ink"
+              onClick={() => setPricingOpen((open) => !open)}
+              type="button"
+            >
+              Prețuri
+              <ChevronDown className={`transition-transform ${pricingOpen ? "rotate-180" : ""}`} size={15} aria-hidden="true" />
+            </button>
+            <div
+              className={`absolute left-1/2 top-full w-64 -translate-x-1/2 pt-2 transition duration-150 ${
+                pricingOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0"
+              }`}
+            >
+              <div className="grid rounded-md border border-black/10 bg-[#fbf8f4] p-2 shadow-[0_14px_30px_rgba(5,12,28,0.16)]">
+                <Link className="rounded px-3 py-2.5 text-ink/80 transition hover:bg-black/5 hover:text-ink" href="/#pricing-presentation" onClick={() => setPricingOpen(false)}>
+                  Website de prezentare
+                </Link>
+                <Link className="rounded px-3 py-2.5 text-ink/80 transition hover:bg-black/5 hover:text-ink" href="/#pricing-ecommerce" onClick={() => setPricingOpen(false)}>
+                  Magazin online (e-commerce)
+                </Link>
+              </div>
+            </div>
+          </div>
           <a className="transition hover:text-ink" href="#experience">Experiență</a>
           <a className="transition hover:text-ink" href="#contact">Contact</a>
         </nav>
@@ -86,7 +113,21 @@ export function SiteHeader() {
         aria-hidden={!menuOpen}
       >
         <div className="section-shell grid py-2 text-sm font-semibold text-ink/80">
-          <a className="rounded-md px-3 py-3 transition hover:bg-black/5 hover:text-ink" href="#pricing" onClick={() => setMenuOpen(false)}>Prețuri</a>
+          <button
+            aria-expanded={pricingOpen}
+            className="flex items-center justify-between rounded-md px-3 py-3 text-left transition hover:bg-black/5 hover:text-ink"
+            onClick={() => setPricingOpen((open) => !open)}
+            type="button"
+          >
+            Prețuri
+            <ChevronDown className={`transition-transform ${pricingOpen ? "rotate-180" : ""}`} size={16} aria-hidden="true" />
+          </button>
+          <div className={`grid overflow-hidden pl-3 transition-[grid-template-rows,opacity] duration-200 ${pricingOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+            <div className="min-h-0 border-l border-black/10 pl-2">
+              <Link className="block rounded-md px-3 py-2.5 transition hover:bg-black/5 hover:text-ink" href="/#pricing-presentation" onClick={() => { setMenuOpen(false); setPricingOpen(false); }}>Website de prezentare</Link>
+              <Link className="block rounded-md px-3 py-2.5 transition hover:bg-black/5 hover:text-ink" href="/#pricing-ecommerce" onClick={() => { setMenuOpen(false); setPricingOpen(false); }}>Magazin online (e-commerce)</Link>
+            </div>
+          </div>
           <a className="rounded-md px-3 py-3 transition hover:bg-black/5 hover:text-ink" href="#experience" onClick={() => setMenuOpen(false)}>Experiență</a>
           <a className="rounded-md px-3 py-3 transition hover:bg-black/5 hover:text-ink" href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
         </div>

@@ -138,6 +138,71 @@ const priceComparison = [
   { benefit: "Suport după lansare", startup: "14 zile", professional: "30 zile", business: "60 zile" },
 ];
 
+const presentationPrices = [
+  {
+    name: "Pachet Esențial",
+    price: "290 €",
+    fit: "Pentru afaceri mici care au nevoie de o prezență online clară și de mai multe solicitări de contact.",
+    image: "/images/website_prezentare_1.png",
+    benefits: [
+      "Până la 5 pagini",
+      "Design responsive",
+      "Prezentare servicii sau produse",
+      "Formular de contact",
+      "Integrare Google Maps",
+      "SEO tehnic de bază",
+      "Configurare domeniu și SSL",
+    ],
+    maintenance: {
+      name: "Mentenanță Start",
+      price: "+20 €/lună",
+      copy: "Verificări lunare, formular, SSL și mici modificări incluse.",
+    },
+  },
+  {
+    name: "Pachet Professional",
+    price: "480 €",
+    fit: "Pentru firme care au nevoie de design custom, structură de conversie și o imagine de brand coerentă.",
+    image: "/images/website_prezentare_2.png",
+    benefits: [
+      "Design complet personalizat",
+      "Branding vizual coerent",
+      "Până la 12 pagini",
+      "Animații și interacțiuni",
+      "Blog sau administrare conținut",
+      "Formulare orientate spre conversii",
+      "Google Analytics și Search Console",
+      "SEO și optimizare de performanță",
+    ],
+    maintenance: {
+      name: "Mentenanță Plus",
+      price: "+40 €/lună",
+      copy: "Actualizări lunare, Analytics, performanță și mici optimizări.",
+    },
+  },
+  {
+    name: "Pachet Premium",
+    price: "670 €",
+    fit: "Pentru prezentări complexe, cu storytelling, conținut bogat și integrări construite în jurul afacerii.",
+    image: "/images/website_prezentare_3.png",
+    benefits: [
+      "Arhitectură și design complet custom",
+      "Număr extins de pagini",
+      "Storytelling și animații sofisticate",
+      "Galerii foto și integrare video",
+      "Administrare avansată a conținutului",
+      "Integrări CRM, rezervări sau chat",
+      "SEO avansat și strategie de conversie",
+      "Performanță și suport prioritar",
+    ],
+    maintenance: {
+      name: "Mentenanță Pro",
+      price: "+70 €/lună",
+      copy: "Suport prioritar, optimizări continue, tracking lead-uri și secțiuni mici.",
+    },
+  },
+];
+
 const projects = [
   {
     title: "Flux de prezentare imobiliară",
@@ -260,13 +325,65 @@ export default function Home() {
 
         <div className="pricing-cosmos relative -mt-16 pb-20 pt-28 text-white" id="pricing">
           <div className="section-shell relative z-10 mt-14">
-            <p className="text-sm font-bold uppercase tracking-[0.32em] text-signal">Prețuri</p>
-            <h2 className="mt-3 max-w-3xl text-4xl font-black leading-[1.02] text-white sm:text-5xl">
-              Prețuri creare magazin online
-            </h2>
-            <p className="mt-4 max-w-2xl text-lg font-medium leading-8 text-white/72">
-              Alege pachetul potrivit pentru lansare, administrare produse, plăți online și creștere.
-            </p>
+            <div className="scroll-mt-24" id="pricing-presentation">
+              <p className="text-sm font-bold uppercase tracking-[0.32em] text-signal">Prețuri</p>
+              <h2 className="mt-3 max-w-3xl text-4xl font-black leading-[1.02] text-white sm:text-5xl">
+                Prețuri creare website de prezentare
+              </h2>
+              <div className="mt-24 grid gap-x-6 gap-y-24 lg:grid-cols-3 lg:gap-y-6">
+                {presentationPrices.map((plan, index) => (
+                  <article
+                    className="pricing-card flex h-full flex-col rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur transition duration-300"
+                    key={plan.name}
+                  >
+                    <div className="pricing-card-image relative mx-auto -mt-20 mb-4 h-64 w-full max-w-[17rem] lg:-mt-24 lg:h-72">
+                      <Image
+                        alt={`Ilustrație ${plan.name.toLowerCase()} pentru website de prezentare`}
+                        className="object-contain drop-shadow-[0_0_26px_rgba(69,199,255,0.42)]"
+                        fill
+                        sizes="(min-width: 1024px) 272px, 78vw"
+                        src={plan.image}
+                      />
+                    </div>
+                    <p className="text-sm font-bold uppercase tracking-[0.26em] text-signal">{plan.name}</p>
+                    <p className="mt-4 text-4xl font-black leading-none text-white">{plan.price}</p>
+                    <p className="mt-4 min-h-[4.5rem] text-base font-medium leading-6 text-white/[0.86]">{plan.fit}</p>
+                    <ul className="mb-7 mt-6 space-y-2.5">
+                      {plan.benefits.map((benefit) => (
+                        <li className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-white/8 pb-2.5 last:border-b-0 last:pb-0" key={benefit}>
+                          <span className="text-sm font-medium leading-5 text-white/68">{benefit}</span>
+                          <BadgeCheck className="text-emerald-400" size={18} aria-label="Inclus" />
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mb-6 mt-auto rounded-lg border border-[#2a85d7]/60 bg-[#06111f]/80 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_40px_rgba(0,118,255,0.12)]">
+                      <p className="text-[0.68rem] font-black uppercase tracking-[0.28em] text-[#69c8ff]">Opțional după lansare</p>
+                      <div className="mt-3 flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-base font-black text-white">{plan.maintenance.name}</p>
+                          <p className="mt-2 text-sm font-medium leading-5 text-white/68">{plan.maintenance.copy}</p>
+                        </div>
+                        <p className="shrink-0 text-right text-base font-black text-signal">{plan.maintenance.price}</p>
+                      </div>
+                    </div>
+                    <Link className="focus-ring inline-flex w-full items-center justify-center gap-3 rounded-md bg-signal px-4 py-3 font-bold text-white shadow-[0_16px_34px_rgba(228,93,54,0.28)] transition hover:bg-[#ff7048]" href="/brief">
+                      Alege direcția
+                      <ArrowRight size={20} aria-hidden="true" />
+                    </Link>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-24 scroll-mt-24 sm:mt-32" id="pricing-ecommerce">
+              <p className="text-sm font-bold uppercase tracking-[0.32em] text-signal">Prețuri</p>
+              <h2 className="mt-3 max-w-3xl text-4xl font-black leading-[1.02] text-white sm:text-5xl">
+                Prețuri creare magazin online
+              </h2>
+              <p className="mt-4 max-w-2xl text-lg font-medium leading-8 text-white/72">
+                Alege pachetul potrivit pentru lansare, administrare produse, plăți online și creștere.
+              </p>
+            </div>
             <div className="mt-28 grid gap-x-6 gap-y-28 lg:grid-cols-3 lg:gap-y-6">
               {prices.map((plan) => (
                 <article
