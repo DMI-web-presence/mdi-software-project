@@ -8,7 +8,6 @@ import {
   CircleX,
   Code2,
   Layers3,
-  Rocket,
   Workflow,
 } from "lucide-react";
 import {
@@ -30,6 +29,7 @@ import { ContactForm } from "@/components/contact-form";
 import { HeroCosmosScene } from "@/components/hero-cosmos-scene";
 import { ProjectCarousel } from "@/components/project-carousel";
 import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 
 const services = [
   {
@@ -185,41 +185,22 @@ const workflowStack = [
 export default function Home() {
   return (
     <main>
-      <header className="section-shell flex items-center justify-between py-5">
-        <a className="focus-ring inline-flex items-center" href="#top" id="top" aria-label="MDI Software">
-          <Image
-            alt="MDI Software"
-            className="h-12 w-auto object-contain"
-            height={558}
-            priority
-            src="/images/mdi-logo-cropped.png"
-            width={939}
-          />
-        </a>
-        <nav className="hidden items-center gap-6 text-sm font-semibold text-ink/70 md:flex">
-          <a className="transition hover:text-ink" href="#pricing">Prețuri</a>
-          <a className="transition hover:text-ink" href="#experience">Experiență</a>
-          <a className="transition hover:text-ink" href="#contact">Contact</a>
-        </nav>
-        <Link className="focus-ring inline-flex items-center gap-2 rounded-md bg-ink px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-denim" href="/brief">
-          Începe
-          <Rocket size={16} aria-hidden="true" />
-        </Link>
-      </header>
+      <SiteHeader />
 
-      <section className="relative isolate min-h-[calc(100svh-88px)] overflow-hidden">
+      <section className="relative isolate min-h-[calc(100svh-60px)] overflow-hidden md:min-h-[calc(100svh-88px)]">
         <HeroCosmosScene />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/88 via-black/58 to-black/18" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/64 via-transparent to-black/20" />
 
-        <div className="section-shell flex min-h-[calc(100svh-88px)] items-center py-16">
+        <div className="section-shell flex min-h-[calc(100svh-60px)] items-center py-16 md:min-h-[calc(100svh-88px)]">
           <div className="max-w-3xl text-white">
             <h1 className="mt-6 max-w-3xl text-5xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">
               Website custom, decis de tine
             </h1>
             <p className="mt-5 max-w-2xl text-xl leading-8 text-white/82">
               Vrei un site de prezentare, magazin online sau aplicație web construită custom, pornind de la
-              cerințele pe care le alegi în formular? Fara WordPress/ Shopify sau alte platforme de e-commerce, fără șabloane, fără limitări. Noi construim, tu decizi.
+              cerințele pe care le alegi în formular?
+              <span className="hidden md:inline"> Fără WordPress, Shopify sau alte platforme de e-commerce, fără șabloane, fără limitări. Noi construim, tu decizi.</span>
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link className="focus-ring inline-flex items-center gap-2 rounded-md bg-signal px-5 py-3 font-semibold text-white transition hover:bg-[#c94f2e]" href="/brief">
@@ -252,19 +233,21 @@ export default function Home() {
             <h2 className="mt-3 max-w-4xl text-4xl font-black leading-[1.02] text-[#071022] sm:text-5xl lg:text-6xl">
               Construit în jurul lucrurilor de care clienții chiar au nevoie.
             </h2>
-            <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 md:grid-cols-2 xl:grid-cols-4">
               {services.map((service, index) => {
                 const Icon = service.icon;
                 return (
                   <article
-                    className="group relative min-h-[440px] overflow-hidden rounded-lg border border-[#d8dde6] bg-white/[0.62] p-7 shadow-[0_22px_60px_rgba(7,16,34,0.08)] backdrop-blur"
+                    className="group relative min-h-[315px] overflow-hidden rounded-lg border border-[#d8dde6] bg-white/[0.62] p-4 shadow-[0_22px_60px_rgba(7,16,34,0.08)] backdrop-blur sm:min-h-[440px] sm:p-7"
                     key={service.title}
                   >
-                    <Icon className="text-[#006dff]" size={34} strokeWidth={1.8} aria-hidden="true" />
-                    <h3 className="mt-6 max-w-[13rem] text-2xl font-black leading-tight text-[#071022]">
-                      {service.title}
-                    </h3>
-                    <p className="mt-4 max-w-[14rem] text-base font-medium leading-7 text-[#253045]/[0.82]">
+                    <div className="flex items-center gap-3 sm:block">
+                      <Icon className="size-7 shrink-0 text-[#006dff] sm:size-[34px]" strokeWidth={1.8} aria-hidden="true" />
+                      <h3 className="max-w-[13rem] text-lg font-black leading-tight text-[#071022] sm:mt-6 sm:text-2xl">
+                        {service.title}
+                      </h3>
+                    </div>
+                    <p className="mt-2.5 max-w-[16rem] text-[0.8rem] font-medium leading-5 text-[#253045]/[0.82] sm:mt-4 sm:max-w-[14rem] sm:text-base sm:leading-7">
                       {service.copy}
                     </p>
                     <BlueprintIllustration index={index} />
@@ -284,13 +267,13 @@ export default function Home() {
             <p className="mt-4 max-w-2xl text-lg font-medium leading-8 text-white/72">
               Alege pachetul potrivit pentru lansare, administrare produse, plăți online și creștere.
             </p>
-            <div className="mt-28 grid gap-6 lg:grid-cols-3">
+            <div className="mt-28 grid gap-x-6 gap-y-28 lg:grid-cols-3 lg:gap-y-6">
               {prices.map((plan) => (
                 <article
                   className="pricing-card flex h-full flex-col rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur transition duration-300"
                   key={plan.name}
                 >
-                  <div className="pricing-card-image relative mx-auto -mt-20 mb-4 h-52 w-full max-w-[15rem] sm:-mt-24 sm:h-56">
+                  <div className="pricing-card-image relative mx-auto -mt-20 mb-4 h-52 w-full max-w-[15rem] lg:-mt-24 lg:h-56">
                     <Image
                       alt=""
                       className="object-contain drop-shadow-[0_0_26px_rgba(69,199,255,0.42)]"
@@ -379,7 +362,7 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="relative min-h-[620px] lg:min-h-[680px]">
+          <div className="relative lg:min-h-[680px]">
             {experience.map((item, index) => {
               const positions = [
                 "lg:left-[0%] lg:top-[465px]",
@@ -403,17 +386,17 @@ export default function Home() {
 
               return (
                 <article
-                  className={`relative mb-5 flex min-h-36 items-center gap-6 rounded-lg border p-6 backdrop-blur lg:absolute lg:mb-0 lg:min-h-40 lg:p-8 ${positions[index]} ${sizes[index]} ${styles[index]}`}
+                  className={`relative mb-3 grid min-h-28 grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-3 rounded-lg border px-4 py-4 backdrop-blur sm:mb-5 sm:flex sm:min-h-36 sm:gap-6 sm:p-6 lg:absolute lg:mb-0 lg:min-h-40 lg:p-8 ${positions[index]} ${sizes[index]} ${styles[index]}`}
                   key={item}
                 >
                   <span
-                    className={`shrink-0 text-6xl font-black leading-none sm:text-7xl ${numberColor}`}
+                    className={`shrink-0 text-[2.6rem] font-black leading-none sm:text-7xl ${numberColor}`}
                     style={{ WebkitTextFillColor: "transparent", WebkitTextStroke: "2px currentColor" }}
                     aria-hidden="true"
                   >
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <p className="max-w-md text-lg font-medium leading-8 text-[#071022]/[0.82] sm:text-xl">{item}</p>
+                  <p className="max-w-md text-[0.9rem] font-medium leading-6 text-[#071022]/[0.82] sm:text-xl sm:leading-8">{item}</p>
                 </article>
               );
             })}
@@ -469,9 +452,9 @@ function BlueprintIllustration({ index }: { index: number }) {
   if (index === 3) {
     return (
       <svg
-        className="pointer-events-none absolute inset-x-0 bottom-[8px] h-48 w-full text-[#0075ff] opacity-75"
+        className="pointer-events-none absolute inset-x-0 bottom-1 h-40 w-full text-[#0075ff] opacity-75 sm:bottom-[8px] sm:h-48"
         fill="none"
-        viewBox="0 0 280 176"
+        viewBox="0 4 280 188"
         aria-hidden="true"
       >
         <path className={faintStroke} d="M0 96H280M140 0V176" strokeDasharray="3 7" strokeWidth="1" />
@@ -499,9 +482,9 @@ function BlueprintIllustration({ index }: { index: number }) {
 
   return (
     <svg
-      className="pointer-events-none absolute inset-x-0 bottom-[6px] h-52 w-full text-[#0075ff] opacity-72"
+      className="pointer-events-none absolute inset-x-0 bottom-1 h-40 w-full text-[#0075ff] opacity-72 sm:bottom-[6px] sm:h-52"
       fill="none"
-      viewBox="0 0 280 176"
+      viewBox="0 15 280 180"
       aria-hidden="true"
     >
       <path className={faintStroke} d="M0 96c55-3 85-8 136-20 57-13 94-13 144-10" strokeDasharray="3 8" strokeWidth="1" />

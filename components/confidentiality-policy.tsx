@@ -126,7 +126,7 @@ function PolicyHeader() {
   return (
     <header className="bg-[#fbfaf7]">
       <div className="section-shell flex items-center justify-between py-4">
-        <Link className="focus-ring inline-flex items-center" href="/" aria-label="MDI Software">
+        <Link className="focus-ring inline-flex items-center" href="/#top" aria-label="MDI Software">
           <Image
             alt="MDI Software"
             className="h-12 w-auto object-contain"
@@ -143,7 +143,7 @@ function PolicyHeader() {
           <Link className="transition hover:text-signal" href="/#experience">Experiență</Link>
         </nav>
         <Link
-          className="focus-ring inline-flex items-center gap-2 rounded-md bg-[#111316] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#253045]"
+          className="focus-ring inline-flex items-center gap-2 rounded-md bg-signal px-4 py-2.5 text-sm font-bold text-white shadow-[0_8px_20px_rgba(228,93,54,0.24)] transition hover:bg-[#c94f2e]"
           href="/brief"
         >
           Începe

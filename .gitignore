@@ -1,4 +1,5 @@
 .next
+.codex-dev/
 node_modules
 out
 .env

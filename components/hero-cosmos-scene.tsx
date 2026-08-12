@@ -368,6 +368,14 @@ export function HeroCosmosScene() {
 
     const tooltipTextures = initialTooltipTexture ? [initialTooltipTexture.texture] : [];
     let activeTooltipIndex = -1;
+    let viewportWidth = 0;
+    let viewportHeight = 0;
+    let labelsVisible = false;
+
+    const tooltipWorldPosition = new THREE.Vector3();
+    const tooltipCameraPosition = new THREE.Vector3();
+    const tooltipScreenPosition = new THREE.Vector3();
+    const sphereWorldScale = new THREE.Vector3();
 
     const setActiveTooltip = (index: number) => {
       if (activeTooltipIndex === index) {
@@ -457,6 +465,10 @@ export function HeroCosmosScene() {
       const height = mount.clientHeight;
       const isMobile = width < 768;
 
+      viewportWidth = width;
+      viewportHeight = height;
+      labelsVisible = width >= 1180;
+
       renderer.setSize(width, height);
       camera.aspect = width / height;
       camera.position.set(0, 0, isMobile ? 8.1 : 7.1);
@@ -465,8 +477,45 @@ export function HeroCosmosScene() {
       sphereGroup.position.set(isMobile ? 2.05 : 2.28, isMobile ? -0.36 : 0.00, -0.75);
       sphereGroup.scale.setScalar(isMobile ? 1.05 : 1.2);
       root.rotation.set(isMobile ? -0.05 : 0, isMobile ? -0.12 : 0, 0);
-      tooltipSprite.visible = !isMobile;
-      connectorLine.visible = !isMobile;
+      tooltipSprite.visible = labelsVisible;
+      connectorLine.visible = labelsVisible;
+    };
+
+    const constrainTooltipToSafeArea = () => {
+      if (!labelsVisible || viewportWidth <= 0 || viewportHeight <= 0) {
+        return;
+      }
+
+      sphereGroup.updateMatrixWorld(true);
+      tooltipSprite.getWorldPosition(tooltipWorldPosition);
+      tooltipCameraPosition.copy(tooltipWorldPosition).applyMatrix4(camera.matrixWorldInverse);
+      tooltipScreenPosition.copy(tooltipWorldPosition).project(camera);
+
+      const distance = Math.max(0.1, -tooltipCameraPosition.z);
+      const pixelsPerWorldUnit = viewportHeight /
+        (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * distance);
+      sphereGroup.getWorldScale(sphereWorldScale);
+      const halfTooltipWidth = tooltipSprite.scale.x * sphereWorldScale.x * pixelsPerWorldUnit * 0.5;
+      const halfTooltipHeight = tooltipSprite.scale.y * sphereWorldScale.y * pixelsPerWorldUnit * 0.5;
+
+      const currentX = (tooltipScreenPosition.x * 0.5 + 0.5) * viewportWidth;
+      const currentY = (-tooltipScreenPosition.y * 0.5 + 0.5) * viewportHeight;
+      const safeLeft = Math.max(viewportWidth * 0.62 + halfTooltipWidth, halfTooltipWidth + 20);
+      const safeRight = Math.max(safeLeft, viewportWidth - halfTooltipWidth - 20);
+      const safeTop = halfTooltipHeight + 28;
+      const safeBottom = viewportHeight - halfTooltipHeight - 28;
+      const clampedX = THREE.MathUtils.clamp(currentX, safeLeft, safeRight);
+      const clampedY = THREE.MathUtils.clamp(currentY, safeTop, safeBottom);
+
+      if (clampedX === currentX && clampedY === currentY) {
+        return;
+      }
+
+      tooltipScreenPosition.x = (clampedX / viewportWidth) * 2 - 1;
+      tooltipScreenPosition.y = -(clampedY / viewportHeight) * 2 + 1;
+      tooltipScreenPosition.unproject(camera);
+      sphereGroup.worldToLocal(tooltipScreenPosition);
+      tooltipSprite.position.copy(tooltipScreenPosition);
     };
 
     let pointerX = 0;
@@ -478,7 +527,8 @@ export function HeroCosmosScene() {
       pointerY = ((event.clientY - rect.top) / rect.height - 0.5) * 0.18;
     };
 
-    window.addEventListener("resize", resize);
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(mount);
     mount.addEventListener("pointermove", handlePointerMove);
     resize();
 
@@ -507,6 +557,7 @@ export function HeroCosmosScene() {
       tooltipSprite.position.copy(tooltip);
       tooltipSprite.position.y += Math.sin(elapsed * 1.2) * 0.035;
       tooltipSprite.position.y = Math.min(tooltipSprite.position.y, 1.28);
+      constrainTooltipToSafeArea();
       tooltipMaterial.opacity = fade < 0.2 ? fade * 4.8 : 0.96;
 
       const connectorPositions = connectorGeometry.attributes.position as THREE.BufferAttribute;
@@ -535,7 +586,7 @@ export function HeroCosmosScene() {
 
     return () => {
       cancelAnimationFrame(animationFrame);
-      window.removeEventListener("resize", resize);
+      resizeObserver.disconnect();
       mount.removeEventListener("pointermove", handlePointerMove);
       mount.removeChild(renderer.domElement);
 
