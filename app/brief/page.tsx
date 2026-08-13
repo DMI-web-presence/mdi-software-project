@@ -6,9 +6,12 @@ import { ProjectBriefWizard } from "@/components/project-brief-wizard";
 import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
-  title: "Brief ghidat | MDI Software",
+  title: "Brief ghidat",
   description:
     "Completează brief-ul ghidat MDI Software și definește tipul proiectului, designul, structura, conținutul, bugetul și termenul.",
+  alternates: {
+    canonical: "/brief",
+  },
 };
 
 export default function BriefPage() {
@@ -30,7 +33,6 @@ export default function BriefPage() {
             <Link href="/#services">Servicii</Link>
             <Link href="/#pricing">Prețuri</Link>
             <Link href="/#projects">Proiecte</Link>
-            <Link href="/#experience">Experiență</Link>
           </nav>
           <Link className="inline-flex min-h-[42px] items-center gap-2 justify-self-end rounded-[5px] bg-signal px-4 py-2.5 text-sm font-bold text-white shadow-[0_8px_20px_rgba(228,93,54,0.24)] transition hover:bg-[#c94f2e] max-[520px]:min-h-[38px] max-[520px]:px-3 max-[520px]:py-2" href="#brief-form">
             Începe

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -29,6 +30,54 @@ import { PricingBenefitsList, type PricingBenefitItem } from "@/components/prici
 import { ProjectCarousel } from "@/components/project-carousel";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { absoluteUrl, siteDescription, siteKeywords, siteName } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "MDI Software | Website-uri, aplicații web și magazine online custom",
+  },
+  description: siteDescription,
+  alternates: {
+    canonical: "/",
+  },
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${absoluteUrl()}#organization`,
+      name: siteName,
+      url: absoluteUrl(),
+      logo: absoluteUrl("/images/mdi-logo-cropped.png"),
+      description: siteDescription,
+      sameAs: [],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${absoluteUrl()}#website`,
+      name: siteName,
+      url: absoluteUrl(),
+      description: siteDescription,
+      publisher: {
+        "@id": `${absoluteUrl()}#organization`,
+      },
+      inLanguage: "ro-RO",
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${absoluteUrl()}#professional-service`,
+      name: siteName,
+      url: absoluteUrl(),
+      image: absoluteUrl("/images/mdi-hero.png"),
+      description: siteDescription,
+      areaServed: "Romania",
+      serviceType: siteKeywords.slice(2, 7),
+      inLanguage: "ro-RO",
+    },
+  ],
+};
 
 const services = [
   {
@@ -282,6 +331,10 @@ const workflowStack = [
 export default function Home() {
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <SiteHeader />
 
       <section className="relative isolate min-h-[calc(100svh-60px)] overflow-hidden md:min-h-[calc(100svh-88px)]">
