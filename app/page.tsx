@@ -194,7 +194,7 @@ const presentationPrices = [
   {
     name: "Pachet Professional",
     price: "480 €",
-    fit: "Pentru firme care au nevoie de design custom, structură de conversie și o imagine de brand coerentă.",
+    fit: "Pentru firme care au nevoie de structură de conversie, conținut extins și o imagine de brand coerentă.",
     image: "/images/website_prezentare_2.png",
     benefits: [
       "Design complet personalizat",
