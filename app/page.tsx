@@ -3,9 +3,7 @@ import Link from "next/link";
 import {
   ArrowDown,
   ArrowRight,
-  BadgeCheck,
   BriefcaseBusiness,
-  CircleX,
   Code2,
   Layers3,
   Workflow,
@@ -27,6 +25,7 @@ import {
 } from "simple-icons";
 import { ContactForm } from "@/components/contact-form";
 import { HeroCosmosScene } from "@/components/hero-cosmos-scene";
+import { PricingBenefitsList, type PricingBenefitItem } from "@/components/pricing-benefits-list";
 import { ProjectCarousel } from "@/components/project-carousel";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -138,6 +137,37 @@ const priceComparison = [
   { benefit: "Suport după lansare", startup: "14 zile", professional: "30 zile", business: "60 zile" },
 ];
 
+function getCommerceBenefitItems(tier: (typeof prices)[number]["tier"]): PricingBenefitItem[] {
+  const rank = (value: string) => (value === "✓" ? 0 : value === "—" ? 1 : 2);
+
+  return [...priceComparison.slice(1)]
+    .sort((a, b) => rank(a[tier]) - rank(b[tier]))
+    .filter((item) => tier !== "startup" || item[tier] !== "—")
+    .map((item) => {
+      const value = item[tier];
+
+      if (value === "✓") {
+        return { label: item.benefit };
+      }
+
+      if (value === "—") {
+        return { label: item.benefit, state: "excluded" };
+      }
+
+      return { label: item.benefit, state: "text", value };
+    });
+}
+
+function getCommerceMobilePreviewItems(tier: (typeof prices)[number]["tier"]): PricingBenefitItem[] | undefined {
+  if (tier === "startup") {
+    return undefined;
+  }
+
+  const rank = (item: PricingBenefitItem) => (item.state === "excluded" ? 0 : item.state === "text" ? 1 : 2);
+
+  return [...getCommerceBenefitItems(tier)].sort((a, b) => rank(a) - rank(b));
+}
+
 const presentationPrices = [
   {
     name: "Pachet Esențial",
@@ -145,12 +175,14 @@ const presentationPrices = [
     fit: "Pentru afaceri mici care au nevoie de o prezență online clară și de mai multe solicitări de contact.",
     image: "/images/website_prezentare_1.png",
     benefits: [
+      "Design complet personalizat",
       "Până la 5 pagini",
       "Design responsive",
       "Prezentare servicii sau produse",
+      "Galerii foto și integrare video",
       "Formular de contact",
       "Integrare Google Maps",
-      "SEO tehnic de bază",
+      "SEO și optimizare de performanță",
       "Configurare domeniu și SSL",
     ],
     maintenance: {
@@ -166,13 +198,20 @@ const presentationPrices = [
     image: "/images/website_prezentare_2.png",
     benefits: [
       "Design complet personalizat",
-      "Branding vizual coerent",
       "Până la 12 pagini",
+      "Design responsive",
+      "Prezentare servicii sau produse",
+      "Galerii foto și integrare video",
+      "Formulare orientate spre conversii",
+      "Prezentare servicii sau produse",
+      "Branding vizual coerent",
       "Animații și interacțiuni",
       "Blog sau administrare conținut",
-      "Formulare orientate spre conversii",
       "Google Analytics și Search Console",
+      "Integrări CRM, rezervări sau chat",
       "SEO și optimizare de performanță",
+      "Performanță și suport prioritar",
+      "Administrare avansată a conținutului",
     ],
     maintenance: {
       name: "Mentenanță Plus",
@@ -180,28 +219,19 @@ const presentationPrices = [
       copy: "Actualizări lunare, Analytics, performanță și mici optimizări.",
     },
   },
-  {
-    name: "Pachet Premium",
-    price: "670 €",
-    fit: "Pentru prezentări complexe, cu storytelling, conținut bogat și integrări construite în jurul afacerii.",
-    image: "/images/website_prezentare_3.png",
-    benefits: [
-      "Arhitectură și design complet custom",
-      "Număr extins de pagini",
-      "Storytelling și animații sofisticate",
-      "Galerii foto și integrare video",
-      "Administrare avansată a conținutului",
-      "Integrări CRM, rezervări sau chat",
-      "SEO avansat și strategie de conversie",
-      "Performanță și suport prioritar",
-    ],
-    maintenance: {
-      name: "Mentenanță Pro",
-      price: "+70 €/lună",
-      copy: "Suport prioritar, optimizări continue, tracking lead-uri și secțiuni mici.",
-    },
-  },
 ];
+
+function getPresentationMobilePreviewItems(plan: (typeof presentationPrices)[number]): PricingBenefitItem[] | undefined {
+  if (plan.name !== "Pachet Professional") {
+    return undefined;
+  }
+
+  const essentialBenefits = new Set(presentationPrices[0]?.benefits ?? []);
+
+  return plan.benefits
+    .filter((benefit) => !essentialBenefits.has(benefit))
+    .map((benefit) => ({ label: benefit }));
+}
 
 const projects = [
   {
@@ -210,9 +240,11 @@ const projects = [
     stack: "Next.js, UI responsive, arhitectură de conținut",
   },
   {
-    title: "Experiență de produs pentru commerce",
-    copy: "Interfață de tip magazin, construită pentru navigare clară, produse ușor de înțeles și decizii mai rapide.",
-    stack: "React, date de produs, filtrare",
+    title: "Ecommerce pentru pasionații de handmade",
+    copy: "Am construit o experiență de magazin online care pune produsele în prim-plan: categorii clare, căutare rapidă, filtre utile și pagini gândite pentru a cumpărara mai ușoar. Un website cu peste 700 de produse și peste 9.000 de variațiuni.",
+    previewImage: "/images/project-margele-homepage.png",
+    stack: "Ecommerce, catalog produse și filtrare",
+    stackIcon: "nextjs" as const,
   },
   {
     title: "Instrumente pentru workflow intern",
@@ -330,8 +362,8 @@ export default function Home() {
               <h2 className="mt-3 max-w-3xl text-4xl font-black leading-[1.02] text-white sm:text-5xl">
                 Prețuri creare website de prezentare
               </h2>
-              <div className="mt-24 grid gap-x-6 gap-y-24 lg:grid-cols-3 lg:gap-y-6">
-                {presentationPrices.map((plan, index) => (
+              <div className="mt-24 grid gap-x-6 gap-y-24 md:grid-cols-2 lg:mx-auto lg:max-w-4xl lg:gap-y-6">
+                {presentationPrices.map((plan) => (
                   <article
                     className="pricing-card flex h-full flex-col rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur transition duration-300"
                     key={plan.name}
@@ -348,14 +380,10 @@ export default function Home() {
                     <p className="text-sm font-bold uppercase tracking-[0.26em] text-signal">{plan.name}</p>
                     <p className="mt-4 text-4xl font-black leading-none text-white">{plan.price}</p>
                     <p className="mt-4 min-h-[4.5rem] text-base font-medium leading-6 text-white/[0.86]">{plan.fit}</p>
-                    <ul className="mb-7 mt-6 space-y-2.5">
-                      {plan.benefits.map((benefit) => (
-                        <li className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b border-white/8 pb-2.5 last:border-b-0 last:pb-0" key={benefit}>
-                          <span className="text-sm font-medium leading-5 text-white/68">{benefit}</span>
-                          <BadgeCheck className="text-emerald-400" size={18} aria-label="Inclus" />
-                        </li>
-                      ))}
-                    </ul>
+                    <PricingBenefitsList
+                      items={plan.benefits.map((benefit) => ({ label: benefit }))}
+                      mobilePreviewItems={getPresentationMobilePreviewItems(plan)}
+                    />
                     <div className="mb-6 mt-auto rounded-lg border border-[#2a85d7]/60 bg-[#06111f]/80 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_40px_rgba(0,118,255,0.12)]">
                       <p className="text-[0.68rem] font-black uppercase tracking-[0.28em] text-[#69c8ff]">Opțional după lansare</p>
                       <div className="mt-3 flex items-start justify-between gap-4">
@@ -367,7 +395,7 @@ export default function Home() {
                       </div>
                     </div>
                     <Link className="focus-ring inline-flex w-full items-center justify-center gap-3 rounded-md bg-signal px-4 py-3 font-bold text-white shadow-[0_16px_34px_rgba(228,93,54,0.28)] transition hover:bg-[#ff7048]" href="/brief">
-                      Alege direcția
+                      Alege
                       <ArrowRight size={20} aria-hidden="true" />
                     </Link>
                   </article>
@@ -402,41 +430,10 @@ export default function Home() {
                   <p className="text-sm font-bold uppercase tracking-[0.26em] text-signal">{plan.name}</p>
                   <p className="mt-4 text-4xl font-black leading-none text-white">{plan.price}</p>
                   <p className="mt-4 min-h-[3.25rem] text-base font-medium leading-6 text-white/[0.86]">{plan.fit}</p>
-                  <ul className="mb-7 mt-6 space-y-2.5">
-                    {[...priceComparison.slice(1)]
-                      .sort((a, b) => {
-                        const rank = (value: string) => (value === "✓" ? 0 : value === "—" ? 1 : 2);
-
-                        return rank(a[plan.tier]) - rank(b[plan.tier]);
-                      })
-                      .map((item) => {
-                      const value = item[plan.tier];
-                      const isCheck = value === "✓";
-                      const isEmpty = value === "—";
-
-                      return (
-                        <li
-                          className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 border-b border-white/8 pb-2.5 last:border-b-0 last:pb-0"
-                          key={item.benefit}
-                        >
-                          <span className="text-sm font-medium leading-5 text-white/68">{item.benefit}</span>
-                          <span
-                            className={`max-w-[9.5rem] text-right text-sm font-bold leading-5 ${
-                              isCheck ? "text-emerald-400" : isEmpty ? "text-white/32" : "text-white/92"
-                            }`}
-                          >
-                            {isCheck ? (
-                              <BadgeCheck className="ml-auto text-emerald-400" size={18} aria-label="Inclus" />
-                            ) : isEmpty ? (
-                              <CircleX className="ml-auto text-red-400" size={18} aria-label="Neinclus" />
-                            ) : (
-                              value
-                            )}
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                  <PricingBenefitsList
+                    items={getCommerceBenefitItems(plan.tier)}
+                    mobilePreviewItems={getCommerceMobilePreviewItems(plan.tier)}
+                  />
                   <div className="mb-6 mt-auto rounded-lg border border-[#2a85d7]/60 bg-[#06111f]/80 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_40px_rgba(0,118,255,0.12)]">
                     <p className="text-[0.68rem] font-black uppercase tracking-[0.28em] text-[#69c8ff]">
                       Opțional după lansare
@@ -450,7 +447,7 @@ export default function Home() {
                     </div>
                   </div>
                   <Link className="focus-ring inline-flex w-full items-center justify-center gap-3 rounded-md bg-signal px-4 py-3 font-bold text-white shadow-[0_16px_34px_rgba(228,93,54,0.28)] transition hover:bg-[#ff7048]" href="/brief">
-                    Alege direcția
+                    Alege
                     <ArrowRight size={20} aria-hidden="true" />
                   </Link>
                 </article>

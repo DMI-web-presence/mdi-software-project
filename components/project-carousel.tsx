@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { siNextdotjs, siReact } from "simple-icons";
 import {
@@ -11,7 +12,9 @@ import {
 
 type ProjectSlide = {
   copy: string;
+  previewImage?: string;
   stack: string;
+  stackIcon?: "nextjs" | "react";
   title: string;
 };
 
@@ -66,7 +69,11 @@ export function ProjectCarousel({ projects }: { projects: ProjectSlide[] }) {
             onClick={() => api?.scrollTo(previousIndex)}
             aria-label={`Vezi proiectul ${projects[previousIndex]?.title}`}
           >
-            <BrowserMockup variant={getVariant(previousIndex)} muted />
+            <BrowserMockup
+              previewImage={projects[previousIndex]?.previewImage}
+              variant={getVariant(previousIndex)}
+              muted
+            />
           </button>
 
           <button
@@ -75,14 +82,18 @@ export function ProjectCarousel({ projects }: { projects: ProjectSlide[] }) {
             onClick={() => api?.scrollTo(nextIndex)}
             aria-label={`Vezi proiectul ${projects[nextIndex]?.title}`}
           >
-            <BrowserMockup variant={getVariant(nextIndex)} muted />
+            <BrowserMockup
+              previewImage={projects[nextIndex]?.previewImage}
+              variant={getVariant(nextIndex)}
+              muted
+            />
           </button>
 
           <CarouselContent className="items-start">
             {projects.map((project, index) => (
               <CarouselItem className="basis-full" key={project.title}>
                 <div className="project-main-mockup relative z-10 mx-auto max-w-[760px] rounded-[1.35rem] border border-[#47b8ff]/65 bg-[#081a2a]/78 p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_0_42px_rgba(30,163,255,0.36),0_34px_80px_rgba(0,0,0,0.48)] backdrop-blur">
-                  <BrowserMockup variant={getVariant(index)} />
+                  <BrowserMockup previewImage={project.previewImage} variant={getVariant(index)} />
                 </div>
               </CarouselItem>
             ))}
@@ -95,7 +106,7 @@ export function ProjectCarousel({ projects }: { projects: ProjectSlide[] }) {
               <h3 className="text-xl font-black leading-tight text-white sm:text-2xl">{activeProject.title}</h3>
               <p className="mt-4 text-base font-medium leading-7 text-white/72 sm:text-lg">{activeProject.copy}</p>
               <p className="mt-5 inline-flex items-center gap-2 rounded-md bg-white/12 px-4 py-2 text-base font-black text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
-                <StackIcon stack={activeProject.stack} />
+                <StackIcon icon={activeProject.stackIcon} stack={activeProject.stack} />
                 {activeProject.stack}
               </p>
             </div>
@@ -121,12 +132,14 @@ export function ProjectCarousel({ projects }: { projects: ProjectSlide[] }) {
   );
 }
 
-function StackIcon({ stack }: { stack: string }) {
-  const icon = stack.toLowerCase().startsWith("next.js")
-    ? siNextdotjs
-    : stack.toLowerCase().startsWith("react")
-      ? siReact
-      : null;
+function StackIcon({ icon: preferredIcon, stack }: { icon?: ProjectSlide["stackIcon"]; stack: string }) {
+  const stackKey = stack.toLowerCase();
+  const icon =
+    preferredIcon === "nextjs" || stackKey.startsWith("next.js")
+      ? siNextdotjs
+      : preferredIcon === "react" || stackKey.startsWith("react")
+        ? siReact
+        : null;
 
   if (!icon) {
     return null;
@@ -141,26 +154,42 @@ function StackIcon({ stack }: { stack: string }) {
 
 function BrowserMockup({
   muted = false,
+  previewImage,
   variant,
 }: {
   muted?: boolean;
+  previewImage?: string;
   variant: "cards" | "dashboard" | "landing";
 }) {
   return (
-    <div className={`project-browser ${muted ? "project-browser-muted" : ""}`}>
-      <div className="project-browser-top">
-        <span className="size-6 rounded-full bg-[#c7ccd1]" />
-        <div className="ml-auto flex gap-6">
-          <span />
-          <span />
-          <span />
-          <span />
+    <div className={`project-browser ${previewImage ? "project-browser-preview" : ""} ${muted ? "project-browser-muted" : ""}`}>
+      {!previewImage && (
+        <div className="project-browser-top">
+          <span className="size-6 rounded-full bg-[#c7ccd1]" />
+          <div className="ml-auto flex gap-6">
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
         </div>
-      </div>
-      <div className="project-browser-body">
-        {variant === "landing" && <LandingWireframe />}
-        {variant === "cards" && <CardsWireframe />}
-        {variant === "dashboard" && <DashboardWireframe />}
+      )}
+      <div className={`project-browser-body ${previewImage ? "project-browser-body-preview" : ""}`}>
+        {previewImage ? (
+          <Image
+            alt="Captură homepage magazin online Margele.net"
+            className="object-cover object-top"
+            fill
+            sizes="(min-width: 1280px) 760px, 90vw"
+            src={previewImage}
+          />
+        ) : (
+          <>
+            {variant === "landing" && <LandingWireframe />}
+            {variant === "cards" && <CardsWireframe />}
+            {variant === "dashboard" && <DashboardWireframe />}
+          </>
+        )}
       </div>
     </div>
   );

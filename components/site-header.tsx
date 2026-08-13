@@ -3,12 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, Menu, Rocket, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [pricingOpen, setPricingOpen] = useState(false);
+  const desktopPricingRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLElement>(null);
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const updateHeader = () => setScrolled(window.scrollY > 16);
@@ -39,6 +42,53 @@ export function SiteHeader() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!menuOpen) {
+      return;
+    }
+
+    const closeOnOutsidePointer = (event: PointerEvent) => {
+      const target = event.target;
+
+      if (!(target instanceof Node)) {
+        return;
+      }
+
+      if (mobileMenuRef.current?.contains(target) || mobileMenuButtonRef.current?.contains(target)) {
+        return;
+      }
+
+      setMenuOpen(false);
+      setPricingOpen(false);
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsidePointer);
+    return () => document.removeEventListener("pointerdown", closeOnOutsidePointer);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!pricingOpen) {
+      return;
+    }
+
+    const closeOnOutsidePointer = (event: PointerEvent) => {
+      const target = event.target;
+
+      if (!(target instanceof Node)) {
+        return;
+      }
+
+      if (desktopPricingRef.current?.contains(target) || mobileMenuRef.current?.contains(target)) {
+        return;
+      }
+
+      setPricingOpen(false);
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsidePointer);
+    return () => document.removeEventListener("pointerdown", closeOnOutsidePointer);
+  }, [pricingOpen]);
+
   return (
     <header
       className={`sticky top-0 z-50 isolate border-b bg-[#fbf8f4] text-ink transition-[border-color,box-shadow] duration-300 ${
@@ -59,7 +109,7 @@ export function SiteHeader() {
           />
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-semibold text-ink/70 md:flex">
-          <div className="group relative">
+          <div className="group relative" ref={desktopPricingRef}>
             <button
               aria-expanded={pricingOpen}
               aria-haspopup="true"
@@ -85,11 +135,12 @@ export function SiteHeader() {
               </div>
             </div>
           </div>
-          <a className="transition hover:text-ink" href="#experience">Experiență</a>
-          <a className="transition hover:text-ink" href="#contact">Contact</a>
+          <a className="transition hover:text-ink" href="#experience" onClick={() => setPricingOpen(false)}>Experiență</a>
+          <a className="transition hover:text-ink" href="#contact" onClick={() => setPricingOpen(false)}>Contact</a>
         </nav>
         <div className="flex items-center gap-2">
           <button
+            ref={mobileMenuButtonRef}
             aria-controls="mobile-navigation"
             aria-expanded={menuOpen}
             aria-label={menuOpen ? "Închide meniul" : "Deschide meniul"}
@@ -99,13 +150,14 @@ export function SiteHeader() {
           >
             {menuOpen ? <X size={19} aria-hidden="true" /> : <Menu size={19} aria-hidden="true" />}
           </button>
-          <Link className="focus-ring inline-flex items-center gap-1.5 rounded-md bg-signal px-3 py-2 text-xs font-semibold text-white shadow-[0_8px_20px_rgba(228,93,54,0.24)] transition hover:bg-[#c94f2e] md:gap-2 md:px-4 md:py-2.5 md:text-sm" href="/brief">
+          <Link className="focus-ring inline-flex items-center gap-1.5 rounded-md bg-signal px-3 py-2 text-xs font-semibold text-white shadow-[0_8px_20px_rgba(228,93,54,0.24)] transition hover:bg-[#c94f2e] md:gap-2 md:px-4 md:py-2.5 md:text-sm" href="/brief" onClick={() => { setMenuOpen(false); setPricingOpen(false); }}>
             Începe
             <Rocket size={16} aria-hidden="true" />
           </Link>
         </div>
       </div>
       <nav
+        ref={mobileMenuRef}
         className={`absolute inset-x-0 top-full border-t border-black/10 bg-[#fbf8f4] shadow-[0_14px_28px_rgba(5,12,28,0.14)] transition duration-200 md:hidden ${
           menuOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"
         }`}
