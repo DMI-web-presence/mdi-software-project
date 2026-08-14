@@ -1,10 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { Check, Cookie, Settings2, X } from "lucide-react";
 
 const STORAGE_KEY = "mdi-cookie-consent";
+const CONSENT_EVENT = "mdi-cookie-consent";
+
+function subscribeToConsent(onStoreChange: () => void) {
+  window.addEventListener(CONSENT_EVENT, onStoreChange);
+  window.addEventListener("storage", onStoreChange);
+
+  return () => {
+    window.removeEventListener(CONSENT_EVENT, onStoreChange);
+    window.removeEventListener("storage", onStoreChange);
+  };
+}
+
+function hasConsent() {
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) !== null;
+  } catch {
+    return false;
+  }
+}
 
 type CookieChoice = {
   analytics: boolean;
@@ -14,13 +33,7 @@ type CookieChoice = {
 };
 
 export function CookieConsent() {
-  const [visible, setVisible] = useState(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
-
-    return !window.localStorage.getItem(STORAGE_KEY);
-  });
+  const consentSaved = useSyncExternalStore(subscribeToConsent, hasConsent, () => true);
   const [customizing, setCustomizing] = useState(false);
   const [analytics, setAnalytics] = useState(false);
   const [marketing, setMarketing] = useState(false);
@@ -32,11 +45,10 @@ export function CookieConsent() {
     };
 
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    window.dispatchEvent(new CustomEvent("mdi-cookie-consent", { detail: payload }));
-    setVisible(false);
+    window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: payload }));
   }
 
-  if (!visible) {
+  if (consentSaved) {
     return null;
   }
 
