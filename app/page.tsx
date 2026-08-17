@@ -31,6 +31,7 @@ import { ProjectCarousel } from "@/components/project-carousel";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { portfolioProjects } from "@/lib/portfolio-projects";
 import { absoluteUrl, siteDescription, siteKeywords, siteName } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -85,21 +86,25 @@ const services = [
     title: "Website-uri de prezentare",
     copy: "Site-uri rapide și elegante care explică oferta clar și conduc vizitatorii spre o decizie.",
     icon: Layers3,
+    href: "/website-de-prezentare",
   },
   {
     title: "Website-uri business",
     copy: "Secțiuni custom, prețuri, galerii de proiecte, SEO de bază și formulare orientate spre conversii.",
     icon: BriefcaseBusiness,
+    href: "/website-de-prezentare",
   },
   {
     title: "Aplicații web",
     copy: "Dashboard-uri, portaluri, instrumente admin și sisteme interne construite în jurul workflow-urilor reale.",
     icon: Code2,
+    href: "/aplicatii-web",
   },
   {
     title: "Integrări",
     copy: "Brevo, plăți, analytics, programări, automatizări și conexiuni API.",
     icon: Workflow,
+    href: "/aplicatii-web",
   },
 ];
 
@@ -283,26 +288,6 @@ function getPresentationMobilePreviewItems(plan: (typeof presentationPrices)[num
     .map((benefit) => ({ label: benefit }));
 }
 
-const projects = [
-  {
-    title: "Flux de prezentare imobiliară",
-    copy: "Structură de website pentru proprietăți, cu progres de proiect, detalii pentru apartamente.",
-    stack: "Next.js, UI responsive, arhitectură de conținut",
-  },
-  {
-    title: "Ecommerce pentru pasionații de handmade",
-    copy: "Am construit o experiență de magazin online care pune produsele în prim-plan: categorii clare, căutare rapidă, filtre utile și pagini gândite pentru a cumpărara mai ușoar. Un website cu peste 700 de produse și peste 9.000 de variațiuni.",
-    previewImage: "/images/project-margele-homepage.png",
-    stack: "Ecommerce, catalog produse și filtrare",
-    stackIcon: "nextjs" as const,
-  },
-  {
-    title: "Instrumente pentru workflow intern",
-    copy: "Tool-uri de administrare și automatizări care reduc munca operațională repetitivă.",
-    stack: "Dashboard-uri, API-uri, integrări",
-  },
-];
-
 const experience = [
   "Website-uri și aplicații web custom, de la idee până la lansare.",
   "Experiență cu React, Next.js, TypeScript, API-uri și workflow-uri de automatizare.",
@@ -403,6 +388,13 @@ export default function Home() {
                     <p className="mt-2.5 max-w-[16rem] text-[0.8rem] font-medium leading-5 text-[#253045]/[0.82] sm:mt-4 sm:max-w-[14rem] sm:text-base sm:leading-7">
                       {service.copy}
                     </p>
+                    <Link
+                      className="focus-ring mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#006dff] transition hover:text-[#0052c2] sm:mt-5"
+                      href={service.href}
+                    >
+                      Vezi pagina
+                      <ArrowRight size={16} aria-hidden="true" />
+                    </Link>
                     <BlueprintIllustration index={index} />
                   </article>
                 );
@@ -517,7 +509,7 @@ export default function Home() {
 
       <div className="section-divider-light" aria-hidden="true" />
 
-      <ProjectCarousel projects={projects} />
+      <ProjectCarousel projects={portfolioProjects} />
 
       <section className="relative overflow-hidden bg-[#fbfaf7] py-24 sm:py-28" id="experience">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_42%,rgba(0,119,255,0.08),transparent_25rem),radial-gradient(circle_at_14%_20%,rgba(228,93,54,0.07),transparent_26rem)]" />

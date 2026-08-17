@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { siNextdotjs, siReact } from "simple-icons";
 import {
@@ -9,21 +10,16 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import { getPortfolioProjectHref, type PortfolioProject } from "@/lib/portfolio-projects";
 
-type ProjectSlide = {
-  copy: string;
-  previewImage?: string;
-  stack: string;
-  stackIcon?: "nextjs" | "react";
-  title: string;
-};
-
-export function ProjectCarousel({ projects }: { projects: ProjectSlide[] }) {
+export function ProjectCarousel({ projects }: { projects: PortfolioProject[] }) {
   const [api, setApi] = useState<CarouselApi>();
   const [activeIndex, setActiveIndex] = useState(1);
   const activeProject = projects[activeIndex] ?? projects[0];
   const previousIndex = (activeIndex - 1 + projects.length) % projects.length;
   const nextIndex = (activeIndex + 1) % projects.length;
+  const getVisiblePreview = (project: PortfolioProject | undefined) =>
+    project?.previewEnabled === false ? undefined : project?.previewImage;
 
   useEffect(() => {
     if (!api) {
@@ -57,6 +53,14 @@ export function ProjectCarousel({ projects }: { projects: ProjectSlide[] }) {
           <br />
           orientate spre rezultate de business.
         </h2>
+        <div className="mt-6">
+          <Link
+            className="inline-flex items-center gap-2 rounded-md border border-white/14 bg-white/8 px-4 py-2 text-sm font-semibold text-white/88 transition hover:bg-white/12 hover:text-white"
+            href="/portofoliu"
+          >
+            Vezi portofoliul complet
+          </Link>
+        </div>
 
         <Carousel
           className="relative mt-12 min-h-[650px] lg:mt-16 lg:min-h-[620px]"
@@ -70,7 +74,7 @@ export function ProjectCarousel({ projects }: { projects: ProjectSlide[] }) {
             aria-label={`Vezi proiectul ${projects[previousIndex]?.title}`}
           >
             <BrowserMockup
-              previewImage={projects[previousIndex]?.previewImage}
+              previewImage={getVisiblePreview(projects[previousIndex])}
               variant={getVariant(previousIndex)}
               muted
             />
@@ -83,7 +87,7 @@ export function ProjectCarousel({ projects }: { projects: ProjectSlide[] }) {
             aria-label={`Vezi proiectul ${projects[nextIndex]?.title}`}
           >
             <BrowserMockup
-              previewImage={projects[nextIndex]?.previewImage}
+              previewImage={getVisiblePreview(projects[nextIndex])}
               variant={getVariant(nextIndex)}
               muted
             />
@@ -93,7 +97,7 @@ export function ProjectCarousel({ projects }: { projects: ProjectSlide[] }) {
             {projects.map((project, index) => (
               <CarouselItem className="basis-full" key={project.title}>
                 <div className="project-main-mockup relative z-10 mx-auto max-w-[760px] rounded-[1.35rem] border border-[#47b8ff]/65 bg-[#081a2a]/78 p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_0_42px_rgba(30,163,255,0.36),0_34px_80px_rgba(0,0,0,0.48)] backdrop-blur">
-                  <BrowserMockup previewImage={project.previewImage} variant={getVariant(index)} />
+                  <BrowserMockup previewImage={getVisiblePreview(project)} variant={getVariant(index)} />
                 </div>
               </CarouselItem>
             ))}
@@ -109,6 +113,16 @@ export function ProjectCarousel({ projects }: { projects: ProjectSlide[] }) {
                 <StackIcon icon={activeProject.stackIcon} stack={activeProject.stack} />
                 {activeProject.stack}
               </p>
+              {activeProject.previewEnabled !== false && (
+                <div className="mt-5">
+                  <Link
+                    className="inline-flex items-center gap-2 text-sm font-bold text-[#69c8ff] transition hover:text-white"
+                    href={getPortfolioProjectHref(activeProject)}
+                  >
+                    Vezi studiul de caz
+                  </Link>
+                </div>
+              )}
             </div>
           </article>
 
@@ -132,7 +146,7 @@ export function ProjectCarousel({ projects }: { projects: ProjectSlide[] }) {
   );
 }
 
-function StackIcon({ icon: preferredIcon, stack }: { icon?: ProjectSlide["stackIcon"]; stack: string }) {
+function StackIcon({ icon: preferredIcon, stack }: { icon?: PortfolioProject["stackIcon"]; stack: string }) {
   const stackKey = stack.toLowerCase();
   const icon =
     preferredIcon === "nextjs" || stackKey.startsWith("next.js")
