@@ -12,7 +12,7 @@ const footerServices = [
 
 const socialLinks = [
   { href: "https://www.linkedin.com/company/mdisoftware/", label: "LinkedIn", icon: null as null | { path: string } },
-  { href: "", label: "Facebook", icon: siFacebook },
+  { href: "https://www.facebook.com/mdisoftware", label: "Facebook", icon: siFacebook },
   { href: "", label: "YouTube", icon: siYoutube },
 ];
 

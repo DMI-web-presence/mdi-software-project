@@ -152,8 +152,11 @@ export function SiteHeader() {
             </div>
           </div>
 
-          <Link className="transition hover:text-ink" href="/#projects" onClick={() => setPricingOpen(false)}>
-            Portofoliu
+          <Link className="inline-flex items-center gap-2 transition hover:text-ink" href="/#projects" onClick={() => setPricingOpen(false)}>
+            <span>Portofoliu</span>
+            <span className="rounded-full border border-signal/25 bg-signal/10 px-2 py-0.5 text-[0.62rem] font-black uppercase tracking-[0.14em] text-signal">
+              În curând
+            </span>
           </Link>
           <Link className="transition hover:text-ink" href="/#experience" onClick={() => setPricingOpen(false)}>
             Experiență
@@ -246,14 +249,17 @@ export function SiteHeader() {
             </div>
           </div>
           <Link
-            className="rounded-md px-3 py-3 transition hover:bg-black/5 hover:text-ink"
+            className="flex items-center justify-between rounded-md px-3 py-3 transition hover:bg-black/5 hover:text-ink"
             href="/#projects"
             onClick={() => {
               setMenuOpen(false);
               setPricingOpen(false);
             }}
           >
-            Portofoliu
+            <span>Portofoliu</span>
+            <span className="rounded-full border border-signal/25 bg-signal/10 px-2 py-0.5 text-[0.62rem] font-black uppercase tracking-[0.14em] text-signal">
+              În curând
+            </span>
           </Link>
           <Link
             className="rounded-md px-3 py-3 transition hover:bg-black/5 hover:text-ink"
