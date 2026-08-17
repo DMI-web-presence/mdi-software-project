@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CookieConsent } from "@/components/cookie-consent";
+import { SiteTranslator } from "@/components/site-translator";
 import { getSiteUrl, siteDescription, siteKeywords, siteName } from "@/lib/seo";
 import "./globals.css";
 
@@ -70,6 +71,7 @@ export default function RootLayout({
   return (
     <html lang="ro">
       <body>
+        <SiteTranslator />
         {children}
         <CookieConsent />
       </body>

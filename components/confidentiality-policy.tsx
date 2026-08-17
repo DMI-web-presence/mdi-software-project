@@ -1,7 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import { CalendarDays, Info, Rocket } from "lucide-react";
+import { CalendarDays, Info } from "lucide-react";
 import { PolicyScrollSpy } from "@/components/policy-scroll-spy";
+import { SiteHeader } from "@/components/site-header";
 
 const policySections = [
   {
@@ -84,7 +83,7 @@ const policySections = [
 export function ConfidentialityPolicy() {
   return (
     <main className="min-h-screen bg-[#fbfaf7] text-[#071022]">
-      <PolicyHeader />
+      <SiteHeader />
       <PolicyHero />
       <section className="relative bg-[#fbfaf7] py-16 sm:py-20">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,rgba(228,93,54,0.08),transparent_24rem),radial-gradient(circle_at_82%_20%,rgba(0,119,255,0.08),transparent_28rem)]" />
@@ -119,38 +118,6 @@ export function ConfidentialityPolicy() {
         </div>
       </section>
     </main>
-  );
-}
-
-function PolicyHeader() {
-  return (
-    <header className="bg-[#fbfaf7]">
-      <div className="section-shell flex items-center justify-between py-4">
-        <Link className="focus-ring inline-flex items-center" href="/#top" aria-label="MDI Software">
-          <Image
-            alt="MDI Software"
-            className="h-12 w-auto object-contain"
-            height={558}
-            priority
-            src="/images/mdi-logo-cropped.png"
-            width={939}
-          />
-        </Link>
-        <nav className="hidden items-center gap-8 text-sm font-bold text-[#1c2430]/82 md:flex">
-          <Link className="transition hover:text-signal" href="/#services">Servicii</Link>
-          <Link className="transition hover:text-signal" href="/#pricing">Prețuri</Link>
-          <Link className="transition hover:text-signal" href="/#projects">Proiecte</Link>
-          <Link className="transition hover:text-signal" href="/#experience">Experiență</Link>
-        </nav>
-        <Link
-          className="focus-ring inline-flex items-center gap-2 rounded-md bg-signal px-4 py-2.5 text-sm font-bold text-white shadow-[0_8px_20px_rgba(228,93,54,0.24)] transition hover:bg-[#c94f2e]"
-          href="/brief"
-        >
-          Începe
-          <Rocket size={16} aria-hidden="true" />
-        </Link>
-      </div>
-    </header>
   );
 }
 

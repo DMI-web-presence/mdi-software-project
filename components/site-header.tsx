@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, Menu, Rocket, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { LanguageToggle } from "@/components/language-toggle";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -139,6 +140,9 @@ export function SiteHeader() {
           <a className="transition hover:text-ink" href="#contact" onClick={() => setPricingOpen(false)}>Contact</a>
         </nav>
         <div className="flex items-center gap-2">
+          <div className="hidden md:block">
+            <LanguageToggle />
+          </div>
           <button
             ref={mobileMenuButtonRef}
             aria-controls="mobile-navigation"
@@ -165,6 +169,9 @@ export function SiteHeader() {
         aria-hidden={!menuOpen}
       >
         <div className="section-shell grid py-2 text-sm font-semibold text-ink/80">
+          <div className="px-3 py-2">
+            <LanguageToggle compact />
+          </div>
           <button
             aria-expanded={pricingOpen}
             className="flex items-center justify-between rounded-md px-3 py-3 text-left transition hover:bg-black/5 hover:text-ink"

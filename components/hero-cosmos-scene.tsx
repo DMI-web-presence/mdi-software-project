@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { localeChangeEvent, localeStorageKey, normalizeLocale, translateText, type SiteLocale } from "@/lib/site-translations";
 
 type FeaturePoint = {
   accent?: boolean;
@@ -222,6 +223,8 @@ export function HeroCosmosScene() {
 
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x050b1d, 0.045);
+    let currentLocale: SiteLocale = normalizeLocale(window.localStorage.getItem(localeStorageKey));
+    const getFeatureLabel = (point: FeaturePoint) => translateText(point.label, currentLocale);
 
     const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
     const renderer = new THREE.WebGLRenderer({
@@ -332,7 +335,7 @@ export function HeroCosmosScene() {
       return { halo, haloMaterial, node, nodeMaterial };
     });
 
-    const initialTooltipTexture = createTooltipTexture(featurePoints[0].label, true);
+    const initialTooltipTexture = createTooltipTexture(getFeatureLabel(featurePoints[0]), true);
     const tooltipMaterial = new THREE.SpriteMaterial({
       map: initialTooltipTexture?.texture,
       transparent: true,
@@ -377,13 +380,21 @@ export function HeroCosmosScene() {
     const tooltipScreenPosition = new THREE.Vector3();
     const sphereWorldScale = new THREE.Vector3();
 
+    const handleLocaleChange = (event: Event) => {
+      currentLocale = event instanceof CustomEvent ? normalizeLocale(event.detail?.locale) : normalizeLocale(window.localStorage.getItem(localeStorageKey));
+      activeTooltipIndex = -1;
+    };
+
+    window.addEventListener(localeChangeEvent, handleLocaleChange);
+    window.addEventListener("storage", handleLocaleChange);
+
     const setActiveTooltip = (index: number) => {
       if (activeTooltipIndex === index) {
         return;
       }
 
       const point = featurePoints[index];
-      const textureResult = createTooltipTexture(point.label, Boolean(point.accent));
+      const textureResult = createTooltipTexture(getFeatureLabel(point), Boolean(point.accent));
 
       if (!textureResult) {
         return;
@@ -622,6 +633,8 @@ export function HeroCosmosScene() {
     return () => {
       cancelAnimationFrame(animationFrame);
       resizeObserver.disconnect();
+      window.removeEventListener(localeChangeEvent, handleLocaleChange);
+      window.removeEventListener("storage", handleLocaleChange);
       mount.removeEventListener("pointermove", handlePointerMove);
       mount.removeChild(renderer.domElement);
 
