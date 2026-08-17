@@ -135,7 +135,7 @@ const pageOptions = [
   { label: "FAQ", icon: CircleHelp },
 ];
 
-const sectionOptions = ["Hero", "Beneficii", "Servicii", "Despre noi", "Proiecte", "Testimoniale", "Call to action", "Contact"];
+const sectionOptions = ["Secțiune principală", "Beneficii", "Servicii", "Despre noi", "Proiecte", "Testimoniale", "Secțiune cu buton", "Contact"];
 const featureOptions = ["Formular de contact", "Două limbi", "Galerie foto/video", "Cookie banner", "Hartă Google", "Integrare social media", "Newsletter", "Programări"];
 const budgetOptions = ["Sub 500 EUR", "500–1.000 EUR", "1.000–2.000 EUR", "2.000–4.000 EUR", "Peste 4.000 EUR"];
 const timelineOptions = ["Cât mai repede", "În 2–4 săptămâni", "În 1–2 luni", "Nu am un termen fix"];
@@ -157,7 +157,7 @@ const defaultValues: LeadFormData = {
   colorFamily: "Rece",
   fontPair: "Modern — Inter + Sora",
   pages: ["Acasă", "Despre noi", "Servicii", "Proiecte", "Contact"],
-  sections: ["Hero", "Beneficii", "Servicii", "Despre noi", "Proiecte", "Testimoniale", "Call to action"],
+  sections: ["Secțiune principală", "Beneficii", "Servicii", "Despre noi", "Proiecte", "Testimoniale", "Secțiune cu buton"],
   features: ["Formular de contact", "Galerie foto/video", "Hartă Google", "Cookie banner"],
   assetNames: [],
   contentStatus: "Am conținutul pregătit",
@@ -379,7 +379,7 @@ export function ProjectBriefWizard() {
                 </Question>
                 <Question title="Cum gestionăm imaginile?">
                   <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-                    {["Folosesc imaginile mele", "Generăm imagini cu AI", "Folosim imagini stock", "Am nevoie de recomandări"].map((item) => (
+                    {["Folosesc imaginile mele", "Generăm imagini cu AI", "Nu am imagini, alegeți voi", "Am nevoie de recomandări"].map((item) => (
                       <ChoiceCard active={values.visualAssets === item} className="min-h-[58px] flex-row justify-start px-8 py-3 text-left" key={item} onClick={() => setValue("visualAssets", item, { shouldValidate: true })}>{item}</ChoiceCard>
                     ))}
                   </div>
