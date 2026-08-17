@@ -45,7 +45,7 @@ export function ProjectCarousel({ projects }: { projects: ProjectSlide[] }) {
   }, [api]);
 
   return (
-    <section className="project-showcase relative isolate overflow-hidden bg-[#020914] py-16 text-white sm:py-20 lg:min-h-[930px] lg:py-12" id="projects">
+    <section className="project-showcase scroll-reveal relative isolate overflow-hidden bg-[#020914] py-16 text-white sm:py-20 lg:min-h-[930px] lg:py-12" data-reveal="fade" id="projects">
       <div className="project-globe pointer-events-none absolute right-[-9rem] top-10 -z-10 h-[780px] w-[780px] opacity-70" />
       <div className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(circle_at_50%_34%,rgba(15,119,205,0.26),transparent_27rem),radial-gradient(circle_at_82%_55%,rgba(12,91,166,0.22),transparent_32rem),linear-gradient(180deg,#030b17_0%,#020815_62%,#020711_100%)]" />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(83,178,255,0.12),transparent_1px)] [background-size:74px_74px] opacity-40" />

@@ -5,11 +5,4 @@ out
 .env
 .env*.local
 *.tsbuildinfo
-AGENTS.md
-agents.md
-CLAUDE.md
-claude.md
-STACK.md
-stack.md
-WEBSITE_STRUCTURE.md
-website_structure.md
+*.md

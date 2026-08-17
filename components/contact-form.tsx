@@ -73,7 +73,7 @@ export function ContactForm() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-[#fbfaf7] py-24 sm:py-28" id="contact">
+    <section className="scroll-reveal relative overflow-hidden bg-[#fbfaf7] py-24 sm:py-28" data-reveal="fade" id="contact">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_84%_18%,rgba(0,117,255,0.08),transparent_26rem),radial-gradient(circle_at_12%_78%,rgba(228,93,54,0.08),transparent_24rem)]" />
       <div className="section-shell relative grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
         <div>
@@ -166,7 +166,7 @@ export function ContactForm() {
 
           <button className="focus-ring mt-6 inline-flex w-full items-center justify-center gap-3 rounded-md bg-signal px-5 py-4 font-bold text-white shadow-[0_16px_34px_rgba(228,93,54,0.24)] transition hover:bg-[#ff7048] disabled:cursor-not-allowed disabled:opacity-65" disabled={submitState === "loading"} type="submit">
             {submitState === "loading" ? <Loader2 className="animate-spin" size={20} aria-hidden="true" /> : <Send size={20} aria-hidden="true" />}
-            Trimite mesajul
+            {submitState === "loading" ? "Se trimite..." : "Trimite mesajul"}
           </button>
         </form>
       </div>

@@ -28,6 +28,7 @@ import { ContactForm } from "@/components/contact-form";
 import { HeroCosmosScene } from "@/components/hero-cosmos-scene";
 import { PricingBenefitsList, type PricingBenefitItem } from "@/components/pricing-benefits-list";
 import { ProjectCarousel } from "@/components/project-carousel";
+import { ScrollReveal } from "@/components/scroll-reveal";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { absoluteUrl, siteDescription, siteKeywords, siteName } from "@/lib/seo";
@@ -331,6 +332,7 @@ const workflowStack = [
 export default function Home() {
   return (
     <main>
+      <ScrollReveal />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
@@ -344,15 +346,15 @@ export default function Home() {
 
         <div className="section-shell flex min-h-[calc(100svh-60px)] items-center py-16 md:min-h-[calc(100svh-88px)]">
           <div className="max-w-3xl text-white">
-            <h1 className="mt-6 max-w-3xl text-5xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">
+            <h1 className="hero-load hero-load-left mt-6 max-w-3xl text-5xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">
               Website custom, decis de tine
             </h1>
-            <p className="mt-5 max-w-2xl text-xl leading-8 text-white/82">
+            <p className="hero-load hero-load-left hero-load-delay-1 mt-5 max-w-2xl text-xl leading-8 text-white/82">
               Vrei un site de prezentare, magazin online sau aplicație web construită custom, pornind de la
               cerințele pe care le alegi în formular?
               <span className="hidden md:inline"> Fără WordPress, Shopify sau alte platforme de e-commerce, fără șabloane, fără limitări. Noi construim, tu decizi.</span>
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="hero-load hero-load-left hero-load-delay-2 mt-8 flex flex-wrap gap-3">
               <Link className="focus-ring inline-flex items-center gap-2 rounded-md bg-signal px-5 py-3 font-semibold text-white transition hover:bg-[#c94f2e]" href="/brief">
                 Construiește brief-ul
                 <ArrowDown size={18} aria-hidden="true" />
@@ -361,7 +363,7 @@ export default function Home() {
                 Vezi prețurile
               </a>
             </div>
-            <div className="relative mt-8 w-full max-w-[calc(100vw-2rem)] overflow-hidden rounded-md bg-white/10 shadow-sm backdrop-blur sm:mt-10 sm:max-w-3xl">
+            <div className="hero-load hero-load-scale hero-load-delay-3 relative mt-8 w-full max-w-[calc(100vw-2rem)] overflow-hidden rounded-md bg-white/10 shadow-sm backdrop-blur sm:mt-10 sm:max-w-3xl">
               <p className="sr-only">
                 Stack tehnic și workflow: React, Next.js, TypeScript, Tailwind, PostgreSQL, shadcn/ui,
                 GitHub, Vercel, Supabase, Brevo, Cloudflare, GitLab și SourceTree.
@@ -379,8 +381,8 @@ export default function Home() {
         <div className="relative bg-[#fbfaf7] pb-28 pt-20">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_42%,rgba(0,119,255,0.08),transparent_25rem),radial-gradient(circle_at_14%_20%,rgba(228,93,54,0.07),transparent_26rem)]" />
           <div className="section-shell relative">
-            <p className="text-sm font-bold uppercase tracking-[0.32em] text-[#006dff]">Servicii</p>
-            <h2 className="mt-3 max-w-4xl text-4xl font-black leading-[1.02] text-[#071022] sm:text-5xl lg:text-6xl">
+            <p className="scroll-reveal text-sm font-bold uppercase tracking-[0.32em] text-[#006dff]">Servicii</p>
+            <h2 className="scroll-reveal reveal-delay-1 mt-3 max-w-4xl text-4xl font-black leading-[1.02] text-[#071022] sm:text-5xl lg:text-6xl">
               Construit în jurul lucrurilor de care clienții chiar au nevoie.
             </h2>
             <div className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -388,7 +390,8 @@ export default function Home() {
                 const Icon = service.icon;
                 return (
                   <article
-                    className="group relative min-h-[315px] overflow-hidden rounded-lg border border-[#d8dde6] bg-white/[0.62] p-4 shadow-[0_22px_60px_rgba(7,16,34,0.08)] backdrop-blur sm:min-h-[440px] sm:p-7"
+                    className={`scroll-reveal group relative min-h-[315px] overflow-hidden rounded-lg border border-[#d8dde6] bg-white/[0.62] p-4 shadow-[0_22px_60px_rgba(7,16,34,0.08)] backdrop-blur sm:min-h-[440px] sm:p-7 ${index % 3 === 1 ? "reveal-delay-1" : index % 3 === 2 ? "reveal-delay-2" : ""}`}
+                    data-reveal="scale"
                     key={service.title}
                   >
                     <div className="flex items-center gap-3 sm:block">
@@ -411,14 +414,15 @@ export default function Home() {
         <div className="pricing-cosmos relative -mt-16 pb-20 pt-28 text-white" id="pricing">
           <div className="section-shell relative z-10 mt-14">
             <div className="scroll-mt-24" id="pricing-presentation">
-              <p className="text-sm font-bold uppercase tracking-[0.32em] text-signal">Prețuri</p>
-              <h2 className="mt-3 max-w-3xl text-4xl font-black leading-[1.02] text-white sm:text-5xl">
+              <p className="scroll-reveal text-sm font-bold uppercase tracking-[0.32em] text-signal">Prețuri</p>
+              <h2 className="scroll-reveal reveal-delay-1 mt-3 max-w-3xl text-4xl font-black leading-[1.02] text-white sm:text-5xl">
                 Prețuri creare website de prezentare
               </h2>
               <div className="mt-24 grid gap-x-6 gap-y-24 md:grid-cols-2 lg:mx-auto lg:max-w-4xl lg:gap-y-6">
-                {presentationPrices.map((plan) => (
+                {presentationPrices.map((plan, index) => (
                   <article
-                    className="pricing-card flex h-full flex-col rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur transition duration-300"
+                    className={`scroll-reveal pricing-card flex h-full flex-col rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur transition duration-300 ${index === 1 ? "reveal-delay-1" : ""}`}
+                    data-reveal="scale"
                     key={plan.name}
                   >
                     <div className="pricing-card-image relative mx-auto -mt-20 mb-4 h-64 w-full max-w-[17rem] lg:-mt-24 lg:h-72">
@@ -457,18 +461,19 @@ export default function Home() {
             </div>
 
             <div className="mt-24 scroll-mt-24 sm:mt-32" id="pricing-ecommerce">
-              <p className="text-sm font-bold uppercase tracking-[0.32em] text-signal">Prețuri</p>
-              <h2 className="mt-3 max-w-3xl text-4xl font-black leading-[1.02] text-white sm:text-5xl">
+              <p className="scroll-reveal text-sm font-bold uppercase tracking-[0.32em] text-signal">Prețuri</p>
+              <h2 className="scroll-reveal reveal-delay-1 mt-3 max-w-3xl text-4xl font-black leading-[1.02] text-white sm:text-5xl">
                 Prețuri creare magazin online
               </h2>
-              <p className="mt-4 max-w-2xl text-lg font-medium leading-8 text-white/72">
+              <p className="scroll-reveal reveal-delay-2 mt-4 max-w-2xl text-lg font-medium leading-8 text-white/72">
                 Alege pachetul potrivit pentru lansare, administrare produse, plăți online și creștere.
               </p>
             </div>
             <div className="mt-28 grid gap-x-6 gap-y-28 lg:grid-cols-3 lg:gap-y-6">
-              {prices.map((plan) => (
+              {prices.map((plan, index) => (
                 <article
-                  className="pricing-card flex h-full flex-col rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur transition duration-300"
+                  className={`scroll-reveal pricing-card flex h-full flex-col rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur transition duration-300 ${index === 1 ? "reveal-delay-1" : index === 2 ? "reveal-delay-2" : ""}`}
+                  data-reveal="scale"
                   key={plan.name}
                 >
                   <div className="pricing-card-image relative mx-auto -mt-20 mb-4 h-52 w-full max-w-[15rem] lg:-mt-24 lg:h-56">
@@ -517,7 +522,7 @@ export default function Home() {
       <section className="relative overflow-hidden bg-[#fbfaf7] py-24 sm:py-28" id="experience">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_42%,rgba(0,119,255,0.08),transparent_25rem),radial-gradient(circle_at_14%_20%,rgba(228,93,54,0.07),transparent_26rem)]" />
         <div className="section-shell relative grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
-          <div>
+          <div className="scroll-reveal" data-reveal="left">
             <p className="text-sm font-black uppercase tracking-[0.32em] text-[#006dff]">Experiență</p>
             <div className="mt-5 h-0.5 w-16 bg-[#28baff]" />
             <h2 className="mt-8 max-w-xl text-4xl font-black leading-[1.04] text-[#071022] sm:text-5xl lg:text-6xl">
@@ -553,7 +558,8 @@ export default function Home() {
 
               return (
                 <article
-                  className={`relative mb-3 grid min-h-28 grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-3 rounded-lg border px-4 py-4 backdrop-blur sm:mb-5 sm:flex sm:min-h-36 sm:gap-6 sm:p-6 lg:absolute lg:mb-0 lg:min-h-40 lg:p-8 ${positions[index]} ${sizes[index]} ${styles[index]}`}
+                  className={`scroll-reveal relative mb-3 grid min-h-28 grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-3 rounded-lg border px-4 py-4 backdrop-blur sm:mb-5 sm:flex sm:min-h-36 sm:gap-6 sm:p-6 lg:absolute lg:mb-0 lg:min-h-40 lg:p-8 ${index === 1 ? "reveal-delay-1" : index === 2 ? "reveal-delay-2" : index === 3 ? "reveal-delay-3" : ""} ${positions[index]} ${sizes[index]} ${styles[index]}`}
+                  data-reveal="right"
                   key={item}
                 >
                   <span

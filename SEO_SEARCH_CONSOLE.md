@@ -234,12 +234,21 @@ MDI Software mdisoftware.dev
 
 ## Next Recommended SEO Improvements
 
-Add more indexable content over time:
+### Add Real SEO Pages Later
 
-- Dedicated service page for website de prezentare
-- Dedicated service page for magazine online / ecommerce
-- Dedicated service page for aplicatii web custom
-- Case study page for the handmade ecommerce project
+This is the biggest ranking improvement after the technical SEO foundation is done.
+
+Recommended future pages:
+
+- `/website-de-prezentare`
+- `/magazin-online`
+- `/aplicatii-web`
+- `/portofoliu` or dedicated case study pages
+
+These pages should include detailed, indexable content for each service instead of relying only on the homepage sections.
+
+Also useful over time:
+
 - More homepage copy using natural Romanian search terms
 - Business contact details and location/service area if relevant
 

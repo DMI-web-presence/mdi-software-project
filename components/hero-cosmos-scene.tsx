@@ -460,6 +460,22 @@ export function HeroCosmosScene() {
     keyLight.position.set(2, 2, 3);
     scene.add(keyLight);
 
+    const sphereBasePosition = new THREE.Vector3();
+    let sphereBaseScale = 1;
+
+    const setLineOpacity = (line: THREE.Line | THREE.LineLoop, opacity: number) => {
+      const material = line.material;
+
+      if (Array.isArray(material)) {
+        material.forEach((item) => {
+          item.opacity = opacity;
+        });
+        return;
+      }
+
+      material.opacity = opacity;
+    };
+
     const resize = () => {
       const width = mount.clientWidth;
       const height = mount.clientHeight;
@@ -474,8 +490,10 @@ export function HeroCosmosScene() {
       camera.position.set(0, 0, isMobile ? 8.1 : 7.1);
       camera.updateProjectionMatrix();
 
-      sphereGroup.position.set(isMobile ? 2.05 : 2.28, isMobile ? -0.36 : 0.00, -0.75);
-      sphereGroup.scale.setScalar(isMobile ? 1.05 : 1.2);
+      sphereBasePosition.set(isMobile ? 2.05 : 2.28, isMobile ? -0.36 : 0.00, -0.75);
+      sphereBaseScale = isMobile ? 1.05 : 1.2;
+      sphereGroup.position.copy(sphereBasePosition);
+      sphereGroup.scale.setScalar(sphereBaseScale);
       root.rotation.set(isMobile ? -0.05 : 0, isMobile ? -0.12 : 0, 0);
       tooltipSprite.visible = labelsVisible;
       connectorLine.visible = labelsVisible;
@@ -542,14 +560,29 @@ export function HeroCosmosScene() {
       const cycleProgress = (elapsed % 2.6) / 2.6;
       const fade = Math.min(1, cycleProgress * 5, (1 - cycleProgress) * 5);
       const pulse = 0.75 + Math.sin(elapsed * 3) * 0.25;
+      const intro = THREE.MathUtils.smoothstep(elapsed, 0, 1.45);
+      const labelIntro = THREE.MathUtils.smoothstep(elapsed, 0.65, 1.75);
 
       setActiveTooltip(activeIndex);
 
+      sphereGroup.position.set(
+        sphereBasePosition.x + (1 - intro) * 0.42,
+        sphereBasePosition.y - (1 - intro) * 0.12,
+        sphereBasePosition.z,
+      );
+      sphereGroup.scale.setScalar(sphereBaseScale * (0.9 + intro * 0.1));
       sphereGroup.rotation.x = Math.sin(elapsed * 0.28) * 0.025 + pointerY;
       globeCoreGroup.rotation.y = elapsed * 0.16 + pointerX;
       globeCoreGroup.rotation.x = Math.sin(elapsed * 0.28) * 0.04;
+      wireMaterial.opacity = 0.22 * intro;
+      glowMaterial.opacity = 0.08 * intro;
+      setLineOpacity(rim, 0.58 * intro);
+      orbits.forEach((orbit, index) => {
+        setLineOpacity(orbit, [0.24, 0.18, 0.18, 0.16][index] * intro);
+      });
       arcs.forEach((arc, index) => {
         arc.rotation.y = elapsed * (0.08 + index * 0.015);
+        setLineOpacity(arc, 0.48 * intro);
       });
 
       const anchor = new THREE.Vector3(...activePoint.anchor);
@@ -558,25 +591,27 @@ export function HeroCosmosScene() {
       tooltipSprite.position.y += Math.sin(elapsed * 1.2) * 0.035;
       tooltipSprite.position.y = Math.min(tooltipSprite.position.y, 1.28);
       constrainTooltipToSafeArea();
-      tooltipMaterial.opacity = fade < 0.2 ? fade * 4.8 : 0.96;
+      tooltipMaterial.opacity = labelIntro * (fade < 0.2 ? fade * 4.8 : 0.96);
 
       const connectorPositions = connectorGeometry.attributes.position as THREE.BufferAttribute;
       connectorPositions.setXYZ(0, anchor.x, anchor.y, anchor.z);
       connectorPositions.setXYZ(1, tooltipSprite.position.x, tooltipSprite.position.y, tooltipSprite.position.z);
       connectorPositions.needsUpdate = true;
-      connectorMaterial.opacity = fade * 0.42;
+      connectorMaterial.opacity = labelIntro * fade * 0.42;
       connectorMaterial.color.set(activePoint.accent ? 0xff8058 : 0x72e7ff);
 
       featureNodes.forEach((featureNode, index) => {
         const isActive = index === activeIndex;
-        featureNode.nodeMaterial.opacity = isActive ? 0.86 + pulse * 0.14 : 0.42;
-        featureNode.haloMaterial.opacity = isActive ? 0.18 + pulse * 0.16 : 0.06;
-        featureNode.halo.scale.setScalar(isActive ? 1.2 + pulse * 0.28 : 0.82);
+        const nodeIntro = THREE.MathUtils.smoothstep(elapsed, 0.28 + index * 0.035, 1.1 + index * 0.035);
+        featureNode.nodeMaterial.opacity = nodeIntro * (isActive ? 0.86 + pulse * 0.14 : 0.42);
+        featureNode.haloMaterial.opacity = nodeIntro * (isActive ? 0.18 + pulse * 0.16 : 0.06);
+        featureNode.halo.scale.setScalar(nodeIntro * (isActive ? 1.2 + pulse * 0.28 : 0.82));
       });
 
       stars.rotation.y = elapsed * 0.006;
       dust.rotation.y = -elapsed * 0.012;
-      dustMaterial.opacity = 0.1 + Math.sin(elapsed * 0.8) * 0.025;
+      starsMaterial.opacity = intro * 0.72;
+      dustMaterial.opacity = intro * (0.1 + Math.sin(elapsed * 0.8) * 0.025);
 
       renderer.render(scene, camera);
       animationFrame = requestAnimationFrame(animate);
