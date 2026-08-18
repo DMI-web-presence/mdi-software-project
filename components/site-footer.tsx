@@ -46,24 +46,7 @@ export function SiteFooter() {
           Disponibil pentru proiecte noi
         </p>
 
-        <div className="mt-8 grid w-full max-w-5xl grid-cols-2 gap-x-5 text-left sm:mt-12 md:mt-16 md:grid-cols-3 md:gap-0">
-          <div className="footer-column hidden md:block md:pr-12">
-            <h3 className="text-sm font-black uppercase tracking-[0.26em] text-signal">Navigare</h3>
-            <nav className="mt-5 grid gap-3 text-base font-medium text-white/88 md:mt-6 md:text-lg">
-              <Link className="transition hover:text-signal" href="/#services">
-                Servicii
-              </Link>
-              <Link className="transition hover:text-signal" href="/#pricing">
-                Prețuri
-              </Link>
-              <Link className="transition hover:text-signal" href="/#projects">
-                Proiecte
-              </Link>
-              <Link className="transition hover:text-signal" href="/#experience">
-                Experiență
-              </Link>
-            </nav>
-          </div>
+        <div className="mt-8 grid w-full max-w-5xl grid-cols-2 gap-x-5 text-left sm:mt-12 md:mt-16 md:grid-cols-2 md:gap-0">
           <div className="footer-column pr-3 md:px-12">
             <h3 className="text-sm font-black uppercase tracking-[0.26em] text-signal">Servicii</h3>
             <div className="mt-4 grid gap-2 text-sm font-medium leading-5 text-white/88 sm:mt-5 sm:gap-3 sm:text-base sm:leading-normal md:mt-6 md:text-lg">
@@ -97,53 +80,30 @@ export function SiteFooter() {
                   Social
                 </p>
                 <div className="flex items-center gap-2.5 md:gap-3">
-                  {socialLinks.map(({ href, icon, label }) =>
-                    href ? (
-                      <a
-                        key={label}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-white/14 bg-white/6 text-white/80 transition hover:border-signal/45 hover:text-signal md:h-10 md:w-10"
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={label}
-                      >
-                        {icon ? (
-                          <svg
-                            aria-hidden="true"
-                            className="h-[18px] w-[18px]"
-                            fill="currentColor"
-                            role="img"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d={icon.path} />
-                          </svg>
-                        ) : (
-                          <span className="text-[0.82rem] font-black tracking-[-0.02em]">in</span>
-                        )}
-                      </a>
-                    ) : (
-                      <span
-                        key={label}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-white/36 md:h-10 md:w-10"
-                        aria-label={`${label} link pending`}
-                        title={`${label} link pending`}
-                      >
-                        {icon ? (
-                          <svg
-                            aria-hidden="true"
-                            className="h-[18px] w-[18px]"
-                            fill="currentColor"
-                            role="img"
-                            viewBox="0 0 24 24"
-                          >
-                            <path d={icon.path} />
-                          </svg>
-                        ) : (
-                          <span className="text-[0.82rem] font-black tracking-[-0.02em]">in</span>
-                        )}
-                      </span>
-                    ),
-                  )}
+                  {socialLinks.map(({ href, icon, label }) => (
+                    <a
+                      key={label}
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/14 bg-white/6 text-white/80 transition hover:border-signal/45 hover:text-signal md:h-10 md:w-10"
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                    >
+                      {icon ? (
+                        <svg
+                          aria-hidden="true"
+                          className="h-[18px] w-[18px]"
+                          fill="currentColor"
+                          role="img"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d={icon.path} />
+                        </svg>
+                      ) : (
+                        <span className="text-[0.82rem] font-black tracking-[-0.02em]">in</span>
+                      )}
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
