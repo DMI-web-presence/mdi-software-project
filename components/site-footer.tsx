@@ -79,12 +79,12 @@ export function SiteFooter() {
             <div className="mt-4 grid gap-3 text-xs font-medium text-white/88 sm:mt-5 sm:gap-4 sm:text-sm md:mt-6 md:gap-7 md:text-lg">
               <a
                 className="flex min-w-0 items-center gap-2.5 transition hover:text-signal md:gap-4"
-                href="mailto:contact@mdi-software.ro"
+                href="mailto:contact@mdisoftware.dev"
               >
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-signal/45 text-signal md:h-9 md:w-9">
                   <Mail size={20} aria-hidden="true" />
                 </span>
-                <span className="min-w-0 break-all md:whitespace-nowrap">contact@mdi-software.ro</span>
+                <span className="min-w-0 break-all md:whitespace-nowrap">contact@mdisoftware.dev</span>
               </a>
               <p className="flex items-center gap-2.5 md:gap-4">
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-signal/45 text-signal md:h-9 md:w-9">

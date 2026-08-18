@@ -7,7 +7,7 @@ const policySections = [
     title: "Cine suntem",
     body: [
       "MDI Software este operatorul datelor tale cu caracter personal în sensul Regulamentului (UE) 2016/679 (GDPR). Dezvoltăm servicii digitale personalizate: website-uri de prezentare, aplicații web, integrări, mentenanță și consultanță tehnică.",
-      "Pentru exercitarea drepturilor sau întrebări legate de datele personale, ne poți contacta la contact@mdi-software.ro.",
+      "Pentru exercitarea drepturilor sau întrebări legate de datele personale, ne poți contacta la contact@mdisoftware.dev.",
     ],
   },
   {
@@ -57,7 +57,7 @@ const policySections = [
     title: "Drepturile tale",
     body: [
       "Ai dreptul de informare, acces, rectificare, ștergere, restricționare, portabilitate, opoziție, retragere a consimțământului și dreptul de a nu fi supus unei decizii bazate exclusiv pe prelucrare automată, acolo unde aceste drepturi se aplică.",
-      "Pentru exercitarea drepturilor, ne poți contacta la contact@mdi-software.ro. Ai și dreptul de a depune plângere la ANSPDCP.",
+      "Pentru exercitarea drepturilor, ne poți contacta la contact@mdisoftware.dev. Ai și dreptul de a depune plângere la ANSPDCP.",
     ],
   },
   {
@@ -75,7 +75,7 @@ const policySections = [
   {
     title: "Contact și ANSPDCP",
     body: [
-      "Pentru întrebări ne poți scrie la contact@mdi-software.ro. Pentru plângeri, te poți adresa Autorității Naționale de Supraveghere a Prelucrării Datelor cu Caracter Personal, Bd. G-ral Gheorghe Magheru nr. 28-30, Sector 1, București, e-mail anspdcp@dataprotection.ro.",
+      "Pentru întrebări ne poți scrie la contact@mdisoftware.dev. Pentru plângeri, te poți adresa Autorității Naționale de Supraveghere a Prelucrării Datelor cu Caracter Personal, Bd. G-ral Gheorghe Magheru nr. 28-30, Sector 1, București, e-mail anspdcp@dataprotection.ro.",
     ],
   },
 ];

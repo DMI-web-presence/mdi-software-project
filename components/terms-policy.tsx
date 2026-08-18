@@ -7,7 +7,7 @@ const termsSections = [
     title: "Cine suntem",
     body: [
       "MDI Software furnizează servicii digitale personalizate: website-uri de prezentare, aplicații web, integrări, formulare ghidate, mentenanță și consultanță tehnică.",
-      "Datele complete de identificare ale furnizorului vor fi afișate pe această pagină după confirmarea formei legale. Pentru contact ne poți scrie la contact@mdi-software.ro.",
+      "Datele complete de identificare ale furnizorului vor fi afișate pe această pagină după confirmarea formei legale. Pentru contact ne poți scrie la contact@mdisoftware.dev.",
     ],
     note: "Legea comerțului electronic cere afișarea informațiilor de identificare și contact într-o formă clară, vizibilă, permanentă și gratuită.",
   },
@@ -128,7 +128,7 @@ const termsSections = [
   {
     title: "Reclamații și litigii",
     body: [
-      "Pentru reclamații, te rugăm să ne contactezi mai întâi la contact@mdi-software.ro. Vom încerca soluționarea amiabilă.",
+      "Pentru reclamații, te rugăm să ne contactezi mai întâi la contact@mdisoftware.dev. Vom încerca soluționarea amiabilă.",
       "Dacă ești consumator, poți apela la mecanismele legale de protecție a consumatorilor, inclusiv ANPC/SAL, acolo unde acestea sunt aplicabile. Legea aplicabilă este legea română.",
     ],
   },

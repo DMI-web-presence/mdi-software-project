@@ -553,7 +553,7 @@ function BriefSidebar({ currentStep, progress, onStepClick }: { currentStep: num
       </nav>
       <div className="mt-8 grid grid-cols-[auto_1fr] gap-3 rounded-lg border border-white/40 p-4 max-[1023px]:hidden">
         <Sparkles className="text-[#46d7f3]" size={21} />
-        <div><strong className="text-[0.83rem]">Ai nevoie de ajutor?</strong><p className="mt-3 text-[0.72rem] leading-[1.7] text-white/75">Nu ești sigur ce să alegi? Îți recomandăm cele mai bune opțiuni pentru tine.</p><a className="mt-4 inline-flex items-center gap-2 rounded-[5px] border border-[#0e83b6] px-3 py-2 text-xs" href="mailto:contact@mdi-software.ro?subject=Ajutor%20brief%20MDI">Contactează-ne <Mail size={16} /></a></div>
+        <div><strong className="text-[0.83rem]">Ai nevoie de ajutor?</strong><p className="mt-3 text-[0.72rem] leading-[1.7] text-white/75">Nu ești sigur ce să alegi? Îți recomandăm cele mai bune opțiuni pentru tine.</p><a className="mt-4 inline-flex items-center gap-2 rounded-[5px] border border-[#0e83b6] px-3 py-2 text-xs" href="mailto:contact@mdisoftware.dev?subject=Ajutor%20brief%20MDI">Contactează-ne <Mail size={16} /></a></div>
       </div>
     </aside>
   );

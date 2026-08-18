@@ -86,11 +86,11 @@ export function ContactForm() {
           </p>
 
           <div className="mt-8 grid gap-4 text-sm font-semibold text-[#253045]/80">
-            <a className="inline-flex items-center gap-3 transition hover:text-signal" href="mailto:contact@mdi-software.ro">
+            <a className="inline-flex items-center gap-3 transition hover:text-signal" href="mailto:contact@mdisoftware.dev">
               <span className="grid size-10 place-items-center rounded-full border border-signal/30 bg-white text-signal">
                 <Mail size={18} aria-hidden="true" />
               </span>
-              contact@mdi-software.ro
+              contact@mdisoftware.dev
             </a>
             <p className="inline-flex items-center gap-3">
               <span className="grid size-10 place-items-center rounded-full border border-[#0075ff]/25 bg-white text-[#0075ff]">
