@@ -6,8 +6,6 @@ import { siFacebook, siYoutube } from "simple-icons";
 const footerServices = [
   { href: "/website-de-prezentare", label: "Website-uri de prezentare" },
   { href: "/website-de-prezentare", label: "Website-uri business" },
-  { href: "/aplicatii-web", label: "Aplicații web" },
-  { href: "/aplicatii-web", label: "Integrări" },
 ];
 
 const socialLinks = [
