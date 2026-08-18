@@ -10,12 +10,12 @@ export function PortfolioPage() {
     <main className="min-h-screen bg-[#fbfaf7] text-[#071022]">
       <SiteHeader />
 
-      <section className="policy-hero relative isolate overflow-hidden py-20 text-white sm:py-24 lg:py-28">
+      <section className="relative isolate overflow-hidden py-20 text-white shadow-[inset_0_-1px_0_rgba(255,255,255,0.08)] sm:py-24 lg:py-28">
         <div className="project-globe pointer-events-none absolute right-[-12rem] top-[-10rem] -z-10 h-[760px] w-[760px] opacity-90" />
         <div className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(circle_at_72%_40%,rgba(0,131,255,0.26),transparent_32rem),radial-gradient(circle_at_18%_24%,rgba(12,58,116,0.32),transparent_28rem),linear-gradient(180deg,#030b17_0%,#020815_100%)]" />
         <div className="section-shell relative grid gap-10 lg:grid-cols-[minmax(0,1.05fr)_430px] lg:items-center">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.32em] text-signal">Portofoliu</p>
+            <p className="section-kicker text-signal">Portofoliu</p>
             <h1 className="mt-5 max-w-4xl text-5xl font-black leading-[1.02] text-white sm:text-6xl lg:text-7xl">
               Proiecte reale,
               <br />
@@ -54,7 +54,7 @@ export function PortfolioPage() {
           </div>
 
           <aside className="rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-6 shadow-[0_0_34px_rgba(0,118,255,0.18)] backdrop-blur sm:p-8">
-            <p className="text-sm font-black uppercase tracking-[0.32em] text-[#69c8ff]">Cum arată selecția</p>
+            <p className="section-kicker text-[#69c8ff]">Cum arată selecția</p>
             <div className="mt-6 grid gap-4">
               {portfolioProjects.map((project, index) => (
                 <Link
@@ -75,7 +75,7 @@ export function PortfolioPage() {
       <section className="relative overflow-hidden bg-[#fbfaf7] py-20 sm:py-24">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_42%,rgba(0,119,255,0.08),transparent_25rem),radial-gradient(circle_at_14%_20%,rgba(228,93,54,0.07),transparent_26rem)]" />
         <div className="section-shell relative">
-          <p className="text-sm font-black uppercase tracking-[0.32em] text-[#006dff]">Selecție</p>
+          <p className="section-kicker text-[#006dff]">Selecție</p>
           <h2 className="mt-4 max-w-3xl text-4xl font-black leading-[1.04] text-[#071022] sm:text-5xl">
             Fiecare proiect pornește de la un context diferit.
           </h2>
@@ -190,7 +190,7 @@ export function PortfolioPage() {
       <section className="relative overflow-hidden bg-[#fbfaf7] py-20 sm:py-24">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,rgba(228,93,54,0.08),transparent_24rem),radial-gradient(circle_at_82%_20%,rgba(0,119,255,0.08),transparent_28rem)]" />
         <div className="section-shell relative rounded-[1.25rem] border border-[#d8dde6] bg-white/[0.78] p-8 shadow-[0_22px_60px_rgba(7,16,34,0.08)] backdrop-blur sm:p-10">
-          <p className="text-sm font-black uppercase tracking-[0.32em] text-[#006dff]">Următorul pas</p>
+          <p className="section-kicker text-[#006dff]">Următorul pas</p>
           <h2 className="mt-4 max-w-3xl text-4xl font-black leading-[1.04] text-[#071022] sm:text-5xl">
             Dacă vrei ceva similar, putem porni de la contextul tău.
           </h2>

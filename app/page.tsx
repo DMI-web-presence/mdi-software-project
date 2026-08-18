@@ -27,6 +27,7 @@ import {
 import { ContactForm } from "@/components/contact-form";
 import { HeroCosmosScene } from "@/components/hero-cosmos-scene";
 import { PricingBenefitsList, type PricingBenefitItem } from "@/components/pricing-benefits-list";
+import { ProcessSection } from "@/components/process-section";
 import { ProjectCarousel } from "@/components/project-carousel";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { SiteFooter } from "@/components/site-footer";
@@ -334,7 +335,7 @@ export default function Home() {
             <h1 className="hero-load hero-load-left mt-6 max-w-3xl text-5xl font-black leading-[1.02] sm:text-6xl lg:text-7xl">
               Website custom, decis de tine
             </h1>
-            <p className="hero-load hero-load-left hero-load-delay-1 mt-5 max-w-2xl text-xl leading-8 text-white/82">
+            <p className="hero-load hero-load-left hero-load-delay-1 mt-5 max-w-2xl text-xl leading-8 text-white/80">
               Vrei un site de prezentare, magazin online sau aplicație web construită custom, pornind de la
               cerințele pe care le alegi în formular?
               <span className="hidden md:inline"> Fără WordPress, Shopify sau alte platforme de e-commerce, fără șabloane, fără limitări. Noi construim, tu decizi.</span>
@@ -366,7 +367,7 @@ export default function Home() {
         <div className="relative bg-[#fbfaf7] pb-28 pt-20">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_42%,rgba(0,119,255,0.08),transparent_25rem),radial-gradient(circle_at_14%_20%,rgba(228,93,54,0.07),transparent_26rem)]" />
           <div className="section-shell relative">
-            <p className="scroll-reveal text-sm font-bold uppercase tracking-[0.32em] text-[#006dff]">Servicii</p>
+            <p className="section-kicker scroll-reveal text-[#006dff]">Servicii</p>
             <h2 className="scroll-reveal reveal-delay-1 mt-3 max-w-4xl text-4xl font-black leading-[1.02] text-[#071022] sm:text-5xl lg:text-6xl">
               Construit în jurul lucrurilor de care clienții chiar au nevoie.
             </h2>
@@ -375,7 +376,8 @@ export default function Home() {
                 const Icon = service.icon;
                 return (
                   <article
-                    className={`scroll-reveal group relative min-h-[315px] overflow-hidden rounded-lg border border-[#d8dde6] bg-white/[0.62] p-4 shadow-[0_22px_60px_rgba(7,16,34,0.08)] backdrop-blur sm:min-h-[440px] sm:p-7 ${index % 3 === 1 ? "reveal-delay-1" : index % 3 === 2 ? "reveal-delay-2" : ""}`}
+                    className={`scroll-reveal group relative flex min-h-[315px] flex-col overflow-hidden rounded-lg border border-[#d8dde6] bg-white/[0.62] p-4 shadow-[0_22px_60px_rgba(7,16,34,0.08)] backdrop-blur sm:min-h-[440px] sm:p-7 ${index % 3 === 1 ? "reveal-delay-1" : index % 3 === 2 ? "reveal-delay-2" : ""}`}
+                    data-pricing-card
                     data-reveal="scale"
                     key={service.title}
                   >
@@ -388,14 +390,18 @@ export default function Home() {
                     <p className="mt-2.5 max-w-[16rem] text-[0.8rem] font-medium leading-5 text-[#253045]/[0.82] sm:mt-4 sm:max-w-[14rem] sm:text-base sm:leading-7">
                       {service.copy}
                     </p>
-                    <Link
-                      className="focus-ring mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#006dff] transition hover:text-[#0052c2] sm:mt-5"
-                      href={service.href}
-                    >
-                      Vezi pagina
-                      <ArrowRight size={16} aria-hidden="true" />
-                    </Link>
-                    <BlueprintIllustration index={index} />
+                    <div className="mt-auto pt-4 sm:pt-5">
+                      <Link
+                        className="focus-ring inline-flex max-w-full items-center gap-2 text-sm font-bold text-[#006dff] transition hover:text-[#0052c2]"
+                        href={service.href}
+                      >
+                        <span className="truncate">Vezi pagina</span>
+                        <ArrowRight className="shrink-0" size={16} aria-hidden="true" />
+                      </Link>
+                      <div className="relative mt-3 min-h-[6.5rem] sm:mt-4 sm:min-h-[9.5rem]">
+                        <BlueprintIllustration index={index} />
+                      </div>
+                    </div>
                   </article>
                 );
               })}
@@ -406,18 +412,18 @@ export default function Home() {
         <div className="pricing-cosmos relative -mt-16 pb-20 pt-28 text-white" id="pricing">
           <div className="section-shell relative z-10 mt-14">
             <div className="scroll-mt-24" id="pricing-presentation">
-              <p className="scroll-reveal text-sm font-bold uppercase tracking-[0.32em] text-signal">Prețuri</p>
+              <p className="section-kicker scroll-reveal text-signal">Prețuri</p>
               <h2 className="scroll-reveal reveal-delay-1 mt-3 max-w-3xl text-4xl font-black leading-[1.02] text-white sm:text-5xl">
                 Prețuri creare website de prezentare
               </h2>
               <div className="mt-24 grid gap-x-6 gap-y-24 md:grid-cols-2 lg:mx-auto lg:max-w-4xl lg:gap-y-6">
                 {presentationPrices.map((plan, index) => (
                   <article
-                    className={`scroll-reveal pricing-card flex h-full flex-col rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur transition duration-300 ${index === 1 ? "reveal-delay-1" : ""}`}
+                    className={`scroll-reveal group/pricing flex h-full flex-col rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-[3px] hover:border-[rgba(69,199,255,0.9)] hover:shadow-[0_0_46px_rgba(0,118,255,0.28),0_22px_54px_rgba(0,0,0,0.26)] ${index === 1 ? "reveal-delay-1" : ""}`}
                     data-reveal="scale"
                     key={plan.name}
                   >
-                    <div className="pricing-card-image relative mx-auto -mt-20 mb-4 h-64 w-full max-w-[17rem] lg:-mt-24 lg:h-72">
+                    <div className="relative mx-auto -mt-20 mb-4 h-64 w-full max-w-[17rem] transition-[filter,transform] duration-300 group-hover/pricing:translate-y-[-10px] group-hover/pricing:scale-[1.04] group-hover/pricing:rotate-[1deg] lg:-mt-24 lg:h-72">
                       <Image
                         alt={`Ilustrație ${plan.name.toLowerCase()} pentru website de prezentare`}
                         className="object-contain drop-shadow-[0_0_26px_rgba(69,199,255,0.42)]"
@@ -453,22 +459,23 @@ export default function Home() {
             </div>
 
             <div className="mt-24 scroll-mt-24 sm:mt-32" id="pricing-ecommerce">
-              <p className="scroll-reveal text-sm font-bold uppercase tracking-[0.32em] text-signal">Prețuri</p>
+              <p className="section-kicker scroll-reveal text-signal">Prețuri</p>
               <h2 className="scroll-reveal reveal-delay-1 mt-3 max-w-3xl text-4xl font-black leading-[1.02] text-white sm:text-5xl">
                 Prețuri creare magazin online
               </h2>
-              <p className="scroll-reveal reveal-delay-2 mt-4 max-w-2xl text-lg font-medium leading-8 text-white/72">
+              <p className="scroll-reveal reveal-delay-2 mt-4 max-w-2xl text-lg font-medium leading-8 text-white/80">
                 Alege pachetul potrivit pentru lansare, administrare produse, plăți online și creștere.
               </p>
             </div>
             <div className="mt-28 grid gap-x-6 gap-y-28 lg:grid-cols-3 lg:gap-y-6">
               {prices.map((plan, index) => (
                 <article
-                  className={`scroll-reveal pricing-card flex h-full flex-col rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur transition duration-300 ${index === 1 ? "reveal-delay-1" : index === 2 ? "reveal-delay-2" : ""}`}
+                  className={`scroll-reveal group/pricing flex h-full flex-col rounded-lg border border-[#1572bf]/70 bg-[#071426]/[0.78] p-7 shadow-[0_0_34px_rgba(0,118,255,0.2)] backdrop-blur transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-[3px] hover:border-[rgba(69,199,255,0.9)] hover:shadow-[0_0_46px_rgba(0,118,255,0.28),0_22px_54px_rgba(0,0,0,0.26)] ${index === 1 ? "reveal-delay-1" : index === 2 ? "reveal-delay-2" : ""}`}
+                  data-pricing-card
                   data-reveal="scale"
                   key={plan.name}
                 >
-                  <div className="pricing-card-image relative mx-auto -mt-20 mb-4 h-52 w-full max-w-[15rem] lg:-mt-24 lg:h-56">
+                  <div className="relative mx-auto -mt-20 mb-4 h-52 w-full max-w-[15rem] transition-[filter,transform] duration-300 group-hover/pricing:translate-y-[-10px] group-hover/pricing:scale-[1.04] group-hover/pricing:rotate-[1deg] lg:-mt-24 lg:h-56">
                     <Image
                       alt=""
                       className="object-contain drop-shadow-[0_0_26px_rgba(69,199,255,0.42)]"
@@ -515,8 +522,7 @@ export default function Home() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_42%,rgba(0,119,255,0.08),transparent_25rem),radial-gradient(circle_at_14%_20%,rgba(228,93,54,0.07),transparent_26rem)]" />
         <div className="section-shell relative grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
           <div className="scroll-reveal" data-reveal="left">
-            <p className="text-sm font-black uppercase tracking-[0.32em] text-[#006dff]">Experiență</p>
-            <div className="mt-5 h-0.5 w-16 bg-[#28baff]" />
+            <p className="section-kicker text-[#006dff]">Experiență</p>
             <h2 className="mt-8 max-w-xl text-4xl font-black leading-[1.04] text-[#071022] sm:text-5xl lg:text-6xl">
               Software practic,
               <br />
@@ -569,6 +575,8 @@ export default function Home() {
         </div>
       </section>
 
+      <ProcessSection />
+
       <ContactForm />
 
       <SiteFooter />
@@ -617,7 +625,7 @@ function BlueprintIllustration({ index }: { index: number }) {
   if (index === 3) {
     return (
       <svg
-        className="pointer-events-none absolute inset-x-0 bottom-1 h-40 w-full text-[#0075ff] opacity-75 sm:bottom-[8px] sm:h-48"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-28 w-full text-[#0075ff] opacity-75 sm:h-36"
         fill="none"
         viewBox="0 4 280 188"
         aria-hidden="true"
@@ -647,7 +655,7 @@ function BlueprintIllustration({ index }: { index: number }) {
 
   return (
     <svg
-      className="pointer-events-none absolute inset-x-0 bottom-1 h-40 w-full text-[#0075ff] opacity-72 sm:bottom-[6px] sm:h-52"
+      className="pointer-events-none absolute inset-x-0 bottom-0 h-28 w-full text-[#0075ff] opacity-72 sm:h-36"
       fill="none"
       viewBox="0 15 280 180"
       aria-hidden="true"

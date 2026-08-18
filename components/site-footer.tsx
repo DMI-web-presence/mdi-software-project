@@ -47,7 +47,7 @@ export function SiteFooter() {
         </p>
 
         <div className="mt-8 grid w-full max-w-5xl grid-cols-2 gap-x-5 text-left sm:mt-12 md:mt-16 md:grid-cols-2 md:gap-0">
-          <div className="footer-column pr-3 md:px-12">
+          <div className="pr-3 md:border-r md:border-r-[rgba(40,151,238,0.5)] md:px-12">
             <h3 className="text-sm font-black uppercase tracking-[0.26em] text-signal">Servicii</h3>
             <div className="mt-4 grid gap-2 text-sm font-medium leading-5 text-white/88 sm:mt-5 sm:gap-3 sm:text-base sm:leading-normal md:mt-6 md:text-lg">
               {footerServices.map((service) => (
@@ -79,11 +79,11 @@ export function SiteFooter() {
                 <p className="mb-2 text-[0.68rem] font-black uppercase tracking-[0.24em] text-white/52 md:mb-3 md:text-xs">
                   Social
                 </p>
-                <div className="flex items-center gap-2.5 md:gap-3">
+                <div className="relative z-20 flex items-center gap-2.5 md:gap-3">
                   {socialLinks.map(({ href, icon, label }) => (
                     <a
                       key={label}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/14 bg-white/6 text-white/80 transition hover:border-signal/45 hover:text-signal md:h-10 md:w-10"
+                      className="relative z-20 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-white/14 bg-white/6 text-white/80 transition hover:border-signal/45 hover:text-signal md:h-10 md:w-10"
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"

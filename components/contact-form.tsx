@@ -77,7 +77,7 @@ export function ContactForm() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_84%_18%,rgba(0,117,255,0.08),transparent_26rem),radial-gradient(circle_at_12%_78%,rgba(228,93,54,0.08),transparent_24rem)]" />
       <div className="section-shell relative grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
         <div>
-          <p className="text-sm font-black uppercase tracking-[0.32em] text-signal">Contact</p>
+          <p className="section-kicker text-signal">Contact</p>
           <h2 className="mt-4 max-w-2xl text-4xl font-black leading-[1.03] text-[#071022] sm:text-5xl lg:text-6xl">
             Ai o idee clară? Trimite-ne câteva detalii.
           </h2>

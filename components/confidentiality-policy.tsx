@@ -123,7 +123,7 @@ export function ConfidentialityPolicy() {
 
 function PolicyHero() {
   return (
-    <section className="policy-hero relative isolate overflow-hidden py-20 text-white sm:py-24 lg:py-28">
+    <section className="relative isolate overflow-hidden py-20 text-white shadow-[inset_0_-1px_0_rgba(255,255,255,0.08)] sm:py-24 lg:py-28">
       <div className="project-globe pointer-events-none absolute right-[-10rem] top-[-8rem] -z-10 h-[720px] w-[720px] opacity-90" />
       <div className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(circle_at_72%_40%,rgba(0,131,255,0.26),transparent_32rem),radial-gradient(circle_at_18%_24%,rgba(12,58,116,0.32),transparent_28rem),linear-gradient(180deg,#030b17_0%,#020815_100%)]" />
       <div className="section-shell relative">

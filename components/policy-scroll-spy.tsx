@@ -72,12 +72,21 @@ export function PolicyScrollSpy({ sections }: { sections: string[] }) {
 
           return (
             <a
-              className={`policy-nav-item ${isActive ? "policy-nav-item-active" : ""}`}
+              className={`relative flex min-h-[3.1rem] items-center gap-4 pl-[1.65rem] text-[0.95rem] font-semibold transition-[color,transform] duration-200 ${
+                isActive ? "font-extrabold text-signal" : "text-[rgba(41,50,68,0.78)] hover:translate-x-[2px] hover:text-signal"
+              }`}
               href={`#section-${sectionNumber}`}
               key={section}
               aria-current={isActive ? "true" : undefined}
             >
-              <span aria-hidden="true" />
+              <span
+                aria-hidden="true"
+                className={`absolute left-[-0.45rem] h-[0.8rem] w-[0.8rem] rounded-full border-2 bg-[#fbfaf7] ${
+                  isActive
+                    ? "border-signal shadow-[0_0_0_4px_rgba(228,93,54,0.12),0_0_16px_rgba(228,93,54,0.3)]"
+                    : "border-[#cbd0d5]"
+                }`}
+              />
               {sectionNumber}. {section}
             </a>
           );

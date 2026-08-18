@@ -41,13 +41,13 @@ export function ProjectCarousel({ projects }: { projects: PortfolioProject[] }) 
   }, [api]);
 
   return (
-    <section className="project-showcase scroll-reveal relative isolate overflow-hidden bg-[#020914] py-16 text-white sm:py-20 lg:min-h-[930px] lg:py-12" data-reveal="fade" id="projects">
+    <section className="scroll-reveal relative isolate overflow-hidden bg-[#020914] py-16 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] sm:py-20 lg:min-h-[930px] lg:py-12" data-reveal="fade" id="projects">
       <div className="project-globe pointer-events-none absolute right-[-9rem] top-10 -z-10 h-[780px] w-[780px] opacity-70" />
       <div className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(circle_at_50%_34%,rgba(15,119,205,0.26),transparent_27rem),radial-gradient(circle_at_82%_55%,rgba(12,91,166,0.22),transparent_32rem),linear-gradient(180deg,#030b17_0%,#020815_62%,#020711_100%)]" />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_20%,rgba(83,178,255,0.12),transparent_1px)] [background-size:74px_74px] opacity-40" />
 
       <div className="mx-auto w-full max-w-[1480px] px-6 sm:px-8">
-        <p className="text-sm font-black uppercase tracking-[0.32em] text-signal">Proiecte</p>
+        <p className="section-kicker text-signal">Proiecte</p>
         <h2 className="mt-4 max-w-[820px] text-4xl font-black leading-[1.04] text-white sm:text-5xl lg:text-[3.45rem]">
           Lucrări reprezentative,
           <br />
@@ -55,7 +55,7 @@ export function ProjectCarousel({ projects }: { projects: PortfolioProject[] }) 
         </h2>
         <div className="mt-6">
           <Link
-            className="inline-flex items-center gap-2 rounded-md border border-white/14 bg-white/8 px-4 py-2 text-sm font-semibold text-white/88 transition hover:bg-white/12 hover:text-white"
+            className="inline-flex items-center gap-2 rounded-md border border-white/80 bg-white/8 px-4 py-2 text-sm font-semibold text-white/80 transition hover:bg-white/12 hover:text-white"
             href="/portofoliu"
           >
             Vezi portofoliul complet
@@ -68,7 +68,8 @@ export function ProjectCarousel({ projects }: { projects: PortfolioProject[] }) 
           setApi={setApi}
         >
           <button
-            className="project-side-card left-[-18rem] top-[74px] hidden w-[560px] xl:block"
+            className="absolute left-[-18rem] top-[74px] hidden w-[560px] cursor-pointer opacity-55 transition-[opacity,transform] duration-200 hover:translate-y-[-4px] hover:opacity-[0.78] xl:block"
+            data-project-side-card
             type="button"
             onClick={() => api?.scrollTo(previousIndex)}
             aria-label={`Vezi proiectul ${projects[previousIndex]?.title}`}
@@ -81,7 +82,8 @@ export function ProjectCarousel({ projects }: { projects: PortfolioProject[] }) 
           </button>
 
           <button
-            className="project-side-card right-[-18rem] top-[74px] hidden w-[560px] xl:block"
+            className="absolute right-[-18rem] top-[74px] hidden w-[560px] cursor-pointer opacity-55 transition-[opacity,transform] duration-200 hover:translate-y-[-4px] hover:opacity-[0.78] xl:block"
+            data-project-side-card
             type="button"
             onClick={() => api?.scrollTo(nextIndex)}
             aria-label={`Vezi proiectul ${projects[nextIndex]?.title}`}
@@ -96,14 +98,14 @@ export function ProjectCarousel({ projects }: { projects: PortfolioProject[] }) 
           <CarouselContent className="items-start">
             {projects.map((project, index) => (
               <CarouselItem className="basis-full" key={project.title}>
-                <div className="project-main-mockup relative z-10 mx-auto max-w-[760px] rounded-[1.35rem] border border-[#47b8ff]/65 bg-[#081a2a]/78 p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_0_42px_rgba(30,163,255,0.36),0_34px_80px_rgba(0,0,0,0.48)] backdrop-blur">
+                <div className="relative z-10 mx-auto max-w-[760px] rounded-[1.35rem] border border-[#47b8ff]/65 bg-[#081a2a]/78 p-3 shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_0_42px_rgba(30,163,255,0.36),0_34px_80px_rgba(0,0,0,0.48)] backdrop-blur [transform:translateZ(0)]">
                   <BrowserMockup previewImage={getVisiblePreview(project)} variant={getVariant(index)} />
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
 
-          <article className="project-active-card relative z-20 mx-auto -mt-1 grid max-w-[690px] gap-5 rounded-lg border border-[#84d7ff]/60 bg-[#102033]/86 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.42),0_0_42px_rgba(69,199,255,0.16)] backdrop-blur-md sm:grid-cols-[5rem_1px_1fr] sm:p-6 lg:-mt-1">
+          <article className="relative z-20 mx-auto -mt-1 translate-y-[-2px] grid max-w-[690px] gap-5 rounded-lg border border-[#84d7ff]/60 bg-[#102033]/86 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.42),0_0_42px_rgba(69,199,255,0.16)] backdrop-blur-md sm:grid-cols-[5rem_1px_1fr] sm:p-6 lg:-mt-1">
             <p className="text-4xl font-black leading-none text-signal sm:text-5xl">{formatNumber(activeIndex)}</p>
             <div className="hidden h-full w-px bg-white/30 sm:block" />
             <div>
@@ -129,7 +131,12 @@ export function ProjectCarousel({ projects }: { projects: PortfolioProject[] }) 
           <div className="mt-7 flex items-center justify-center gap-5">
             {projects.map((project, index) => (
               <button
-                className={`project-step ${index === activeIndex ? "project-step-active" : ""}`}
+                className={`relative inline-flex h-4 w-4 items-center justify-center rounded-full border transition-[background-color,border-color,box-shadow,transform] duration-200 ${
+                  index === activeIndex
+                    ? "scale-[1.15] border-[rgba(228,93,54,0.95)] bg-signal shadow-[0_0_0_4px_rgba(228,93,54,0.1),0_0_24px_rgba(228,93,54,0.42)]"
+                    : "border-white/20 bg-white/5"
+                }`}
+                data-project-step
                 key={project.title}
                 type="button"
                 onClick={() => api?.scrollTo(index)}
@@ -176,19 +183,23 @@ function BrowserMockup({
   variant: "cards" | "dashboard" | "landing";
 }) {
   return (
-    <div className={`project-browser ${previewImage ? "project-browser-preview" : ""} ${muted ? "project-browser-muted" : ""}`}>
+    <div
+      className={`aspect-[760/410] min-h-0 overflow-hidden rounded-[0.85rem] bg-[#f7f7f6] shadow-[inset_0_1px_0_rgba(255,255,255,0.85),inset_0_-26px_70px_rgba(190,197,205,0.32)] ${
+        previewImage ? "shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]" : ""
+      } ${muted ? "opacity-[0.78] [filter:grayscale(0.15)]" : ""}`}
+    >
       {!previewImage && (
-        <div className="project-browser-top">
+        <div className="flex h-[4.25rem] items-center gap-3 bg-[linear-gradient(180deg,#fafafa,#eceeef)] px-10 max-lg:h-[3.25rem] max-lg:px-5 max-sm:px-4">
           <span className="size-6 rounded-full bg-[#c7ccd1]" />
           <div className="ml-auto flex gap-6">
-            <span />
-            <span />
-            <span />
-            <span />
+            <span className="block h-[0.55rem] w-12 rounded-full bg-[#cfd1d4] max-lg:w-8 max-sm:hidden" />
+            <span className="block h-[0.55rem] w-12 rounded-full bg-[#cfd1d4] max-lg:w-8 max-sm:hidden" />
+            <span className="block h-[0.55rem] w-12 rounded-full bg-[#cfd1d4] max-lg:w-8 max-sm:hidden" />
+            <span className="block h-[0.55rem] w-12 rounded-full bg-[#cfd1d4] max-lg:w-8 max-sm:hidden" />
           </div>
         </div>
       )}
-      <div className={`project-browser-body ${previewImage ? "project-browser-body-preview" : ""}`}>
+      <div className={`relative overflow-hidden text-[#d4d6d9] ${previewImage ? "h-full" : "h-[calc(100%-4.25rem)] max-lg:h-[calc(100%-3.25rem)]"}`}>
         {previewImage ? (
           <Image
             alt="Captură homepage magazin online Margele.net"

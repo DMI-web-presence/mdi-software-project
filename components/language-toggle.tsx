@@ -1,31 +1,45 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import { localeChangeEvent, localeStorageKey, normalizeLocale, type SiteLocale } from "@/lib/site-translations";
 
 const languages: { flag: string; label: string; locale: SiteLocale }[] = [
-  { flag: "RO", label: "Română", locale: "ro" },
+  { flag: "RO", label: "Romana", locale: "ro" },
   { flag: "EN", label: "English", locale: "en" },
 ];
 
-function subscribeToLocaleChanges(callback: () => void) {
-  window.addEventListener(localeChangeEvent, callback);
-  window.addEventListener("storage", callback);
-
-  return () => {
-    window.removeEventListener(localeChangeEvent, callback);
-    window.removeEventListener("storage", callback);
-  };
-}
-
-function getStoredLocale() {
-  return normalizeLocale(window.localStorage.getItem(localeStorageKey));
+function readStoredLocale() {
+  try {
+    return normalizeLocale(window.localStorage.getItem(localeStorageKey));
+  } catch {
+    return "ro" as SiteLocale;
+  }
 }
 
 export function LanguageToggle({ compact = false }: { compact?: boolean }) {
-  const locale = useSyncExternalStore(subscribeToLocaleChanges, getStoredLocale, () => "ro");
+  const [locale, setLocale] = useState<SiteLocale>("ro");
+
+  useEffect(() => {
+    setLocale(readStoredLocale());
+
+    const handleLocaleChange = (event: Event) => {
+      const nextLocale =
+        event instanceof CustomEvent ? normalizeLocale(event.detail?.locale) : readStoredLocale();
+
+      setLocale(nextLocale);
+    };
+
+    window.addEventListener(localeChangeEvent, handleLocaleChange);
+    window.addEventListener("storage", handleLocaleChange);
+
+    return () => {
+      window.removeEventListener(localeChangeEvent, handleLocaleChange);
+      window.removeEventListener("storage", handleLocaleChange);
+    };
+  }, []);
 
   function updateLocale(nextLocale: SiteLocale) {
+    setLocale(nextLocale);
     window.localStorage.setItem(localeStorageKey, nextLocale);
     window.dispatchEvent(new CustomEvent(localeChangeEvent, { detail: { locale: nextLocale } }));
   }

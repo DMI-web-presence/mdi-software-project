@@ -13,12 +13,12 @@ export function ServiceIntentPage({ page }: { page: ServicePageConfig }) {
     <main className="min-h-screen bg-[#fbfaf7] text-[#071022]">
       <SiteHeader />
 
-      <section className="policy-hero relative isolate overflow-hidden py-20 text-white sm:py-24 lg:py-28">
+      <section className="relative isolate overflow-hidden py-20 text-white shadow-[inset_0_-1px_0_rgba(255,255,255,0.08)] sm:py-24 lg:py-28">
         <div className="project-globe pointer-events-none absolute right-[-12rem] top-[-10rem] -z-10 h-[760px] w-[760px] opacity-90" />
         <div className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(circle_at_72%_40%,rgba(0,131,255,0.26),transparent_32rem),radial-gradient(circle_at_18%_24%,rgba(12,58,116,0.32),transparent_28rem),linear-gradient(180deg,#030b17_0%,#020815_100%)]" />
         <div className="section-shell relative grid gap-10 lg:grid-cols-[minmax(0,1fr)_460px] lg:items-center">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.32em] text-signal">Serviciu</p>
+            <p className="section-kicker text-signal">Serviciu</p>
             <h1 className="mt-5 max-w-3xl text-5xl font-black leading-[1.02] text-white sm:text-6xl lg:text-7xl">
               {page.title}
             </h1>
@@ -77,7 +77,7 @@ export function ServiceIntentPage({ page }: { page: ServicePageConfig }) {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_42%,rgba(0,119,255,0.08),transparent_25rem),radial-gradient(circle_at_14%_20%,rgba(228,93,54,0.07),transparent_26rem)]" />
         <div className="section-shell relative grid gap-6 lg:grid-cols-2">
           <article className="rounded-lg border border-[#d8dde6] bg-white/[0.72] p-6 shadow-[0_22px_60px_rgba(7,16,34,0.08)] backdrop-blur sm:p-8">
-            <p className="text-sm font-black uppercase tracking-[0.32em] text-[#006dff]">Potrivit pentru</p>
+            <p className="section-kicker text-[#006dff]">Potrivit pentru</p>
             <div className="mt-5 grid gap-4">
               {page.useCases.map((item) => (
                 <div className="flex gap-3" key={item}>
@@ -89,7 +89,7 @@ export function ServiceIntentPage({ page }: { page: ServicePageConfig }) {
           </article>
 
           <article className="rounded-lg border border-[#d8dde6] bg-white/[0.72] p-6 shadow-[0_22px_60px_rgba(7,16,34,0.08)] backdrop-blur sm:p-8">
-            <p className="text-sm font-black uppercase tracking-[0.32em] text-[#006dff]">Ce include de obicei</p>
+            <p className="section-kicker text-[#006dff]">Ce include de obicei</p>
             <div className="mt-5 grid gap-4">
               {page.includes.map((item) => (
                 <div className="flex gap-3" key={item}>
@@ -104,7 +104,7 @@ export function ServiceIntentPage({ page }: { page: ServicePageConfig }) {
 
       <section className="pricing-cosmos relative overflow-hidden py-20 text-white sm:py-24">
         <div className="section-shell relative z-10">
-          <p className="text-sm font-black uppercase tracking-[0.32em] text-signal">Cum lucrăm</p>
+          <p className="section-kicker text-signal">Cum lucrăm</p>
           <h2 className="mt-4 max-w-3xl text-4xl font-black leading-[1.04] text-white sm:text-5xl">
             Pași clari, de la cerere la proiect lansat.
           </h2>
@@ -127,7 +127,7 @@ export function ServiceIntentPage({ page }: { page: ServicePageConfig }) {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,rgba(228,93,54,0.08),transparent_24rem),radial-gradient(circle_at_82%_20%,rgba(0,119,255,0.08),transparent_28rem)]" />
         <div className="section-shell relative grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.32em] text-[#006dff]">Întrebări frecvente</p>
+            <p className="section-kicker text-[#006dff]">Întrebări frecvente</p>
             <div className="mt-6 grid gap-4">
               {page.faq.map((item) => (
                 <details
@@ -142,7 +142,7 @@ export function ServiceIntentPage({ page }: { page: ServicePageConfig }) {
           </div>
 
           <aside className="rounded-lg border border-[#d8dde6] bg-white/[0.72] p-6 shadow-[0_22px_60px_rgba(7,16,34,0.08)] backdrop-blur sm:p-8">
-            <p className="text-sm font-black uppercase tracking-[0.32em] text-[#006dff]">Vezi și</p>
+            <p className="section-kicker text-[#006dff]">Vezi și</p>
             <div className="mt-5 grid gap-4">
               {relatedPages.map((item) => (
                 <Link

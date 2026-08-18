@@ -43,10 +43,10 @@ export function PricingBenefitsList({ items, mobilePreviewItems }: PricingBenefi
 function BenefitList({ className, items }: { className?: string; items: PricingBenefitItem[] }) {
   return (
     <ul className={`mb-7 mt-6 space-y-2.5 ${className ?? ""}`}>
-      {items.map((item) => (
+      {items.map((item, index) => (
         <li
           className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 border-b border-white/8 pb-2.5 last:border-b-0 last:pb-0"
-          key={item.label}
+          key={`${item.label}-${index}`}
         >
           <span className="text-sm font-medium leading-5 text-white/68">{item.label}</span>
           <BenefitValue item={item} />

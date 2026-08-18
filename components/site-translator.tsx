@@ -106,7 +106,9 @@ function walkAndTranslate(root: ParentNode, locale: SiteLocale) {
 
 export function SiteTranslator() {
   useEffect(() => {
-    let currentLocale = getLocale();
+    let currentLocale = "ro" as SiteLocale;
+    let frameId = 0;
+    let started = false;
 
     const applyLocale = (locale: SiteLocale) => {
       currentLocale = locale;
@@ -114,14 +116,11 @@ export function SiteTranslator() {
       walkAndTranslate(document.body, locale);
     };
 
-    applyLocale(currentLocale);
-
-    const handleLocaleChange = (event: Event) => {
-      const detail = event instanceof CustomEvent ? normalizeLocale(event.detail?.locale) : getLocale();
-      applyLocale(detail);
-    };
-
     const observer = new MutationObserver((mutations) => {
+      if (!started) {
+        return;
+      }
+
       mutations.forEach((mutation) => {
         if (mutation.type === "characterData" && mutation.target instanceof Text) {
           translateTextNode(mutation.target, currentLocale);
@@ -142,18 +141,40 @@ export function SiteTranslator() {
       });
     });
 
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: translatableAttributes,
-      characterData: true,
-      childList: true,
-      subtree: true,
-    });
+    const startTranslator = () => {
+      if (started) {
+        return;
+      }
+
+      started = true;
+      applyLocale(getLocale());
+
+      observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: translatableAttributes,
+        characterData: true,
+        childList: true,
+        subtree: true,
+      });
+    };
+
+    const handleLocaleChange = (event: Event) => {
+      const detail = event instanceof CustomEvent ? normalizeLocale(event.detail?.locale) : getLocale();
+      applyLocale(detail);
+    };
 
     window.addEventListener(localeChangeEvent, handleLocaleChange);
     window.addEventListener("storage", handleLocaleChange);
 
+    if (document.readyState === "complete") {
+      frameId = window.requestAnimationFrame(startTranslator);
+    } else {
+      window.addEventListener("load", startTranslator, { once: true });
+    }
+
     return () => {
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener("load", startTranslator);
       observer.disconnect();
       window.removeEventListener(localeChangeEvent, handleLocaleChange);
       window.removeEventListener("storage", handleLocaleChange);
