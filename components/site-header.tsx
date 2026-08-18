@@ -152,11 +152,8 @@ export function SiteHeader() {
             </div>
           </div>
 
-          <Link className="transition hover:text-ink" href="/#projects" onClick={() => setPricingOpen(false)}>
-            Portofoliu
-          </Link>
-          <Link className="transition hover:text-ink" href="/#experience" onClick={() => setPricingOpen(false)}>
-            Experiență
+          <Link className="transition hover:text-ink" href="/#process" onClick={() => setPricingOpen(false)}>
+            Cum lucrăm
           </Link>
           <Link className="transition hover:text-ink" href="/#contact" onClick={() => setPricingOpen(false)}>
             Contact
@@ -247,20 +244,13 @@ export function SiteHeader() {
           </div>
           <Link
             className="rounded-md px-3 py-3 transition hover:bg-black/5 hover:text-ink"
-            href="/#projects"
+            href="/#process"
             onClick={() => {
               setMenuOpen(false);
               setPricingOpen(false);
             }}
           >
-            Portofoliu
-          </Link>
-          <Link
-            className="rounded-md px-3 py-3 transition hover:bg-black/5 hover:text-ink"
-            href="/#experience"
-            onClick={() => setMenuOpen(false)}
-          >
-            Experiență
+            Cum lucrăm
           </Link>
           <Link
             className="rounded-md px-3 py-3 transition hover:bg-black/5 hover:text-ink"

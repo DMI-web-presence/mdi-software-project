@@ -457,7 +457,7 @@ export const englishTranslations: Record<string, string> = {
   "Stabilim directia": "We set the direction",
   "Alegem structura, UX-ul, continutul si directia vizuala potrivita.": "We choose the right structure, UX, content, and visual direction.",
   "Construim produsul": "We build the product",
-  "Facem design, development, integrari si testare pana cand totul e solid.": "We handle design, development, integrations, and testing until everything is solid.",
+  "Facem design, development, integrari si testare pana cand totul e solid.": "We design, build, integrate, and test until everything is solid.",
   "Lansam fara improvizatii": "We launch without improvising",
   "Verificam formularele, viteza, SEO-ul si publicam versiunea finala.": "We check forms, speed, SEO, and publish the final version.",
   "Ramanem alaturi de proiect": "We stay with the project",

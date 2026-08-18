@@ -451,7 +451,7 @@ textarea {
   overflow: hidden;
   min-width: 1146px;
   min-height: 500px;
-  grid-template-columns: 150px repeat(6, minmax(118px, 1fr)) 190px;
+  grid-template-columns: 185px repeat(6, minmax(124px, 1fr)) 205px;
   align-items: end;
   gap: 10px;
   padding: 4.5rem 0.75rem 2.5rem;
@@ -473,10 +473,10 @@ textarea {
 
 .process-flow__beam {
   position: absolute;
-  z-index: 4;
-  top: 56%;
-  right: 7rem;
-  left: 5.5rem;
+  z-index: 1;
+  top: 57%;
+  right: 7.25rem;
+  left: 6.75rem;
   height: 2px;
   background: linear-gradient(90deg, #ff6b45 0%, #ff966d 8%, #16d8ff 24%, #44ddff 100%);
   box-shadow:
@@ -498,7 +498,7 @@ textarea {
 .process-origin,
 .process-result {
   position: relative;
-  z-index: 5;
+  z-index: 3;
   display: flex;
   min-width: 0;
   height: 390px;
@@ -510,17 +510,21 @@ textarea {
 }
 
 .process-origin__image {
-  width: 230px;
+  flex: 0 0 auto;
+  width: 245px;
   max-width: none;
   height: auto;
-  margin-right: -2.25rem;
+  margin-right: -1.1rem;
+  object-fit: contain;
 }
 
 .process-result__image {
+  flex: 0 0 auto;
   width: 225px;
   max-width: none;
   height: auto;
   margin-bottom: -1.1rem;
+  object-fit: contain;
 }
 
 .process-origin p,
@@ -542,13 +546,13 @@ textarea {
 
 .process-card {
   position: relative;
-  z-index: 3;
+  z-index: 4;
   isolation: isolate;
   display: flex;
   height: 390px;
   flex-direction: column;
   align-items: flex-start;
-  padding: 2.8rem 1.05rem 2rem;
+  padding: 2.65rem 1.05rem 2rem;
   clip-path: polygon(8% 0, 91% 5%, 100% 11%, 100% 91%, 9% 100%, 0 94%, 0 8%);
   filter: drop-shadow(0 0 11px rgba(25, 172, 255, 0.36));
   transform: translateY(0);
@@ -610,12 +614,12 @@ textarea {
 }
 
 .process-card h3 {
-  margin: 1.1rem 0 0;
+  margin: 1rem 0 0;
   color: white;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 800;
-  line-height: 1.2;
-  min-height: 4.3rem;
+  line-height: 1.14;
+  min-height: 5.35rem;
   text-align: left;
   text-wrap: balance;
   white-space: normal;
@@ -623,7 +627,7 @@ textarea {
 
 .process-card__divider {
   position: absolute;
-  top: 52%;
+  top: 57%;
   left: 1.05rem;
   display: block;
   width: 1.9rem;
@@ -634,11 +638,15 @@ textarea {
 }
 
 .process-card > p {
-  margin: 1.85rem 0 0;
+  position: absolute;
+  top: 62%;
+  right: 1.05rem;
+  left: 1.05rem;
+  margin: 0;
   color: rgba(255, 255, 255, 0.82);
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   font-weight: 500;
-  line-height: 1.55;
+  line-height: 1.42;
 }
 
 @keyframes process-beam-pulse {
@@ -662,17 +670,17 @@ textarea {
   }
 
   .process-flow {
-    min-width: 1146px;
+    min-width: 1190px;
     min-height: 455px;
-    grid-template-columns: 140px repeat(6, 130px) 170px;
+    grid-template-columns: 175px repeat(6, 132px) 180px;
     gap: 8px;
     padding: 3.5rem 0.5rem 2rem;
   }
 
   .process-flow__beam {
-    top: 58%;
-    right: 5rem;
-    left: 4rem;
+    top: 60%;
+    right: 5.25rem;
+    left: 5.75rem;
   }
 
   .process-card,
@@ -686,21 +694,27 @@ textarea {
   }
 
   .process-card__divider {
+    top: 60%;
     left: 0.85rem;
   }
 
   .process-card h3 {
-    min-height: 4.6rem;
-    font-size: 0.92rem;
+    min-height: 5.45rem;
+    font-size: 0.86rem;
+    line-height: 1.12;
     white-space: normal;
   }
 
   .process-card > p {
-    margin-top: 1.65rem;
+    top: 65%;
+    right: 0.85rem;
+    left: 0.85rem;
+    font-size: 0.76rem;
+    line-height: 1.43;
   }
 
   .process-origin__image {
-    width: 205px;
+    width: 225px;
   }
 
   .process-result__image {
