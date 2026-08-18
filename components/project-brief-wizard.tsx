@@ -40,6 +40,7 @@ import {
 import type { UseFormRegister } from "react-hook-form";
 import { useForm, useWatch } from "react-hook-form";
 import { getLeadRecommendation, LeadFormData, leadSchema } from "@/lib/lead-schema";
+import { formatRomaniaPhone } from "@/lib/phone-formatter";
 
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -498,7 +499,19 @@ export function ProjectBriefWizard() {
                 <div className="grid min-w-0 gap-7">
                   <TextField error={errors.name?.message} label="Nume complet" placeholder="Ex: Andrei Popescu" registration={register("name")} />
                   <TextField error={errors.email?.message} label="Email" placeholder="Ex: andrei.popescu@email.ro" registration={register("email")} type="email" />
-                  <TextField label="Telefon" optional placeholder="Ex: 0712 345 678" registration={register("phone")} type="tel" />
+                  <TextField
+                    error={errors.phone?.message}
+                    label="Telefon"
+                    optional
+                    placeholder="Ex: 0712 345 678"
+                    registration={register("phone", {
+                      onChange: (e) => {
+                        e.target.value = formatRomaniaPhone(e.target.value);
+                      },
+                    })}
+                    type="tel"
+                    maxLength={15}
+                  />
                   <TextField label="Companie" optional placeholder="Ex: Exemplu SRL" registration={register("company")} />
                   <Question title="Preferința de contact">
                     <div className="grid gap-3 sm:grid-cols-3">{[{ label: "Email", icon: Mail }, { label: "Telefon", icon: Users }, { label: "WhatsApp", icon: MessageCircle }].map(({ label, icon: Icon }) => <ChoiceCard active={values.contactPreference === label} className="min-h-12 flex-row px-8 py-3" key={label} onClick={() => setValue("contactPreference", label, { shouldValidate: true })}><Icon size={17} />{label}</ChoiceCard>)}</div>
@@ -632,8 +645,8 @@ function Textarea({ maxLength, placeholder, registration }: { maxLength?: number
   return <textarea className="min-h-[105px] w-full resize-y rounded-md border border-[#dcd9d4] bg-white/80 px-4 py-3 text-[0.82rem] text-[#15181e] outline-none transition focus:border-[#1584ed] focus:shadow-[0_0_0_3px_rgba(21,132,237,0.09)]" maxLength={maxLength} placeholder={placeholder} {...registration} />;
 }
 
-function TextField({ error, label, optional, placeholder, registration, type = "text" }: { error?: string; label: string; optional?: boolean; placeholder: string; registration: ReturnType<UseFormRegister<LeadFormData>>; type?: string }) {
-  return <label className="grid gap-2"><span className="text-[0.9rem] font-bold text-[#15181e]">{label}{optional && <small className="font-normal text-[#73757b]"> (opțional)</small>}</span><input className="min-h-[45px] w-full rounded-md border border-[#dcd9d4] bg-white/80 px-3.5 text-[0.82rem] text-[#15181e] outline-none transition focus:border-[#1584ed] focus:shadow-[0_0_0_3px_rgba(21,132,237,0.09)]" placeholder={placeholder} type={type} {...registration} />{error && <ErrorText>{error}</ErrorText>}</label>;
+function TextField({ error, label, optional, placeholder, registration, type = "text", maxLength }: { error?: string; label: string; optional?: boolean; placeholder: string; registration: ReturnType<UseFormRegister<LeadFormData>>; type?: string; maxLength?: number }) {
+  return <label className="grid gap-2"><span className="text-[0.9rem] font-bold text-[#15181e]">{label}{optional && <small className="font-normal text-[#73757b]"> (opțional)</small>}</span><input className="min-h-[45px] w-full rounded-md border border-[#dcd9d4] bg-white/80 px-3.5 text-[0.82rem] text-[#15181e] outline-none transition focus:border-[#1584ed] focus:shadow-[0_0_0_3px_rgba(21,132,237,0.09)]" placeholder={placeholder} type={type} maxLength={maxLength} {...registration} />{error && <ErrorText>{error}</ErrorText>}</label>;
 }
 
 function UploadCard({ file, onRemove }: { file: UploadPreview; onRemove: () => void }) {

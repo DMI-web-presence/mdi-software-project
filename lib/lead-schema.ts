@@ -22,7 +22,13 @@ export const leadSchema = z.object({
   support: z.string().min(1, "Alege nivelul de suport."),
   name: z.string().min(2, "Introdu numele."),
   email: z.string().email("Introdu o adresă de email validă."),
-  phone: z.string().optional(),
+  phone: z
+    .string()
+    .optional()
+    .refine(
+      (val) => !val || /^(0[237][0-9]{2} [0-9]{3} [0-9]{3}|\+40 [237][0-9]{2} [0-9]{3} [0-9]{3})$/.test(val),
+      "Introdu numărul în formatul: 07XX XXX XXX"
+    ),
   company: z.string().optional(),
   contactPreference: z.string().min(1, "Alege o metodă de contact."),
   message: z.string().max(1200).optional(),
@@ -34,7 +40,13 @@ export type LeadFormData = z.infer<typeof leadSchema>;
 export const contactSchema = z.object({
   name: z.string().min(2, "Introdu numele."),
   email: z.string().email("Introdu o adresă de email validă."),
-  phone: z.string().optional(),
+  phone: z
+    .string()
+    .optional()
+    .refine(
+      (val) => !val || /^(0[237][0-9]{2} [0-9]{3} [0-9]{3}|\+40 [237][0-9]{2} [0-9]{3} [0-9]{3})$/.test(val),
+      "Introdu numărul în formatul: 07XX XXX XXX"
+    ),
   projectType: z.string().min(1, "Alege tipul proiectului."),
   budget: z.string().optional(),
   message: z.string().min(10, "Scrie câteva detalii despre proiect.").max(1200, "Mesajul este prea lung."),

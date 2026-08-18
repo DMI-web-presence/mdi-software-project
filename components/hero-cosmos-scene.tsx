@@ -562,10 +562,12 @@ export function HeroCosmosScene() {
     resize();
 
     let animationFrame = 0;
-    const clock = new THREE.Clock();
+    const timer = new THREE.Timer();
+    timer.connect(document);
 
-    const animate = () => {
-      const elapsed = clock.getElapsedTime();
+    const animate = (timestamp: number) => {
+      timer.update(timestamp);
+      const elapsed = Math.max(0, timer.getElapsed());
       const activeIndex = Math.floor(elapsed / 2.6) % featurePoints.length;
       const activePoint = featurePoints[activeIndex];
       const cycleProgress = (elapsed % 2.6) / 2.6;
@@ -628,7 +630,7 @@ export function HeroCosmosScene() {
       animationFrame = requestAnimationFrame(animate);
     };
 
-    animate();
+    animationFrame = requestAnimationFrame(animate);
 
     return () => {
       cancelAnimationFrame(animationFrame);
@@ -674,6 +676,7 @@ export function HeroCosmosScene() {
       });
 
       tooltipTextures.forEach((texture) => texture.dispose());
+      timer.dispose();
       renderer.dispose();
     };
   }, []);

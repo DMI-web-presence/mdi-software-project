@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, CheckCircle2, Loader2, Mail, MessageSquareText, Phone, Send } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { contactSchema, type ContactFormData } from "@/lib/lead-schema";
+import { formatRomaniaPhone } from "@/lib/phone-formatter";
 
 const projectTypes = [
   "Website de prezentare",
@@ -124,10 +125,21 @@ export function ContactForm() {
             <Field error={errors.email?.message} label="Email">
               <input autoComplete="email" className={inputClass} placeholder="Ex: andrei@email.ro" type="email" {...register("email")} />
             </Field>
-            <Field label="Telefon" optional>
+            <Field error={errors.phone?.message} label="Telefon" optional>
               <div className="relative">
                 <Phone className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#7a7d84]" size={17} aria-hidden="true" />
-                <input autoComplete="tel" className={`${inputClass} pl-10`} placeholder="Ex: 0712 345 678" type="tel" {...register("phone")} />
+                <input
+                  autoComplete="tel"
+                  className={`${inputClass} pl-10`}
+                  placeholder="Ex: 0712 345 678"
+                  type="tel"
+                  maxLength={15}
+                  {...register("phone", {
+                    onChange: (e) => {
+                      e.target.value = formatRomaniaPhone(e.target.value);
+                    },
+                  })}
+                />
               </div>
             </Field>
             <Field error={errors.projectType?.message} label="Tip proiect">

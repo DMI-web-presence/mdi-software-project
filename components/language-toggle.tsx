@@ -20,8 +20,6 @@ export function LanguageToggle({ compact = false }: { compact?: boolean }) {
   const [locale, setLocale] = useState<SiteLocale>("ro");
 
   useEffect(() => {
-    setLocale(readStoredLocale());
-
     const handleLocaleChange = (event: Event) => {
       const nextLocale =
         event instanceof CustomEvent ? normalizeLocale(event.detail?.locale) : readStoredLocale();

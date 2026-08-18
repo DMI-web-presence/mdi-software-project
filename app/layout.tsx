@@ -72,8 +72,8 @@ export default function RootLayout({
   return (
     <html lang="ro">
       <body>
-        <SiteTranslator />
         {children}
+        <SiteTranslator />
         <FloatingWhatsAppButton />
         <CookieConsent />
       </body>

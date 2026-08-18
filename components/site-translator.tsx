@@ -107,7 +107,6 @@ function walkAndTranslate(root: ParentNode, locale: SiteLocale) {
 export function SiteTranslator() {
   useEffect(() => {
     let currentLocale = "ro" as SiteLocale;
-    let frameId = 0;
     let started = false;
 
     const applyLocale = (locale: SiteLocale) => {
@@ -147,8 +146,6 @@ export function SiteTranslator() {
       }
 
       started = true;
-      applyLocale(getLocale());
-
       observer.observe(document.body, {
         attributes: true,
         attributeFilter: translatableAttributes,
@@ -159,6 +156,7 @@ export function SiteTranslator() {
     };
 
     const handleLocaleChange = (event: Event) => {
+      startTranslator();
       const detail = event instanceof CustomEvent ? normalizeLocale(event.detail?.locale) : getLocale();
       applyLocale(detail);
     };
@@ -167,13 +165,12 @@ export function SiteTranslator() {
     window.addEventListener("storage", handleLocaleChange);
 
     if (document.readyState === "complete") {
-      frameId = window.requestAnimationFrame(startTranslator);
+      startTranslator();
     } else {
       window.addEventListener("load", startTranslator, { once: true });
     }
 
     return () => {
-      window.cancelAnimationFrame(frameId);
       window.removeEventListener("load", startTranslator);
       observer.disconnect();
       window.removeEventListener(localeChangeEvent, handleLocaleChange);
